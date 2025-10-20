@@ -1,0 +1,3 @@
+DROP TRIGGER IF EXISTS initStock;
+DROP TRIGGER IF EXISTS verifMoinDouze;
+
