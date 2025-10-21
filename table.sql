@@ -9,7 +9,7 @@ create table RESTAURATRICE (
 
 create table CLIENT (
     numtelCli varchar(50),
-    mdp varchar(50),
+    mdp varchar(500),
     est_banni boolean,
     pts_fidelite int,
     PRIMARY KEY (numtelCli)
