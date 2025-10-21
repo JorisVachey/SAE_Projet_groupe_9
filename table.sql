@@ -8,26 +8,24 @@ create table RESTAURATRICE (
 );
 
 create table CLIENT (
-    idCli int,
     numtelCli varchar(50),
-    nomCli varchar(50),
-    prenomCli varchar(50),
+    mdp varchar(50),
     est_banni boolean,
-    PRIMARY KEY (idCli)
+    PRIMARY KEY (numtelCli)
 
 );
 
 create table RESERVATION (
     idR int,
-    idCli int,
+    numtelCli varchar(50),
     dateR date,
     nb_couverts int,
     sur_place boolean,
     statut varchar(50),
-    PRIMARY KEY (idR,idCli)
+    PRIMARY KEY (idR,numtelCli)
 );
 
-ALTER TABLE RESERVATION ADD FOREIGN KEY (idCli) REFERENCES CLIENT(idCli);
+ALTER TABLE RESERVATION ADD FOREIGN KEY (numtelCli) REFERENCES CLIENT(numtelCli);
 
 create table FORMULE (
     idF int,

@@ -228,7 +228,7 @@ begin
     declare mes varchar(500) default '';
     declare ban boolean default false;
     if new.sur_place=false then
-        select est_banni into ban from CLIENT where idCli=new.idCli;
+        select est_banni into ban from CLIENT where numtelCli=new.numtelCli;
         if ban=true then
             set mes = concat(mes,"Vous etes sur la liste noir, il est impossible pour vous de commander en ligne, \nnous vous invitons tout de meme a commander sur place");
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
