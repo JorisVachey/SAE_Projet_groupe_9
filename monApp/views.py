@@ -7,7 +7,7 @@ from flask import render_template,request,redirect,url_for
 @app.route('/index/')
 def index():
     if len(request.args)==0:
-        return render_template("index.html",title ="R3.01 Dev Web avec Flask",name="")
+        return render_template("index.html",name="")
     else :
         param_name = request.args.get('name')
-        return render_template("index.html",title="R3.01 Dev Web avec Flask",name=param_name)
+        return render_template("index.html",name=param_name)
