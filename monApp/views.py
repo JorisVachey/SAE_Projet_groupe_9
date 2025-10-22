@@ -26,9 +26,15 @@ def nouvautes() :
 def connection() :
     return "page connection"
 
-@app.route('/inscritpion/')
-def inscritpion() :
-    return "page inscritpion"
+@app.route('/inscription/')
+def inscription() :
+    return "page inscription"
+@app.route('/admin/')
+def admin() :
+    return render_template("admin.html")
+@app.route('/modif_plats/')
+def modif_plats() :
+    return "page de modif des plats"
     
 if __name__== "__main__" :
     app.run()
