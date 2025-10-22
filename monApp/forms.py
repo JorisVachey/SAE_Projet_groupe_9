@@ -4,24 +4,25 @@ from wtforms.validators import DataRequired,Length
 from .models import *
 from hashlib import sha256
 
-class clientForm(FlaskForm):
+class CompteclientForm(FlaskForm):
     numtelCli = StringField('Numéro de téléphone', validators=[DataRequired()])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     mdp = PasswordField('Mot de passe', validators=[DataRequired()])
-    
-    def get_authenticated_user(self):
-        user = Client.query.get(self.numtelCli.data)
-        if user is None:
-            return None
-        m = sha256()
-        m.update(self.mdp.data.encode())
-        passwd = m.hexdigest()
-        return user if passwd == user.mdp else None
+    valider = SubmitField('Valider')
+
+
+class SansCompteclientForm(FlaskForm):
+    numtelCli = StringField('Numéro de téléphone', validators=[DataRequired()])
+    valider = SubmitField('Valider')
+
 
 class restauratriceForm(FlaskForm):
     idRest = StringField('Identifiant', validators=[DataRequired()])
     nomRest = StringField('Nom', validators=[DataRequired()])
     prenomRest = StringField('Prénom', validators=[DataRequired()])
+    valider = SubmitField('Valider')
+
+
 
 
 class ReservationForm(FlaskForm):
