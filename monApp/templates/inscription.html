@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<div>
+    <h2>Inscription</h2>
+    <form method="POST" action="{{ url_for('inscription') }}">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.numtel.label }}<br>
+            {{ form.numtel(size=10) }}
+        </p>
+        <p>
+            {{ form.pseudonyme.label }}<br>
+            {{ form.pseudonyme(size=20) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>
+            {{ form.confirm.label }}<br>
+            {{ form.confirm(size=32) }}
+        </p>
+        <p><input type="submit" value="S'inscrire"></p>
+    </form>
+</div>
+
+
+
+{% endblock %}

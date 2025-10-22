@@ -11,3 +11,21 @@ def index():
     else :
         param_name = request.args.get('name')
         return render_template("index.html",name=param_name)
+
+@app.route('/inscription/')
+def inscription():
+    from .forms import RegisterForm
+    inscription_form = RegisterForm()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return render_template("inscription.html", form=inscription_form)
+
