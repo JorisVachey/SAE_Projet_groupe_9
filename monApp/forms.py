@@ -6,6 +6,8 @@ class RegisterForm(FlaskForm):
     numtel = StringField('Numéro de téléphone')
     pseudonyme = StringField('Pseudonyme')
     password = StringField('Mot de passe')
-    confirm = StringField('Confirmer le mot de passe')
-    
+
+class LoginForm(FlaskForm):
+    numtel = StringField('Numéro de téléphone')
+    password = StringField('Mot de passe')
     

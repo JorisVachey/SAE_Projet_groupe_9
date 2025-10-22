@@ -24,7 +24,9 @@ def nouvautes() :
 
 @app.route('/connection/')
 def connection() :
-    return "page connection"
+    from .forms import LoginForm
+    connection_form = LoginForm()
+    return render_template("connection.html", form=connection_form)
 
 @app.route('/inscription/')
 def inscription():
