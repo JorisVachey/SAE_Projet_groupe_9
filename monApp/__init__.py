@@ -1,2 +1,4 @@
 from .app import app
-from . import views
+import monApp.views
+import monApp.commands
+import monApp.models
