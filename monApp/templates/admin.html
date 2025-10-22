@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{%block boutons_header%}
+<ul>
+    <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se déconnecter</a>
+    <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">Gérer le compte</a>
+</ul>
+{%endblock%}
+{%block main%}
+<div class="page-admin-accueil">
+<div class="bienvenue">BIENVENUE </div>
+<b class="admin">ADMIN</b>
+<img class="page-admin-accueil-child" alt="">
+<div class="que-souhaitez-vous-faire">Que souhaitez-vous faire ?</div>
+<img src="{{ url_for('static', filename='img/image1.png') }}" alt="logo Oumami"></a>
+<img src="{{ url_for('static', filename='img/bambou1.png') }}" alt="image de bambou en coin"></a>
+<img src="{{ url_for('static', filename='img/plante.png') }}" alt="logo Oumami"></a>
+<div class="title">GESTION DES PLATS</div>
+<div class="title">GESTION DES FORMULES</div>
+<div class="title">GESTION DES CLIENTS</div>
+</ul>
+{%endblock%}

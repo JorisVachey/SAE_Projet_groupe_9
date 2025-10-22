@@ -19,6 +19,8 @@
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami"></a>
             <ul>
                 <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami"></a>
+            {%block boutons_header%}
                 <a href="{{ url_for('index') }}">Accueil</a>
                 <a href="{{ url_for('propos') }}">À Propos</a>
                 <a href="{{ url_for('menu') }}">Menu</a>
@@ -31,6 +33,7 @@
                     <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a>
                 {% endif %}
             </ul>
+            {%endblock%}
         </nav>
     </header>
     {% endblock %}
