@@ -1,3 +1,22 @@
-.nav-bar {
-    list-style: none;
+body {
+    background-color: #FAF5E1;
+}
+
+header {
+    background-color: #E6E7E9;
+    padding: 1em 0;
+}
+
+header nav .container-fluid {
+    background-color: #E6E7E9;
+    margin: 0;
+}
+
+
+.btn_inscription, .btn_connection{
+    background-color: #95A57E;
+    border-radius: 10px;
+    color: white;
+    border: 1px solid black;
+    padding: 0 0.5em;
 }
