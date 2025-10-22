@@ -1,9 +1,28 @@
 {% extends "base.html" %}
 
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_accueil.css') }}">
+{% endblock %}
+
 {% block main %}
-    <img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami">
-    <img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami">
-    <img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami">
-    <img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami">
-    <h1>Bienvenue {{ name }}</h1>
+
+<div class="collage_image">
+    <img class="collage" src="{{ url_for('static', filename='img/collage_image1.png') }}" alt="collage_image1">
+    <img class="collage" src="{{ url_for('static', filename='img/collage_image2.png') }}" alt="collage_image2">
+    <img class="collage" src="{{ url_for('static', filename='img/collage_image3.png') }}" alt="collage_image3">
+    <img class="collage" src="{{ url_for('static', filename='img/collage_image4.png') }}" alt="collage_image4">
+
+    <img class="fait_maison" src="{{ url_for('static', filename='img/fait_maison.png') }}" alt="fait maison">
+    <div class="cercle"></div>
+</div>
+<section class="bienvenue">
+    <article class="bienvenue_titre">
+        <h3 class="premier">BIENVENUE À</h3>
+        <h1>Oumami</h1>
+        <div class="trait-horizontal"></div>
+        <h3>TRAITEUR ET PLATS À EMPORTER</h3>
+    </article>
+    <img src="{{ url_for('static', filename='img/bambou1.png') }}" alt="">
+</section>
+
 {% endblock %}
