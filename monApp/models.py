@@ -92,18 +92,20 @@ class Plat(db.Model):
     prixP = db.Column(db.Numeric(10, 2))
     stock = db.Column(db.Integer)
     stockInit = db.Column(db.Integer)
+    cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
     formules = db.relationship("Composer", backref="plat")
     reservations = db.relationship("ContenirP", backref="plat")
 
-    def __init__(self, idP, nomP, typeP, prixP, stock, stockInit, descriptionP):
+    def __init__(self, idP, nomP, typeP, prixP, stock, stockInit,cheminImg, descriptionP):
         self.idP = idP
         self.nomP = nomP
         self.typeP = typeP
         self.prixP = prixP
         self.stock = stock
         self.stockInit = stockInit
+        self.cheminImg = cheminImg
         self.descriptionP = descriptionP
 
     def __repr__(self):
