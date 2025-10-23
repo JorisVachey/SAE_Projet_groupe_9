@@ -53,10 +53,13 @@
         <div class="trait-horizontal"></div>
     </section>
     <section class="liste_plats">
-        {% for unPlat in plats %}
-        <article>
-            <h3>{{ unPlat.nomP }}</h3>
-            <p>{{ unPlat.descriptionP }}</p>
+        {% for unTpeDePlat in TypeDePlats %}
+        <article class="un_type_plat">
+            <img src="{{ url_for('static', filename=unTpeDePlat.cheminImg) }}" alt="image de {{ unTpeDePlat.nomTp }}">
+            <article>
+                <h2>{{ unTpeDePlat.nomTp }}</h2>
+                <p>{{ unTpeDePlat.descriptionTp }}</p>
+            </article>
         </article>
         {% endfor %}
     </section>

@@ -77,7 +77,7 @@
 }
 
 .offre_titre {
-    margin-top: 5em;
+    margin: 5em 0 2em 0;
 }
 
 .offre_titre h3 {
@@ -95,6 +95,18 @@
     display: flex;
     justify-content: space-around;
 }
+
+.plateau_repas, .plat_emporter {
+    transition: 0.3s;
+    padding: 1.2em;
+    border-radius: 0.7em;
+}
+
+.plateau_repas:hover, .plat_emporter:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 10px;
+}
+
 
 .offre_description article {
     display: flex;
@@ -119,6 +131,10 @@
     align-items: center;
 }
 
+.plats_titre {
+    margin: 0.7em 0 3em 0;
+}
+
 .plats_titre h3 {
     color: #666666  ;
 }
@@ -128,4 +144,41 @@
     width: 24.8em;
     background-color: #666666;
     margin: 1em 0 1em 0;
+}
+
+.liste_plats {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 8em 0 8em;
+}
+
+.un_type_plat {
+    display: flex;
+    flex-direction: row;
+    background-color: #FFFFFF;
+    flex-basis: 20%;
+    flex-grow: 1;
+    margin: 2em 6em;
+    padding: 1.2em;
+    border-radius: 0.7em;
+    box-shadow: 2px 2px 10px;
+    transition: 0.3s;
+}
+
+.un_type_plat:hover {
+    transform: scale(1.05);
+}
+
+.un_type_plat article {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.2em;
+}
+
+.un_type_plat img {
+    object-fit: cover;
+}
+
+.un_type_plat h2 {
+    color: #E84D0E;
 }
