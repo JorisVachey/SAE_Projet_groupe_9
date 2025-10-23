@@ -53,7 +53,11 @@
         <div class="trait-horizontal"></div>
     </section>
     <section class="liste_plats">
-
+        {% for unPlat in plats %}
+        <article>
+            <h3>unPlat.nomP</h3>
+            <p>unPlat.descriptionP</p>
+        </article>
     </section>
 
 {% endblock %}

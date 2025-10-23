@@ -1,12 +1,14 @@
 from .app import app
 from flask import render_template
-from monApp.models import db,Client
+from monApp.models import db, Client, Plat
+
 
 
 @app.route('/')
 @app.route('/index/')
 def index() :
-    return render_template("index.html", name="Cricri")
+    lesPlats = Plat.query.all()
+    return render_template("index.html", plats=lesPlats)
 
 @app.route('/propos/')
 def propos() :
