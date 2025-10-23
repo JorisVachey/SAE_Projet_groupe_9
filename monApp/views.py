@@ -1,5 +1,7 @@
 from .app import app
 from flask import render_template
+from monApp.models import db,Client
+
 
 @app.route('/')
 @app.route('/index/')
