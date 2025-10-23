@@ -1,4 +1,3 @@
-from requests import session
 from .app import app, db
 from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user
@@ -34,13 +33,13 @@ def connection() :
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
-            if isinstance(unUser, Client):
-                session['user_type'] = 'client'
-                return redirect(url_for('index'))
-            elif isinstance(unUser, Restauratrice):
-                session['user_type'] = 'restauratrice'
+            # if isinstance(unUser, Client):
+            #     session['user_type'] = 'client'
+            #     return redirect(url_for('index'))
+            # elif isinstance(unUser, Restauratrice):
+            #     session['user_type'] = 'restauratrice'
                 # return redirect(url_for('admin'))
-                return redirect(url_for('index')) # remplacer par admin lorsque implémenté
+            return redirect(url_for('index')) # remplacer par admin lorsque implémenté
     return render_template("connection.html", form=connection_form)
 
 @app.route('/deconnection/')
