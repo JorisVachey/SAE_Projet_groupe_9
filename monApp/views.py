@@ -47,7 +47,7 @@ def deconnection() :
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/inscription/')
+@app.route('/inscription/', methods=("POST","GET"))
 def inscription():
     from .forms import RegisterForm
     inscription_form = RegisterForm()
