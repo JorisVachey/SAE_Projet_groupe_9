@@ -55,9 +55,10 @@
     <section class="liste_plats">
         {% for unPlat in plats %}
         <article>
-            <h3>unPlat.nomP</h3>
-            <p>unPlat.descriptionP</p>
+            <h3>{{ unPlat.nomP }}</h3>
+            <p>{{ unPlat.descriptionP }}</p>
         </article>
+        {% endfor %}
     </section>
 
 {% endblock %}
