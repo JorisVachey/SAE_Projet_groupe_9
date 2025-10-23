@@ -4,7 +4,6 @@ drop table if EXISTS CONTENIR_F;
 drop table if EXISTS COMPOSER;
 drop table if EXISTS FORMULE;
 drop table if EXISTS PLAT;
+drop table if EXISTS TYPE_PLAT;
 drop table if EXISTS RESERVATION;
 drop table if EXISTS CLIENT;
-
-

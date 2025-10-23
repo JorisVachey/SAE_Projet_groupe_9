@@ -36,10 +36,18 @@ create table FORMULE (
     PRIMARY KEY (idF)
 );
 
+create table TYPE_PLAT(
+    idTp int,
+    nomTP varchar(50),
+    descriptionP longtext,
+    cheminImg varchar(200),
+    PRIMARY KEY (idTp)
+);
+
 create table PLAT(
     idP int,
     nomP varchar(50),
-    typeP varchar(50),
+    idTp int,
     prixP decimal(10,2),
     stock int,
     stockInit int,
@@ -48,6 +56,7 @@ create table PLAT(
     PRIMARY KEY (idP)
 );
 
+ALTER TABLE PLAT ADD FOREIGN KEY (idTp) REFERENCES TYPE_PLAT (idTp);
 
 create table COMPOSER (
     idF int,
