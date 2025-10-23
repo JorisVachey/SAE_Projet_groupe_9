@@ -44,6 +44,7 @@ create table PLAT(
     stock int,
     stockInit int,
     descriptionP varchar(50),
+    cheminImg varchar(200),
     PRIMARY KEY (idP)
 );
 
