@@ -149,7 +149,7 @@
 .liste_plats {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 8em 0 8em;
+    margin: 0 8em 2em 8em;
 }
 
 .un_type_plat {

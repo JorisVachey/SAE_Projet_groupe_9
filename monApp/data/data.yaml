@@ -63,19 +63,19 @@ type_plats:
     cheminImg: "img/img_type_plat/image2.png"
   - idTp: 3
     nomTp: "Plats froids"
-    descriptionTp: "aaaaaaaaa"
+    descriptionTp: "Idéaux pour un déjeuner léger ou un dîner rapide, découvrez notre sélection de salades fraîches, de crudités croquantes et de rouleaux de printemps."
     cheminImg: "img/img_type_plat/image3.png"
   - idTp: 4
     nomTp: "Sushis"
-    descriptionTp: "aaaaaaaaa"
+    descriptionTp: "Un voyage au Japon avec nos sushis préparés minute : makis, nigiris et sashimis aux saveurs délicates de saumon, thon et autres trésors de la mer."
     cheminImg: "img/img_type_plat/image4.png"
   - idTp: 5
     nomTp: "Dessert"
-    descriptionTp: "aaaaaaaaa"
+    descriptionTp: "Terminez votre repas sur une note gourmande avec nos desserts maison : de l'exotique perles de coco aux classiques mochis et fruits frais de saison."
     cheminImg: "img/img_type_plat/image5.png"
   - idTp: 6
     nomTp: "Plats sur commande"
-    descriptionTp: "aaaaaaaaa"
+    descriptionTp: "aaaaPour vos événements ou repas de groupe, composez votre propre menu ! Commandez à l'avance nos spécialités et plateaux, préparés selon vos envies.aaaaa"
     cheminImg: "img/img_type_plat/image6.png"
 
 plats:

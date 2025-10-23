@@ -11,7 +11,7 @@ header {
     padding: 0.7em 0;
     z-index: 1000;
     width: 100%;
-    box-shadow: 0px 5px 20px black;
+    box-shadow: 0px 3px 20px black;
 }
 
 header nav {
@@ -52,6 +52,7 @@ footer {
     flex-direction: row;
     align-items: center;
     padding: 1.2em 0;
+    box-shadow: 0px -3px 20px black;
 }
 
 footer article {
