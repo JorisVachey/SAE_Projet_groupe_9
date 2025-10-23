@@ -1,12 +1,13 @@
 from .app import app, db
 from flask import render_template, redirect, url_for
-from flask_login import login_user, logout_user
-from .models import Client, Restauratrice
+from monApp.models import db,Client, Restauratrice, Plat
+
 
 @app.route('/')
 @app.route('/index/')
 def index() :
-    return render_template("index.html", name="Cricri")
+    lesPlats = Plat.query.all()
+    return render_template("index.html", plats=lesPlats)
 
 @app.route('/propos/')
 def propos() :

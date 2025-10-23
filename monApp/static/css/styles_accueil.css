@@ -1,0 +1,131 @@
+.collage_image {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: black;
+}
+
+.collage {
+    flex-basis: 45%;
+    flex-grow: 1;
+    width: auto;
+    height: 25.2vw;
+    position: relative;
+}
+
+.fait_maison {
+    position: absolute;
+    z-index: 2;
+}
+
+.cercle {
+    position: absolute;
+    width: 23em;
+    height: 23em; 
+    border-radius: 50%; 
+    background-color: black;
+    z-index: 1;
+}
+
+.bienvenue {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.bienvenue_titre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.bienvenue_titre .premier {
+    margin-top: 2em;
+}
+
+.bienvenue_titre h1 {
+    font-size: 6em;
+    padding: 0;
+    color: #666666;
+}
+
+.bienvenue_titre h1, .bienvenue_titre h3 {
+    color: #666666;
+}
+
+.bienvenue .trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: #666666;
+    margin: 1em 0 1.6em 0;
+}
+
+.bienvenue img {
+    position: absolute;
+    right: 0;
+    margin-top: -3.8em;
+}
+
+.offre_presentation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.offre_titre {
+    margin-top: 5em;
+}
+
+.offre_titre h3 {
+    color: #666666;
+}
+
+.offre_titre .trait-horizontal {
+    height: 0.125em;
+    width: 34.4em;
+    background-color: #666666;
+    margin: 1em 0;
+}
+
+.offre_description {
+    display: flex;
+    justify-content: space-around;
+}
+
+.offre_description article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 45%;
+    flex-grow: 1;
+    margin: 3em 7em;
+}
+
+.offre_description .trait-horizontal {
+    height: 0.125em;
+    width: 34.4em;
+    background-color: #E84D0E;
+    margin: 0.8em 0 1.3em 0;
+    border-radius: 70%;
+}
+
+.plats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.plats_titre h3 {
+    color: #666666  ;
+}
+
+.plats_titre .trait-horizontal {
+    height: 0.125em;
+    width: 24.8em;
+    background-color: #666666;
+    margin: 1em 0 1em 0;
+}

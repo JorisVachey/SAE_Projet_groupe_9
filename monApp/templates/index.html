@@ -1,5 +1,64 @@
 {% extends "base.html" %}
 
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_accueil.css') }}">
+{% endblock %}
+
 {% block main %}
-    <h1>Bienvenue {{ name }}</h1>
+
+<div class="collage_image">
+    <img class="collage" src="{{ url_for('static', filename='img/accueil/collage_image1.png') }}" alt="collage_image1">
+    <img class="collage" src="{{ url_for('static', filename='img/accueil/collage_image2.png') }}" alt="collage_image2">
+    <img class="collage" src="{{ url_for('static', filename='img/accueil/collage_image3.png') }}" alt="collage_image3">
+    <img class="collage" src="{{ url_for('static', filename='img/accueil/collage_image4.png') }}" alt="collage_image4">
+
+    <img class="fait_maison" src="{{ url_for('static', filename='img/accueil/fait_maison.png') }}" alt="fait maison">
+    <div class="cercle"></div>
+</div>
+<section class="bienvenue">
+    <article class="bienvenue_titre">
+        <h3 class="premier">BIENVENUE À</h3>
+        <h1>Oumami</h1>
+        <div class="trait-horizontal"></div>
+        <h3>TRAITEUR ET PLATS À EMPORTER</h3>
+    </article>
+    <img src="{{ url_for('static', filename='img/base/bambou1.png') }}" alt="">
+</section>
+<section class="offre_presentation">
+    <section class="offre_titre">
+        <div class="trait-horizontal"></div>
+        <h3>OUMAMI VOUS OFFRE 2 PRÉSENTATIONS</h3>
+        <div class="trait-horizontal"></div>
+    </section>
+    <section class="offre_description">
+        <article class="plateau_repas">
+            <h1>Bentô - plateau repas</h1>
+            <div class="trait-horizontal"></div>
+            <p>OUMAMI vous  propose des plateaux repas à partir de 6 personnes pour vos réunions,  
+                pique-niques, manifestation sportives et culturelles, etc. Uniquement sur réservation</p>
+            <p>Pour télécharger la carte des plateaux repas, 
+                cliquez <a href="https://www.traiteur-oumami.fr/flyer-livraison2025.pdf"></a>.</p>
+        </article>
+        <article class="plat_emporter">
+            <h1>Plats à emporter</h1>
+            <div class="trait-horizontal"></div>
+            <p>OUMAMI vous propose des des plats divers suggérés par notre chef.</p>
+        </article>
+    </section>
+</section>
+<section class="plats">
+    <section class="plats_titre">
+        <div class="trait-horizontal"></div>
+        <h3>DÉCOUVREZ NOS PLATS D’ÉTÉ</h3>
+        <div class="trait-horizontal"></div>
+    </section>
+    <section class="liste_plats">
+        {% for unPlat in plats %}
+        <article>
+            <h3>{{ unPlat.nomP }}</h3>
+            <p>{{ unPlat.descriptionP }}</p>
+        </article>
+        {% endfor %}
+    </section>
+
 {% endblock %}
