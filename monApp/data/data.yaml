@@ -60,7 +60,7 @@ plats:
     stock: 40
     stockInit: 50
     descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
-    cheminImg: "images/pizza_margherita.jpg"
+    cheminImg: "static/img/imgP/Image1.png"
   - idP: 2
     nomP: "Lasagnes Bolognaises"
     typeP: "Plat principal"
@@ -68,7 +68,7 @@ plats:
     stock: 35
     stockInit: 40
     descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
-    cheminImg: "images/lasagnes.jpg"
+    cheminImg: "static/img/imgP/Image2.png"
   - idP: 3
     nomP: "Tiramisu"
     typeP: "Dessert"
@@ -76,7 +76,7 @@ plats:
     stock: 25
     stockInit: 30
     descriptionP: "Dessert italien au café et mascarpone."
-    cheminImg: "images/tiramisu.jpg"
+    cheminImg: "static/img/imgP/Image3.png"
   - idP: 4
     nomP: "Soupe Pho"
     typeP: "Entrée"
@@ -84,7 +84,7 @@ plats:
     stock: 20
     stockInit: 25
     descriptionP: "Soupe vietnamienne parfumée au bœuf."
-    cheminImg: "images/pho.jpg"
+    cheminImg: "static/img/imgP/Image4.png"
   - idP: 5
     nomP: "Salade César"
     typeP: "Entrée"
@@ -92,7 +92,7 @@ plats:
     stock: 15
     stockInit: 20
     descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
-    cheminImg: "images/salade_cesar.jpg"
+    cheminImg: "static/img/imgP/Image5.png"
   - idP: 6
     nomP: "Cheesecake"
     typeP: "Dessert"
@@ -100,7 +100,7 @@ plats:
     stock: 18
     stockInit: 25
     descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
-    cheminImg: "images/cheesecake.jpg"
+    cheminImg: "static/img/imgP/Image6.png"
   - idP: 7
     nomP: "Curry Thaï"
     typeP: "Plat principal"
@@ -108,7 +108,7 @@ plats:
     stock: 28
     stockInit: 30
     descriptionP: "Poulet au lait de coco et curry rouge."
-    cheminImg: "images/curry_thai.jpg"
+    cheminImg: "static/img/imgP/Image7.png"
   - idP: 8
     nomP: "Sushi Maki Mix"
     typeP: "Plat principal"
@@ -116,7 +116,7 @@ plats:
     stock: 30
     stockInit: 35
     descriptionP: "Assortiment de makis, nigiris et sashimis frais."
-    cheminImg: "images/sushi_maki.jpg"
+    cheminImg: "static/img/imgP/Image8.png"
   - idP: 9
     nomP: "Brownie chocolat"
     typeP: "Dessert"
@@ -124,7 +124,7 @@ plats:
     stock: 22
     stockInit: 30
     descriptionP: "Fondant au chocolat noir et noix de pécan."
-    cheminImg: "images/brownie.jpg"
+    cheminImg: "static/img/imgP/Image9.png"
   - idP: 10
     nomP: "Burger Gourmet"
     typeP: "Plat principal"
