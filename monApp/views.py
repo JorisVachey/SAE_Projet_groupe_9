@@ -6,7 +6,6 @@ from monApp.models import db,Client
 @app.route('/')
 @app.route('/index/')
 def index() :
-    lesClients = Client.query.all()
     return render_template("index.html", name="Cricri")
 
 @app.route('/propos/')
