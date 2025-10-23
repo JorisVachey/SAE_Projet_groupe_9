@@ -24,7 +24,7 @@ def contact() :
 def nouvautes() :
     return "page nouvautes"
 
-@app.route('/connection/')
+@app.route('/connection/', methods=("GET","POST",))
 def connection() :
     from .forms import LoginForm
     connection_form = LoginForm()
@@ -47,7 +47,7 @@ def deconnection() :
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/inscription/', methods=("POST","GET"))
+@app.route('/inscription/', methods=("GET","POST",))
 def inscription():
     from .forms import RegisterForm
     inscription_form = RegisterForm()
