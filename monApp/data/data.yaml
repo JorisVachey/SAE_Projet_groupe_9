@@ -1,0 +1,319 @@
+restauratrices:
+  - idRest: 1
+    nomRest: "Martin"
+    prenomRest: "Julie"
+    numtelRest: "0678123456"
+    mdp: "admin123"
+  - idRest: 2
+    nomRest: "Lopez"
+    prenomRest: "Carlos"
+    numtelRest: "0666554433"
+    mdp: "tapas2025"
+
+clients:
+  - numtelCli: "0601020304"
+    pseudonyme: "AlexDu75"
+    mdp: "p4ssword!"
+    est_banni: false
+    pts_fidelite: 25
+  - numtelCli: "0607080910"
+    pseudonyme: "LilaRose"
+    mdp: "rose123"
+    est_banni: false
+    pts_fidelite: 80
+  - numtelCli: "0622334455"
+    pseudonyme: "BobLeGourmet"
+    mdp: "123bob"
+    est_banni: false
+    pts_fidelite: 120
+  - numtelCli: "0655443322"
+    pseudonyme: "Momo"
+    mdp: "momo2024"
+    est_banni: true
+    pts_fidelite: 0
+  - numtelCli: "0612345678"
+    pseudonyme: "SophieC"
+    mdp: "s0phie"
+    est_banni: false
+    pts_fidelite: 55
+  - numtelCli: "0699887766"
+    pseudonyme: "ChefFan"
+    mdp: "cookit"
+    est_banni: false
+    pts_fidelite: 90
+  - numtelCli: "0633445566"
+    pseudonyme: "JulienParis"
+    mdp: "julien"
+    est_banni: false
+    pts_fidelite: 10
+  - numtelCli: "0677889900"
+    pseudonyme: "EmmaFoodie"
+    mdp: "eats123"
+    est_banni: false
+    pts_fidelite: 40
+
+plats:
+  - idP: 1
+    nomP: "Pizza Margherita"
+    typeP: "Plat principal"
+    prixP: 12.50
+    stock: 40
+    stockInit: 50
+    descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
+    cheminImg: "images/pizza_margherita.jpg"
+  - idP: 2
+    nomP: "Lasagnes Bolognaises"
+    typeP: "Plat principal"
+    prixP: 14.00
+    stock: 35
+    stockInit: 40
+    descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
+    cheminImg: "images/lasagnes.jpg"
+  - idP: 3
+    nomP: "Tiramisu"
+    typeP: "Dessert"
+    prixP: 6.00
+    stock: 25
+    stockInit: 30
+    descriptionP: "Dessert italien au café et mascarpone."
+    cheminImg: "images/tiramisu.jpg"
+  - idP: 4
+    nomP: "Soupe Pho"
+    typeP: "Entrée"
+    prixP: 8.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Soupe vietnamienne parfumée au bœuf."
+    cheminImg: "images/pho.jpg"
+  - idP: 5
+    nomP: "Salade César"
+    typeP: "Entrée"
+    prixP: 9.00
+    stock: 15
+    stockInit: 20
+    descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
+    cheminImg: "images/salade_cesar.jpg"
+  - idP: 6
+    nomP: "Cheesecake"
+    typeP: "Dessert"
+    prixP: 5.50
+    stock: 18
+    stockInit: 25
+    descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
+    cheminImg: "images/cheesecake.jpg"
+  - idP: 7
+    nomP: "Curry Thaï"
+    typeP: "Plat principal"
+    prixP: 15.90
+    stock: 28
+    stockInit: 30
+    descriptionP: "Poulet au lait de coco et curry rouge."
+    cheminImg: "images/curry_thai.jpg"
+  - idP: 8
+    nomP: "Sushi Maki Mix"
+    typeP: "Plat principal"
+    prixP: 17.00
+    stock: 30
+    stockInit: 35
+    descriptionP: "Assortiment de makis, nigiris et sashimis frais."
+    cheminImg: "images/sushi_maki.jpg"
+  - idP: 9
+    nomP: "Brownie chocolat"
+    typeP: "Dessert"
+    prixP: 4.50
+    stock: 22
+    stockInit: 30
+    descriptionP: "Fondant au chocolat noir et noix de pécan."
+    cheminImg: "images/brownie.jpg"
+  - idP: 10
+    nomP: "Burger Gourmet"
+    typeP: "Plat principal"
+    prixP: 13.90
+    stock: 45
+    stockInit: 50
+    descriptionP: "Bœuf charolais, cheddar affiné et pain brioché."
+    cheminImg: "images/burger.jpg"
+  - idP: 11
+    nomP: "Crème brûlée"
+    typeP: "Dessert"
+    prixP: 5.00
+    stock: 30
+    stockInit: 40
+    descriptionP: "Crème à la vanille et fine couche caramélisée."
+    cheminImg: "images/creme_brulee.jpg"
+  - idP: 12
+    nomP: "Pad Thaï"
+    typeP: "Plat principal"
+    prixP: 14.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Nouilles sautées, crevettes, cacahuètes et soja."
+    cheminImg: "images/pad_thai.jpg"
+  - idP: 13
+    nomP: "Soupe miso"
+    typeP: "Entrée"
+    prixP: 4.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Bouillon japonais au tofu et algues wakamé."
+    cheminImg: "images/soupe_miso.jpg"
+
+formules:
+  - idF: 1
+    nomF: "Menu Déjeuner"
+    prixF: 19.90
+  - idF: 2
+    nomF: "Menu Dîner"
+    prixF: 29.90
+  - idF: 3
+    nomF: "Menu Enfant"
+    prixF: 12.50
+  - idF: 4
+    nomF: "Menu Asiatique"
+    prixF: 24.90
+  - idF: 5
+    nomF: "Menu Végétarien"
+    prixF: 21.00
+
+composer:
+  - idF: 1
+    idP: 5
+    quantiteC: 1
+  - idF: 1
+    idP: 1
+    quantiteC: 1
+  - idF: 1
+    idP: 3
+    quantiteC: 1
+  - idF: 2
+    idP: 4
+    quantiteC: 1
+  - idF: 2
+    idP: 2
+    quantiteC: 1
+  - idF: 2
+    idP: 6
+    quantiteC: 1
+  - idF: 3
+    idP: 5
+    quantiteC: 1
+  - idF: 3
+    idP: 9
+    quantiteC: 1
+  - idF: 4
+    idP: 7
+    quantiteC: 1
+  - idF: 4
+    idP: 8
+    quantiteC: 1
+  - idF: 4
+    idP: 12
+    quantiteC: 1
+  - idF: 5
+    idP: 5
+    quantiteC: 1
+  - idF: 5
+    idP: 11
+    quantiteC: 1
+
+reservations:
+  - idR: 1
+    numtelCli: "0601020304"
+    dateR: "2025-10-10"
+    nb_couverts: 2
+    sur_place: true
+    statut: "confirmée"
+  - idR: 2
+    numtelCli: "0607080910"
+    dateR: "2025-10-11"
+    nb_couverts: 4
+    sur_place: false
+    statut: "en attente"
+  - idR: 3
+    numtelCli: "0622334455"
+    dateR: "2025-10-12"
+    nb_couverts: 3
+    sur_place: true
+    statut: "confirmée"
+  - idR: 4
+    numtelCli: "0655443322"
+    dateR: "2025-10-13"
+    nb_couverts: 1
+    sur_place: true
+    statut: "annulée"
+  - idR: 5
+    numtelCli: "0612345678"
+    dateR: "2025-10-14"
+    nb_couverts: 2
+    sur_place: false
+    statut: "confirmée"
+  - idR: 6
+    numtelCli: "0699887766"
+    dateR: "2025-10-15"
+    nb_couverts: 6
+    sur_place: true
+    statut: "en attente"
+  - idR: 7
+    numtelCli: "0633445566"
+    dateR: "2025-10-16"
+    nb_couverts: 3
+    sur_place: true
+    statut: "confirmée"
+  - idR: 8
+    numtelCli: "0677889900"
+    dateR: "2025-10-17"
+    nb_couverts: 5
+    sur_place: false
+    statut: "livrée"
+
+contenir_f:
+  - idR: 1
+    idF: 1
+    quantiteF: 1
+  - idR: 2
+    idF: 2
+    quantiteF: 1
+  - idR: 3
+    idF: 3
+    quantiteF: 2
+  - idR: 4
+    idF: 5
+    quantiteF: 1
+  - idR: 5
+    idF: 4
+    quantiteF: 2
+  - idR: 6
+    idF: 1
+    quantiteF: 3
+  - idR: 7
+    idF: 2
+    quantiteF: 1
+  - idR: 8
+    idF: 3
+    quantiteF: 1
+
+contenir_p:
+  - idR: 1
+    idP: 3
+    quantiteP: 2
+  - idR: 2
+    idP: 10
+    quantiteP: 1
+  - idR: 3
+    idP: 1
+    quantiteP: 2
+  - idR: 4
+    idP: 2
+    quantiteP: 1
+  - idR: 5
+    idP: 7
+    quantiteP: 2
+  - idR: 6
+    idP: 8
+    quantiteP: 3
+  - idR: 7
+    idP: 12
+    quantiteP: 1
+  - idR: 8
+    idP: 11
+    quantiteP: 2
