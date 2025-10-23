@@ -43,7 +43,7 @@ create table PLAT(
     prixP decimal(10,2),
     stock int,
     stockInit int,
-    descriptionP varchar(50),
+    descriptionP longtext,
     cheminImg varchar(200),
     PRIMARY KEY (idP)
 );
