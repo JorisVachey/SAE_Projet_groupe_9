@@ -1,5 +1,7 @@
 from .app import app
 from flask import render_template
+from monApp.models import db,Client
+
 
 @app.route('/')
 @app.route('/index/')
@@ -24,11 +26,15 @@ def nouvautes() :
 
 @app.route('/connection/')
 def connection() :
-    return "page connection"
+    from .forms import LoginForm
+    connection_form = LoginForm()
+    return render_template("connection.html", form=connection_form)
 
-@app.route('/inscritpion/')
-def inscritpion() :
-    return "page inscritpion"
+@app.route('/inscription/')
+def inscription():
+    from .forms import RegisterForm
+    inscription_form = RegisterForm()
+    return render_template("inscription.html", form=inscription_form)
     
 if __name__== "__main__" :
     app.run()
