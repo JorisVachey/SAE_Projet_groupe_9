@@ -1,6 +1,7 @@
 from .app import db
+from flask_login import UserMixin
 
-class Restauratrice(db.Model):
+class Restauratrice(UserMixin, db.Model):
     __tablename__ = "RESTAURATRICE"
 
     idRest = db.Column(db.Integer, primary_key=True)
@@ -18,8 +19,11 @@ class Restauratrice(db.Model):
 
     def __repr__(self):
         return f"<Restauratrice(id={self.idRest}, nom={self.nomRest}, prenom={self.prenomRest})>"
+    
+    def get_id(self):
+        return f"resto-{self.idRest}"
 
-class Client(db.Model):
+class Client(UserMixin, db.Model):
     __tablename__ = "CLIENT"
 
     numtelCli = db.Column(db.String(50), primary_key=True)
@@ -39,6 +43,9 @@ class Client(db.Model):
 
     def __repr__(self):
         return f"<Client(numtel={self.numtelCli}, pseudo={self.pseudonyme})>"
+    
+    def get_id(self):
+        return f"client-{self.numtelCli}"
 
 
 class Reservation(db.Model):

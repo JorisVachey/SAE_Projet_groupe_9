@@ -22,8 +22,12 @@
                 <a href="{{ url_for('menu') }}">Menu</a>
                 <a href="{{ url_for('contact') }}">Contact</a>
                 <a href="{{ url_for('nouvautes') }}">Nouveautés</a>
+                {% if current_user.is_authenticated %}
+                <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
+                {% else %}
                 <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a>
                 <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a>
+                {% endif %}
             </ul>
         </nav>
     </header>

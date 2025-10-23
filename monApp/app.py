@@ -10,3 +10,21 @@ db = SQLAlchemy()
 db.init_app(app)
 # initialisation du module Bootstrap
 Bootstrap(app)
+
+
+
+from flask_login import LoginManager
+from monApp.models import Client, Restauratrice
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    if user_id.startswith("client-"):
+        numtel = user_id.split("-", 1)[1]
+        return Client.query.get(numtel)
+    elif user_id.startswith("resto-"):
+        id_restauratrice = user_id.split("-", 1)[1]
+        return Restauratrice.query.get(id_restauratrice)
+    return None
