@@ -31,7 +31,7 @@ header nav a {
     text-decoration: none;
     color: black;
 }
-header .btn_inscription, .btn_connection{
+header .btn_inscription, .btn_connection, .btn_deconnection{
     background-color: #95A57E;
     border-radius: 10px;
     color: white;
