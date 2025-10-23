@@ -52,111 +52,121 @@ clients:
     est_banni: false
     pts_fidelite: 40
 
+type_plats:
+  - idTp: 1
+    nomTp: "Formules"
+    descriptionTp: "Laissez-vous tenter par nos formules gourmandes, qu’il s’agisse d’un menu entrée, plat, dessert ou de nos formules Bento."
+    cheminImg: "img/img_type_plat/image1.png"
+  - idTp: 2
+    nomTp: "Plats chauds"
+    descriptionTp: Venez savourer nos différents plats chauds, des nems, aux soupes en passant par notre poisson, riz ou bien nos différentes viandes.
+    cheminImg: "img/img_type_plat/image2.png"
+  - idTp: 3
+    nomTp: "Plats froids"
+    descriptionTp: "aaaaaaaaa"
+    cheminImg: "img/img_type_plat/image3.png"
+  - idTp: 4
+    nomTp: "Sushis"
+    descriptionTp: "aaaaaaaaa"
+    cheminImg: "img/img_type_plat/image4.png"
+  - idTp: 5
+    nomTp: "Dessert"
+    descriptionTp: "aaaaaaaaa"
+    cheminImg: "img/img_type_plat/image5.png"
+  - idTp: 6
+    nomTp: "Plats sur commande"
+    descriptionTp: "aaaaaaaaa"
+    cheminImg: "img/img_type_plat/image6.png"
+
 plats:
   - idP: 1
     nomP: "Pizza Margherita"
-    typeP: "Plat principal"
+    idTp: 2
     prixP: 12.50
     stock: 40
     stockInit: 50
     descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
-    cheminImg: "static/img/imgP/Image1.png"
+    cheminImg: "img/imgP/Image1.png"
   - idP: 2
     nomP: "Lasagnes Bolognaises"
-    typeP: "Plat principal"
+    idTp: 2
     prixP: 14.00
     stock: 35
     stockInit: 40
     descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
-    cheminImg: "static/img/imgP/Image2.png"
+    cheminImg: "img/imgP/Image2.png"
   - idP: 3
     nomP: "Tiramisu"
-    typeP: "Dessert"
+    idTp: 5
     prixP: 6.00
     stock: 25
     stockInit: 30
     descriptionP: "Dessert italien au café et mascarpone."
-    cheminImg: "static/img/imgP/Image3.png"
+    cheminImg: "img/imgP/Image3.png"
   - idP: 4
     nomP: "Soupe Pho"
-    typeP: "Entrée"
+    idTp: 2
     prixP: 8.50
     stock: 20
     stockInit: 25
     descriptionP: "Soupe vietnamienne parfumée au bœuf."
-    cheminImg: "static/img/imgP/Image4.png"
+    cheminImg: "img/imgP/Image4.png"
   - idP: 5
     nomP: "Salade César"
-    typeP: "Entrée"
+    idTp: 3
     prixP: 9.00
     stock: 15
     stockInit: 20
     descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
-    cheminImg: "static/img/imgP/Image5.png"
+    cheminImg: "img/imgP/Image5.png"
   - idP: 6
     nomP: "Cheesecake"
-    typeP: "Dessert"
+    idTp: 5
     prixP: 5.50
     stock: 18
     stockInit: 25
     descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
-    cheminImg: "static/img/imgP/Image6.png"
+    cheminImg: "img/imgP/Image6.png"
   - idP: 7
     nomP: "Curry Thaï"
-    typeP: "Plat principal"
+    idTp: 2
     prixP: 15.90
     stock: 28
     stockInit: 30
     descriptionP: "Poulet au lait de coco et curry rouge."
-    cheminImg: "static/img/imgP/Image7.png"
+    cheminImg: "img/imgP/Image7.png"
   - idP: 8
     nomP: "Sushi Maki Mix"
-    typeP: "Plat principal"
+    idTp: 4
     prixP: 17.00
     stock: 30
     stockInit: 35
     descriptionP: "Assortiment de makis, nigiris et sashimis frais."
-    cheminImg: "static/img/imgP/Image8.png"
+    cheminImg: "img/imgP/Image8.png"
   - idP: 9
     nomP: "Brownie chocolat"
-    typeP: "Dessert"
+    idTp: 5
     prixP: 4.50
     stock: 22
     stockInit: 30
     descriptionP: "Fondant au chocolat noir et noix de pécan."
-    cheminImg: "static/img/imgP/Image9.png"
+    cheminImg: "img/imgP/Image9.png"
   - idP: 10
-    nomP: "Burger Gourmet"
-    typeP: "Plat principal"
-    prixP: 13.90
+    nomP: "Brownie chocolat"
+    idTp: 5
+    prixP: 5.30
     stock: 45
-    stockInit: 50
-    descriptionP: "Bœuf charolais, cheddar affiné et pain brioché."
-    cheminImg: "images/burger.jpg"
+    stockInit: 65
+    descriptionP: "Fondant au chocolat noir et noix de pécan."
+    cheminImg: "img/imgP/Image10.png"
   - idP: 11
-    nomP: "Crème brûlée"
-    typeP: "Dessert"
-    prixP: 5.00
-    stock: 30
-    stockInit: 40
-    descriptionP: "Crème à la vanille et fine couche caramélisée."
-    cheminImg: "images/creme_brulee.jpg"
-  - idP: 12
-    nomP: "Pad Thaï"
-    typeP: "Plat principal"
-    prixP: 14.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Nouilles sautées, crevettes, cacahuètes et soja."
-    cheminImg: "images/pad_thai.jpg"
-  - idP: 13
-    nomP: "Soupe miso"
-    typeP: "Entrée"
-    prixP: 4.50
-    stock: 18
-    stockInit: 20
-    descriptionP: "Bouillon japonais au tofu et algues wakamé."
-    cheminImg: "images/soupe_miso.jpg"
+    nomP: "Brownie chocolat"
+    idTp: 5
+    prixP: 2.90
+    stock: 21
+    stockInit: 36
+    descriptionP: "Fondant au chocolat noir et noix de pécan."
+    cheminImg: "img/imgP/Image11.png"
 
 formules:
   - idF: 1
@@ -205,9 +215,6 @@ composer:
     quantiteC: 1
   - idF: 4
     idP: 8
-    quantiteC: 1
-  - idF: 4
-    idP: 12
     quantiteC: 1
   - idF: 5
     idP: 5
@@ -311,9 +318,6 @@ contenir_p:
   - idR: 6
     idP: 8
     quantiteP: 3
-  - idR: 7
-    idP: 12
-    quantiteP: 1
   - idR: 8
     idP: 11
     quantiteP: 2

@@ -90,12 +90,29 @@ class Formule(db.Model):
     def __repr__(self):
         return f"<Formule(id={self.idF}, nom={self.nomF}, prix={self.prixF})>"
 
+class Type_plat(db.Model):
+    __tablename__ = "TYPE_PLAT"
+
+    idTp = db.Column(db.Integer, primary_key=True)
+    nomTp = db.Column(db.String(50))
+    descriptionTp = db.Column(db.String(50))
+    cheminImg = db.Column(db.String(50))
+
+    def __init__(self, idTp, nomTp, descriptionTp, cheminImg):
+        self.idTp = idTp
+        self.nomTp = nomTp
+        self.descriptionTp = descriptionTp
+        self.cheminImg = cheminImg
+
+    def __repr__(self):
+        return f"<type plat(id={self.idTp}, nom={self.nomTp}>"
+
 class Plat(db.Model):
     __tablename__ = "PLAT"
 
     idP = db.Column(db.Integer, primary_key=True)
     nomP = db.Column(db.String(50))
-    typeP = db.Column(db.String(50))
+    idTp = db.Column(db.Integer, db.ForeignKey("TYPE_PLAT.idTp"))
     prixP = db.Column(db.Numeric(10, 2))
     stock = db.Column(db.Integer)
     stockInit = db.Column(db.Integer)
@@ -105,10 +122,10 @@ class Plat(db.Model):
     formules = db.relationship("Composer", backref="plat")
     reservations = db.relationship("ContenirP", backref="plat")
 
-    def __init__(self, idP, nomP, typeP, prixP, stock, stockInit,cheminImg, descriptionP):
+    def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
         self.idP = idP
         self.nomP = nomP
-        self.typeP = typeP
+        self.idTp = idTp
         self.prixP = prixP
         self.stock = stock
         self.stockInit = stockInit
@@ -116,7 +133,7 @@ class Plat(db.Model):
         self.descriptionP = descriptionP
 
     def __repr__(self):
-        return f"<Plat(id={self.idP}, nom={self.nomP}, type={self.typeP}, prix={self.prixP})>"
+        return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
 
 
 class Composer(db.Model):

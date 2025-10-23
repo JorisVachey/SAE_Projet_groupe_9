@@ -39,12 +39,23 @@ def loaddb(file):
         )
         db.session.add(cli)
 
+    click.echo("Insertion des types de plats...")
+    for t in data.get("type_plats", []):
+        type_plat = Type_plat(
+            idTp=t["idTp"],
+            nomTp=t["nomTp"],
+            descriptionTp=t["descriptionTp"],
+            cheminImg=t["cheminImg"]
+        )
+        db.session.add(type_plat)
+    db.session.commit()
+
     click.echo("Insertion des plats...")
     for p in data.get("plats", []):
         plat = Plat(
             idP=p["idP"],
             nomP=p["nomP"],
-            typeP=p["typeP"],
+            idTp=p["idTp"],
             prixP=p["prixP"],
             stock=p["stock"],
             stockInit=p["stockInit"],

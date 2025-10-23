@@ -39,7 +39,7 @@ create table FORMULE (
 create table TYPE_PLAT(
     idTp int,
     nomTP varchar(50),
-    descriptionP longtext,
+    descriptionTp longtext,
     cheminImg varchar(200),
     PRIMARY KEY (idTp)
 );
