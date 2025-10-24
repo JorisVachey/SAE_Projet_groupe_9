@@ -32,7 +32,6 @@ def contact() :
         
         if email:
             msg.reply_to = email
-            mail.send(msg)
         try:
             mail.send(msg)
             print("message envoyé")
