@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="container-fluid min-vh-100 p-0 position-relative" style="background-color: #FAF5E1;">
+    <div class="row g-0 min-vh-100">
+        <div class="col-8 position-relative" style="background-image: url('{{ url_for('static', filename='img/inscription.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        </div>
+        <div class="col-4">
+        </div>
+    </div>
+    <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 10; margin-left: 16%;">
+        <div class="card shadow-lg" style="width: 420px; border-radius: 20px; border: none;">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">Bienvenue</h2>
+                <form method="POST" action="{{ url_for('inscription') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.numtel.label(class="form-label text-muted small") }}
+                        {{ form.numtel(class="form-control", style="background-color: #fafafa; border-radius: 8px; padding: 10px;", placeholder="Numéro de téléphone") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.pseudonyme.label(class="form-label text-muted small") }}
+                        {{ form.pseudonyme(class="form-control", style="background-color: #fafafa; border-radius: 8px; padding: 10px;", placeholder="Pseudonyme") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label text-muted small") }}
+                        {{ form.password(class="form-control", style="background-color: #fafafa; border-radius: 8px; padding: 10px;", placeholder="Mot de passe") }}
+                    </div>
+                    <div class="d-grid mt-4">
+                        <input type="submit" value="S'inscrire" class="btn" style="background-color: #FAF5E1; border: none; border-radius: 8px; padding: 12px; font-weight: 500;">
+                    </div>
+                </form>
+                <p class="text-center mt-3 mb-0 small text-muted">
+                    Déjà un compte ? <a href="{{ url_for('connection') }}" class="text-dark">connectez-vous</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

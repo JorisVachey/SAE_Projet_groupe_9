@@ -1,0 +1,6 @@
+__pycache__/
+monApp/__pycache__
+.pytest_cache
+.coverage
+.env
+*.pdf
