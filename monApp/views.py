@@ -1,8 +1,8 @@
-import os
-from .app import app, db
-from flask import render_template, redirect, url_for
+from .app import app, db, mail
+from flask import render_template, redirect, url_for,request,flash
+from monApp.models import db,Client, Restauratrice, Type_plat
 from flask_login import login_user, logout_user, login_required
-from monApp.models import db,Client, Restauratrice, Type_plat, Plat
+from flask_mail import Mail,Message
 
 
 @app.route('/')
@@ -30,8 +30,42 @@ def menu():
     return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats)
     
 
-@app.route('/contact/')
+@app.route('/contact/',methods = ["GET","POST"])
 def contact() :
+    if request.method == "POST":
+        email = request.form["email"]
+        message = request.form["message"]
+        msg = Message(
+            subject=f"Nouveau message de {email or 'anonyme'}",
+            sender=app.config["MAIL_DEFAULT_SENDER"], # fonctionne car on s'envoie le mail a nous meme pas besion de verif l'adresse de l'auteur
+            recipients=[app.config["MAIL_USERNAME"]],  # adresse qui reçoit les messages
+            body=f"Email: {email}\n\nMessage:\n{message}")
+        
+        if email:
+            msg.reply_to = email
+        try:
+            mail.send(msg)
+            print("message envoyé")
+            flash("Message envoyé avec succès !", "success")
+        except Exception as e:
+            import traceback
+            print("Erreur lors de l'envoi du mail :")
+            traceback.print_exc()
+            flash(f"Erreur lors de l'envoi : {e}", "danger")
+        if email:
+             msg_confirmation = Message(
+                subject="Confirmation : votre message a été envoyé",
+                sender=app.config["MAIL_USERNAME"],  # toujours ton SMTP
+                recipients=[email],
+                body="Merci ! Nous avons bien reçu votre message envoyer sur notre site."
+            )
+        try:
+            mail.send(msg_confirmation)
+            print("Mail de confirmation envoyé à l'utilisateur")
+        except Exception as e:
+            print("Erreur lors de l'envoi au user :", e)
+
+        flash("Message envoyé avec succès !", "success")
     return render_template("contact.html")
 
 
