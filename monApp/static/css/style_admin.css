@@ -1,0 +1,62 @@
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0; /* supprime margin:auto qui peut poser problème */
+}
+
+.boutons_admin{
+    background-color: #95A57E;
+    border-radius: 10px;
+    color: white;
+    border: 1px solid black;
+    padding: 0.2em 0.3em;
+}
+
+#bambou{
+    max-width: 40%;
+    max-height: 40%;
+    position: absolute;
+    overflow: hidden;
+    bottom: 0%;
+    right: 30%;
+    transform: scaleX(-1);
+    transform-origin: center;
+}
+
+#bambou_coin{
+max-width: 50%;
+max-height: 50%;
+position: absolute;
+overflow: hidden;
+top: 10%;
+right: 0%;
+}
+
+#sakura{
+max-width: 100%;
+max-height: 100%;
+position: absolute;
+overflow: hidden;
+top: 5%;
+left: 0%;
+}
+
+main{
+    height: 85vh;
+}
+
+header{
+    height: 10.5vh;
+}
+
+footer{
+    height: 15vh;
+}

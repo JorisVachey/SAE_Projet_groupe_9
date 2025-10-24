@@ -40,8 +40,8 @@ main {
 body{
     background-color: var(--bg-base);
     display: flex;
+    position: relative;
     flex-direction: column;
-}
 
 /*css du header*/
 header {
@@ -125,4 +125,11 @@ footer article p {
 
 footer article img {
     margin-left: 1.2em;
+}
+
+footer {
+  position:static;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
 }

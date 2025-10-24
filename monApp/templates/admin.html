@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+ 
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
+{% endblock %}
+
+
 {%block boutons_header%}
 <ul>
     <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se déconnecter</a>
@@ -13,7 +19,7 @@
         <h2>ADMIN</h2>
         <h3>Que souhaitez-vous faire ?</h3>
     </div>
-    <ul >
+    <ul class="actions">
         <a class="boutons_admin" href="{{ url_for('index') }}">GESTION DES PLATS</a>
         <a class="boutons_admin" href="{{ url_for('propos') }}">GESTION DES FORMULES</a>
         <a class="boutons_admin" href="{{ url_for('menu') }}">GESTION DES CLIENTS</a>
