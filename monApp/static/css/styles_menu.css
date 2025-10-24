@@ -93,6 +93,12 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    box-shadow: 2px 2px 10px;
+    transition: 0.3s;
+}
+
+.derouler article:hover {
+    transform: scale(1.05);
 }
 
 .derouler article img {

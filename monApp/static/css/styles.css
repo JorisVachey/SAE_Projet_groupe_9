@@ -11,7 +11,7 @@ body {
   --btn:#95A57E;
   --gris-c:#E4E4E4;
   --tableau:#E4E4E4;
-
+    background-color: var(--bg-base);
 }
 
 body.dark {
@@ -27,7 +27,9 @@ body.dark {
   --btn:#94A47D;
   --gris-c:#666666;
   --tableau:#B7B7B7;
+    background-color: var(--bg-base);
 }
+
 /*css du header*/
 header {
     top: 0; 
