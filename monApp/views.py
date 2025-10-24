@@ -27,7 +27,7 @@ def contact() :
         message = request.form["message"]
         msg = Message(
             subject=f"Nouveau message de {email}",
-            sender=email,
+            sender=email, # fonctionne pas car cette adresse mail n'est pas vérifié
             recipients=[os.getenv("MAIL_USERNAME")],  # adresse qui reçoit les messages
             body=f"Email: {email}\n\nMessage:\n{message}")
         try:
