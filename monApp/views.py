@@ -19,7 +19,8 @@ def menu() :
 
 @app.route('/contact/')
 def contact() :
-    return "page contact"
+    return render_template("contact.html")
+
 
 @app.route('/nouvautes/')
 def nouvautes() :

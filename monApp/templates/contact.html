@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_contact.css') }}">
+{% endblock %}
+
+{% block main %}
+    <section class="contact-titre">
+        <h3>CONTACT OUMAMI</h3>
+    </section>
+    <section id="contact">
+        <article class="maps">
+            <!-- Génerer directement par google (via le bouton partage puis insérer)-->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168.31156333038712!2d1.5414418966160066!3d47.54862041759302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4b105c52d5d45%3A0x98dd19d3a4a60e78!2sOumami!5e0!3m2!1sfr!2sfr!4v1761293527727!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </article>
+        <article class="contact-content">
+            <ul>
+                <li><h3>Où nous trouver:</h3></li>
+                <li><h3>Nos horaire d'ouverture:</h3></li>
+                <li><h3>Nous contacter:</h3></li>
+            </ul>
+            <form method="post">
+                <ul>
+                    <li>
+                        <label for="email">Email:</label><br>
+                        <input type="email" id="email" name="email" required><br>
+                    </li>
+                    <li>
+                        <label for="message">Message:</label> <br>
+                        <textarea id="message" name="message" required></textarea><br>
+                    </li>
+                    <li>
+                        <button type="submit">Envoyer le message</button>
+                    </li>
+                </ul>
+
+            </form>
+        </article>
+    </section>
+{% endblock %}

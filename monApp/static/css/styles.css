@@ -1,7 +1,33 @@
 body {
-    background-color: #FAF5E1;
+  --bg-base:#FAF5E1;
+  --gris: #666666;
+  --orange-f: #E84D0E;
+  --orange-c: #E84D0E;
+  --texte: #000000;
+  --blanc-casser:#E4E4E4;
+  --blanc:#FFFFFF;
+  --case-produit:#FFFFFF;
+  --header:#E6E7E9;
+  --btn:#95A57E;
+  --gris-c:#E4E4E4;
+  --tableau:#E4E4E4;
+
 }
 
+body.dark {
+  --bg-base:#050A1E;
+  --gris: #999999;
+  --orange-f: #F5936B;
+  --orange-c: #E84D0E;
+  --texte: #FFFFFF;
+  --blanc-casser:#1B1B1B;
+  --blanc:#060B1C;
+  --case-produit:#E6E7E9;
+  --header:#E6E7E9;
+  --btn:#94A47D;
+  --gris-c:#666666;
+  --tableau:#B7B7B7;
+}
 /*css du header*/
 header {
     top: 0; 
