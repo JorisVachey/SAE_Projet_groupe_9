@@ -8,15 +8,22 @@
 {%endblock%}
 {%block main%}
 <div class="page-admin-accueil">
-<div class="bienvenue">BIENVENUE </div>
-<b class="admin">ADMIN</b>
-<img class="page-admin-accueil-child" alt="">
-<div class="que-souhaitez-vous-faire">Que souhaitez-vous faire ?</div>
-<img src="{{ url_for('static', filename='img/image1.png') }}" alt="logo Oumami"></a>
-<img src="{{ url_for('static', filename='img/bambou1.png') }}" alt="image de bambou en coin"></a>
-<img src="{{ url_for('static', filename='img/plante.png') }}" alt="logo Oumami"></a>
-<div class="title">GESTION DES PLATS</div>
-<div class="title">GESTION DES FORMULES</div>
-<div class="title">GESTION DES CLIENTS</div>
-</ul>
+    </div class="titre_admin">
+        <h1>BIENVENUE </h1>
+        <h2>ADMIN</h2>
+        <h3>Que souhaitez-vous faire ?</h3>
+    </div>
+    <ul >
+        <a class="boutons_admin" href="{{ url_for('index') }}">GESTION DES PLATS</a>
+        <a class="boutons_admin" href="{{ url_for('propos') }}">GESTION DES FORMULES</a>
+        <a class="boutons_admin" href="{{ url_for('menu') }}">GESTION DES CLIENTS</a>
+        <a class="boutons_admin" href="{{ url_for('contact') }}">VOIR LES COMMANDES</a>
+    </ul>
+    <div class="images_admin">
+        <img id="sakura" src="{{ url_for('static', filename='img/image1.png') }}" alt="sakura">
+        <img id="bambou_coin"  src="{{ url_for('static', filename='img/bambou1.png') }}" alt="image de bambou en coin">
+        <img id="bambou"  src="{{ url_for('static', filename='img/plante.png') }}" alt="bambou">
+    </div>
+</div>
+
 {%endblock%}

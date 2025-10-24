@@ -85,7 +85,7 @@ header nav a {
     color: var(--gris);
 }
 
-header .btn_inscription, .btn_connection, .btn_deconnection{
+header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
     background-color: var(--btn);
     border-radius: 10px;
     color: white;
@@ -93,7 +93,17 @@ header .btn_inscription, .btn_connection, .btn_deconnection{
     padding: 0.2em 0.3em;
 }
 
-footer {
+.titre_admin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-admin-accueil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}footer {
     background-color: var(--header);
     display: flex;
     flex-direction: row;
