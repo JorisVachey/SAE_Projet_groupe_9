@@ -1,10 +1,19 @@
 
 .page-titre{
+    align-items: center;
     margin-top: 9em;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2.5em;
+}
+.trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: #666666;
+    margin-bottom: 0.5em;
 }
 .page-titre h3{
-    justify-content: center;
     text-align: center;
     color: var(--gris);
 }
@@ -19,7 +28,11 @@
     border-radius: 55px;
     border: 5px solid var(--btn);
 }
-article iframe{
+article > iframe{
     border-radius: 55px;
-    border: 10px solid var(--btn);
+    border: 3px solid var(--btn) !important;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 10px 10px 15px 0 rgba(0, 0, 0, 0.74) inset !important;
+}
+form ul li{
+    list-style: none;
 }
