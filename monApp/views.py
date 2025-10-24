@@ -59,12 +59,6 @@ def inscription():
             db.session.commit()
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
-
-    return "page connection"
-
-@app.route('/inscription/')
-def inscription() :
-    return "page inscription"
 @app.route('/admin/')
 def admin() :
     return render_template("admin.html")
