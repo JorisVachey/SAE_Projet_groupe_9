@@ -14,9 +14,12 @@
     justify-content: space-around;
 }
 
-.contact {
+#contact-info {
     background-color: var(--case-produit);
-    border:5px solid var(--btn);
     border-radius: 55px;
     border: 5px solid var(--btn);
+}
+article iframe{
+    border-radius: 55px;
+    border: 10px solid var(--btn);
 }
