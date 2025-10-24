@@ -3,7 +3,7 @@ create table RESTAURATRICE (
     nomRest varchar(50),
     prenomRest varchar(50),
     numtelRest varchar(50),
-    mdp varchar(50),
+    mdp varchar(500),
     PRIMARY KEY (idRest)
 );
 

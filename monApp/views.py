@@ -1,7 +1,7 @@
 from .app import app, db
 from flask import render_template, redirect, url_for
 from monApp.models import db,Client, Restauratrice, Type_plat
-
+from flask_login import login_user, logout_user, login_required
 
 @app.route('/')
 @app.route('/index/')
@@ -25,6 +25,10 @@ def contact() :
 def nouvautes() :
     return "page nouvautes"
 
+@app.route('/admin/')
+def admin() :
+    return "page admin"
+
 @app.route('/connection/', methods=("GET","POST",))
 def connection() :
     from .forms import LoginForm
@@ -34,13 +38,10 @@ def connection() :
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
-            # if isinstance(unUser, Client):
-            #     session['user_type'] = 'client'
-            #     return redirect(url_for('index'))
-            # elif isinstance(unUser, Restauratrice):
-            #     session['user_type'] = 'restauratrice'
-                # return redirect(url_for('admin'))
-            return redirect(url_for('index')) # remplacer par admin lorsque implémenté
+            if isinstance(unUser, Client):
+                return redirect(url_for('index'))
+            if isinstance(unUser, Restauratrice):
+                return redirect(url_for('admin'))
     return render_template("connection.html", form=connection_form)
 
 @app.route('/deconnection/')

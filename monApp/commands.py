@@ -4,6 +4,7 @@ import yaml
 from flask.cli import with_appcontext
 import click
 from datetime import datetime
+from hashlib import sha256
 
 @click.command("loaddb")
 @click.option("--file", default="monApp/data/data.yaml", help="Chemin du fichier YAML à charger")
@@ -19,21 +20,29 @@ def loaddb(file):
 
     click.echo("Insertion des restauratrices...")
     for r in data.get("restauratrices", []):
+        m = sha256()
+        m.update(r["mdp"].encode())
+        hashed_passwd = m.hexdigest()
+
         rest = Restauratrice(
             idRest=r["idRest"],
             nomRest=r["nomRest"],
             prenomRest=r["prenomRest"],
             numtelRest=r["numtelRest"],
-            mdp=r["mdp"]
+            mdp=hashed_passwd
         )
         db.session.add(rest)
 
     click.echo("Insertion des clients...")
     for c in data.get("clients", []):
+        m = sha256()
+        m.update(c["mdp"].encode())
+        hashed_passwd = m.hexdigest()
+
         cli = Client(
             numtelCli=c["numtelCli"],
             pseudonyme=c["pseudonyme"],
-            mdp=c["mdp"],
+            mdp=hashed_passwd,
             est_banni=c["est_banni"],
             pts_fidelite=c["pts_fidelite"]
         )
