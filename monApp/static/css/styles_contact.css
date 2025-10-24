@@ -1,4 +1,5 @@
 
+/*mise en page par défaut*/
 .page-titre{
     align-items: center;
     margin-top: 9em;
@@ -17,22 +18,33 @@
     text-align: center;
     color: var(--gris);
 }
+
 #contact {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
-
-#contact-info {
-    background-color: var(--case-produit);
-    border-radius: 55px;
-    border: 5px solid var(--btn);
-}
+/* partie iframe (maps  pour avoir la carte)*/
 article > iframe{
     border-radius: 55px;
     border: 3px solid var(--btn) !important;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 10px 10px 15px 0 rgba(0, 0, 0, 0.74) inset !important;
 }
-form ul li{
+/* partie informations du restaurant */
+#info-contact {
+    background-color: var(--case-produit);
+    border-radius: 55px;
+    border: 3px solid var(--btn);
+    margin-bottom: 3%;
+}
+#info-contact ul li{
     list-style: none;
+}
+/* partie formulaire pour envoyer un mail*/
+
+#info-contact textarea{
+    width: 90%;
+}
+#info-contact input{
+    width: 70%;
 }
