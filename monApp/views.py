@@ -56,8 +56,6 @@ def contact() :
             print("Erreur lors de l'envoi au user :", e)
 
         flash("Message envoyé avec succès !", "success")
-
-
     return render_template("contact.html")
 
 
