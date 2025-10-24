@@ -7,7 +7,7 @@
 }
 
 .recherche_container {
-    margin: 1.2em 0 0 30em;
+    margin: 1.2em 0 0 24em;
 }
 
 .recherche_container input{
@@ -22,6 +22,7 @@
     color: white;
     border: 1px solid black;
     padding: 0.2em 0.3em;
+    transition: 0.3s;
 }
 
 .filtre {
@@ -34,7 +35,12 @@
     border-radius: 10px;
     color: white;
     border: 1px solid black;
-    padding: 0.2em 0.3em;
+    padding: 0.2em 1.2em;
+    transition: 0.3s;
+}
+
+.filtre button:hover, .recherche_container button:hover {
+    color: black;
 }
 
 .liste_aliment {

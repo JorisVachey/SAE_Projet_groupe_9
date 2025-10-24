@@ -9,11 +9,12 @@
 <section class="outil_nav">
     <div class="recherche_container">
         <input type="text" class="recherche_bare" placeholder="Rechercher..." id="recherche_bare">
-        <button class="recherche_bare">Rechercher</button>
+        <button id="recherche_bouton" class="recherche_bare">Rechercher</button>
     </div>
     <section class="filtre">
-        <button>prix ascendant</button>
-        <button>prix descendant</button>
+        <button id="tout">Afficher tous les plats</button>
+        <button id="triPrix">Trier par prix</button>
+        <button id="triNom">Trier par nom</button>
     </section>
 </section>
 <section id="liste_aliment" class="liste_aliment">
@@ -25,8 +26,9 @@
     <section class="derouler">
         {% for plat in plats %}
             <article data-id-tp="{{ plat.idTp }}">
+                <input type="hidden" class="type_plat" ></input>
                 <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
-                    <h5>{{ plat.nomP }}</h5>
+                    <h5 class="nom">{{ plat.nomP }}</h5>
                 <p>{{ plat.descriptionP }}</p>
                 <p class="prix">{{ plat.prixP }}</p>
             </article>
