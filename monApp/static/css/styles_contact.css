@@ -1,12 +1,22 @@
-.maps iframe{
-    border-radius: 55px;
-    border: 5px solid #95A57E;
+
+.page-titre{
+    margin-top: 9em;
+    display: block;
+}
+.page-titre h3{
+    justify-content: center;
+    text-align: center;
+    color: var(--gris);
 }
 #contact {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
-article {
-    background-color: FFFFFF;
+
+.contact {
+    background-color: var(--case-produit);
+    border:5px solid var(--btn);
+    border-radius: 55px;
+    border: 5px solid var(--btn);
 }
