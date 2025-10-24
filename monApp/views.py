@@ -1,7 +1,9 @@
+import os
 from .app import app, db
 from flask import render_template, redirect, url_for
-from monApp.models import db,Client, Restauratrice, Type_plat
 from flask_login import login_user, logout_user, login_required
+from monApp.models import db,Client, Restauratrice, Type_plat, Plat
+
 
 @app.route('/')
 @app.route('/index/')
@@ -14,8 +16,19 @@ def propos() :
     return "page a propos"
 
 @app.route('/menu/')
-def menu() :
-    return "page menu"
+def menu():
+    lesTypeDePlats = Type_plat.query.all()
+    lesPlats = Plat.query.all()
+    for plat in lesPlats:
+        if plat.cheminImg:
+            chemin_complet = os.path.join(app.root_path, 'static', plat.cheminImg)
+            if not os.path.isfile(chemin_complet):
+                plat.cheminImg = 'img/base/image_defaut.png'
+        else:
+            plat.cheminImg = 'img/base/image_defaut.png'
+    
+    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats)
+    
 
 @app.route('/contact/')
 def contact() :
