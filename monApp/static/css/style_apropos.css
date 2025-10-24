@@ -1,0 +1,48 @@
+article{
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: #666666;
+}
+h3{
+    color: #666666;
+    text-align: center;
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+.premier {
+    display: flex;
+    flex-direction: row;
+    margin: 15em;
+}
+
+img {
+    position: absolute;
+    left: 0;
+
+}
+.premier {
+  display: flex;
+  align-items: center;        /* aligne verticalement */
+  justify-content: center;    /* centre le contenu horizontalement */
+  gap: 40px;                  /* espace entre l’image et le texte */
+  padding: 60px 0;
+}
+
+.premier img {
+  width: 300px;               /* ajuste la taille selon ton image */
+  height: auto;
+  border-radius: 10px;
+}
+
+.premier article {
+  max-width: 500px;
+  text-align: center;         /* pour centrer le texte à l'intérieur */
+}
+

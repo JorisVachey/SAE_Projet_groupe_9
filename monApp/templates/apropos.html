@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_apropos.css') }}">
+{% endblock %}
+
+{% block main %}
+<section class="premier">
+        <img src="{{ url_for('static', filename='img/base/cerisier.png')}}" alt="image arbre">
+        <article>
+            <div class="trait-horizontal"></div>
+            <h3>A propos de Oumami</h3>
+            <div class="trait-horizontal"></div>
+        </article>
+</section>
+<section>
+    <article>
+
+    </article>
+</section>
+<section>
+    <article>
+
+    </article>
+</section>
+<section>
+    <article>
+        
+    </article>
+</section>
+<section>
+    <article>
+
+    </article>
+</section>
+<section>
+    <article>
+
+    </article>
+</section>
+<section>
+    <article>
+        
+    </article>
+</section>
+{% endblock %}
