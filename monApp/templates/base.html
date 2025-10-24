@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block styles_additionnels %}
+    {% endblock %}
 </head>
 
 <body>
@@ -15,7 +17,7 @@
     {% block navbar %}
     <header>
         <nav>
-            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo_oumami.png') }}" alt="logo Oumami"></a>
+            <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami"></a>
             {%block boutons_header%}
             <ul class="boutons_base">
                 <a href="{{ url_for('index') }}">Accueil</a>
@@ -43,7 +45,23 @@
 
     <!-- Pied de page -->
     <footer>
-        <p>&copy; 2025 Oumami - Tous droits réservés</p>
+        <article class="footer1">
+            <p>Oumami<br> 
+            <p>4 place de la Halle 41250 Bracieux</p>
+            <p>Tél : 02.54.79.05.48</p>
+        </article>
+        <article class="footer2">
+            <p>Ouverture du magasin :</p>
+            <p>Du mardi au samedi 11h30 - 14h (la vente à emporter et la restauration sur place) / 17h - 20h (la vente à emporter uniquement)</p>
+        </article>
+        <article class="footer3">
+            <p>© 2014-2025 Oumami - Tous droits réservés.</p>
+            <p>Crédit site : création-nao</p>
+        </article>
+        <article class="footer4">
+            <p>Retrouvez nous sur notre page facebook :</p>
+            <a href="https://www.facebook.com/p/Oumami-100039524718080/?locale=fr_FR"><img src="{{ url_for('static', filename='img/base/logo_facebook.png') }}" alt="logo facebook"></a>
+        </article>
     </footer>
 </body>
 </html>

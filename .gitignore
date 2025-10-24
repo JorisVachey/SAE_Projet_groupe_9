@@ -1,4 +1,6 @@
 __pycache__/
-*.pdf
+monApp/__pycache__
+.pytest_cache
 .coverage
-*.env
+.env
+*.pdf

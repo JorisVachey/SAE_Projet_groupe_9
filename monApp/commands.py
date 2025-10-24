@@ -6,7 +6,7 @@ import click
 from datetime import datetime
 
 @click.command("loaddb")
-@click.option("--file", default="data.yaml", help="Chemin du fichier YAML à charger")
+@click.option("--file", default="monApp/data/data.yaml", help="Chemin du fichier YAML à charger")
 @with_appcontext
 def loaddb(file):
     """Charge les données initiales depuis data.yaml dans la base."""
@@ -39,12 +39,23 @@ def loaddb(file):
         )
         db.session.add(cli)
 
+    click.echo("Insertion des types de plats...")
+    for t in data.get("type_plats", []):
+        type_plat = Type_plat(
+            idTp=t["idTp"],
+            nomTp=t["nomTp"],
+            descriptionTp=t["descriptionTp"],
+            cheminImg=t["cheminImg"]
+        )
+        db.session.add(type_plat)
+    db.session.commit()
+
     click.echo("Insertion des plats...")
     for p in data.get("plats", []):
         plat = Plat(
             idP=p["idP"],
             nomP=p["nomP"],
-            typeP=p["typeP"],
+            idTp=p["idTp"],
             prixP=p["prixP"],
             stock=p["stock"],
             stockInit=p["stockInit"],
@@ -73,6 +84,8 @@ def loaddb(file):
         )
         db.session.add(comp)
 
+    db.session.commit() 
+
     click.echo("Insertion des réservations...")
     for r in data.get("reservations", []):
         date_r = datetime.strptime(r["dateR"], "%Y-%m-%d").date()
@@ -88,14 +101,16 @@ def loaddb(file):
 
     db.session.commit()
 
-    click.echo("Insertion des formules dans les réservations...")
-    for cf in data.get("contenir_f", []):
-        containF = ContenirF(
-            idR=cf["idR"],
-            idF=cf["idF"],
-            quantiteF=cf["quantiteF"]
+    print("Insertion des formules dans les réservations...")
+    for cf in data['contenir_f']:
+        contenir_f = ContenirF(
+            idR=cf['idR'],
+            idF=cf['idF'],
+            quantiteF=cf['quantiteF']
         )
-        db.session.add(containF)
+        db.session.add(contenir_f)
+        db.session.flush()  # Important pour MariaDB
+    db.session.commit()
 
     click.echo("Insertion des plats dans les réservations...")
     for cp in data.get("contenir_p", []):
@@ -110,4 +125,4 @@ def loaddb(file):
 
     click.echo("Base de données remplie avec succès !")
 
-#app.cli.add_command(loaddb)
+app.cli.add_command(loaddb)
