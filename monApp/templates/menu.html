@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_menu.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<section class="outil_nav">
+    <div class="recherche_container">
+        <input type="text" class="recherche_bare" placeholder="Rechercher..." id="recherche_bare">
+        <button class="recherche_bare">Rechercher</button>
+    </div>
+    <section class="filtre">
+        <button>prix ascendant</button>
+        <button>prix descendant</button>
+    </section>
+</section>
+<section id="liste_aliment" class="liste_aliment">
+    <article class="nav_type_plat">
+        {% for type_plat in TypeDePlats %}
+                <button class="choix_type_plat" data-id="{{ type_plat.idTp }}"><p>{{ type_plat.nomTp }}</p></button>
+        {% endfor %}
+    </article>
+    <section class="derouler">
+        {% for plat in plats %}
+            <article data-id-tp="{{ plat.idTp }}">
+                <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
+                    <h5>{{ plat.nomP }}</h5>
+                <p>{{ plat.descriptionP }}</p>
+                <p class="prix">{{ plat.prixP }}</p>
+            </article>
+        {% endfor %}
+    </section>
+</section>
+<script>"{{ url_for('static', filename='js/menu.js') }}"</script>
+{% endblock %}
