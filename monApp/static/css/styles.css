@@ -1,5 +1,7 @@
 body {
     background-color: #FAF5E1;
+    position: relative;
+    height: 100%;
 }
 
 /*css du header*/
@@ -70,14 +72,9 @@ footer article img {
     margin-left: 1.2em;
 }
 
-.titre_admin{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.page-admin-accueil{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+footer {
+  position:static;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
 }
