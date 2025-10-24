@@ -30,7 +30,7 @@
                 <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
                     <h5 class="nom">{{ plat.nomP }}</h5>
                 <p>{{ plat.descriptionP }}</p>
-                <p class="prix">{{ plat.prixP }}</p>
+                <p class="prix">{{ plat.prixP }} €</p>
             </article>
         {% endfor %}
     </section>

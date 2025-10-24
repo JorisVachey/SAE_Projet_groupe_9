@@ -90,6 +90,10 @@
     gap: 1em;
     margin-left: 3em;
     margin-right: 3em;
+    height: 53em;
+    overflow-y: auto;
+    border: 0.125em solid #E6E7E9;
+    border-radius: 20px 0 0 20px;
 }
 
 .derouler article {
@@ -99,8 +103,11 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     box-shadow: 2px 2px 10px;
     transition: 0.3s;
+    height: 25em;
+    position: relative;     
 }
 
 .derouler article:hover {
@@ -119,5 +126,6 @@
 }
 
 .derouler article .prix {
-    margin-top: auto;
+    position: absolute;
+    bottom: 0;
 }

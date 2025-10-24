@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
   --bg-base:#FAF5E1;
   --gris: #666666;
@@ -12,6 +17,8 @@ body {
   --gris-c:#E4E4E4;
   --tableau:#E4E4E4;
     background-color: var(--bg-base);
+    display: flex;
+    flex-direction: column;
 }
 
 body.dark {
@@ -28,6 +35,10 @@ body.dark {
   --gris-c:#666666;
   --tableau:#B7B7B7;
     background-color: var(--bg-base);
+}
+
+main {
+    flex: 1;
 }
 
 /*css du header*/
