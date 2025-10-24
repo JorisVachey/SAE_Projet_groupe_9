@@ -1,6 +1,7 @@
 from .app import app, db
 from flask import render_template, redirect, url_for
 from monApp.models import db,Client, Restauratrice, Type_plat
+from flask_login import logout_user,login_user,login_required
 
 
 @app.route('/')

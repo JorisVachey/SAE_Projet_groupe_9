@@ -75,7 +75,7 @@ type_plats:
     cheminImg: "img/img_type_plat/image5.png"
   - idTp: 6
     nomTp: "Plats sur commande"
-    descriptionTp: "aaaaPour vos événements ou repas de groupe, composez votre propre menu ! Commandez à l'avance nos spécialités et plateaux, préparés selon vos envies.aaaaa"
+    descriptionTp: "Pour vos événements ou repas de groupe, composez votre propre menu ! Commandez à l'avance nos spécialités et plateaux, préparés selon vos envies."
     cheminImg: "img/img_type_plat/image6.png"
 
 plats:
