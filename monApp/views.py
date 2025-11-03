@@ -1,8 +1,9 @@
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash
-from monApp.models import db,Client, Restauratrice, Type_plat
+from monApp.models import db,Client, Restauratrice, Type_plat, Plat
 from flask_login import login_user, logout_user, login_required
 from flask_mail import Mail,Message
+import os
 
 
 @app.route('/')
