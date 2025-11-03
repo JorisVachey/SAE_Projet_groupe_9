@@ -34,7 +34,7 @@ section{
   left: 0;
   top: 9em;
   transform: translateY(-50%);
-  height: 100px;
+  height: 20em;
   opacity: 0.9;
 }
 
@@ -49,4 +49,31 @@ section{
   justify-content: center;
   gap: 40px;
   padding: 60px 0;
+}
+
+.deuxieme img {
+  position: absolute;
+  right: 0;
+  top: 100em;
+  transform: translateY(-50%);
+  height: 30em;
+  opacity: 0.9;
+}
+
+.horaire article{
+  text-align: center;
+}
+
+.horaire img{
+  margin: 5em;
+}
+
+.conges img {
+  position: absolute;
+  left: 0;
+  top: 168em;
+  transform: translateY(-50%);
+  height: 200px;
+  transform: rotate(180deg);
+  opacity: 0.9;
 }
