@@ -8,7 +8,7 @@ article{
 .trait-horizontal {
     height: 0.125em;
     width: 25em;
-    background-color: #666666;
+    background-color: var(--gris);
 }
 h3{
     color: #666666;
@@ -76,4 +76,17 @@ section{
   height: 200px;
   transform: rotate(180deg);
   opacity: 0.9;
+}
+
+@media (max-width: 600px){
+  .contenu{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 0;
+  }
+  .contenu img{
+    height: 10em;
+  }
 }
