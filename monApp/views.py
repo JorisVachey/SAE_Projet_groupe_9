@@ -99,6 +99,11 @@ def deconnection() :
     logout_user()
     return redirect(url_for('index'))
 
+@login_required
+@app.route('/panier/')
+def panier() :
+    return render_template("panier.html")
+
 @app.route('/inscription/', methods=("GET","POST",))
 def inscription():
     from .forms import RegisterForm

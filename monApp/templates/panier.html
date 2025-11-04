@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_panier.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Mon Panier</h1>
+    <table id="panier">
+        <thead>
+            <tr>
+                <th>Nom de l'article</th>
+                <th>Quantité</th>
+                <th>Prix unitaire (€)</th>
+                <th>Prix total (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Clavier mécanique</td>
+                <td>
+                    <div class="qte-control">
+                        <button class="btn moins">−</button>
+                        <input type="number" value="1" min="1" class="qte">
+                        <button class="btn plus">+</button>
+                    </div>
+                </td>
+                <td class="prix">79.99</td>
+                <td class="total"></td>
+            </tr>
+            <tr>
+                <td>Souris sans fil</td>
+                <td>
+                    <div class="qte-control">
+                        <button class="btn moins">−</button>
+                        <input type="number" value="2" min="1" class="qte">
+                        <button class="btn plus">+</button>
+                    </div>
+                </td>
+                <td class="prix">29.90</td>
+                <td class="total"></td>
+            </tr>
+            <tr>
+                <td>Casque audio</td>
+                <td>
+                    <div class="qte-control">
+                        <button class="btn moins">−</button>
+                        <input type="number" value="1" min="1" class="qte">
+                        <button class="btn plus">+</button>
+                    </div>
+                </td>
+                <td class="prix">99.50</td>
+                <td class="total"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="totalCommande">Total de la commande : <span id="commande">0.00</span> €</div>
+
+    <script>
+        function calculerTotal() {
+            const lignes = document.querySelectorAll("#panier tbody tr");
+            let totalCommande = 0;
+
+            lignes.forEach(ligne => {
+                const prix = parseFloat(ligne.querySelector(".prix").textContent);
+                const qte = parseInt(ligne.querySelector(".qte").value);
+                const total = prix * qte;
+                ligne.querySelector(".total").textContent = total.toFixed(2);
+                totalCommande += total;
+            });
+
+            document.getElementById("commande").textContent = totalCommande.toFixed(2);
+        }
+
+        // Fonction pour gérer les boutons + et −
+        function gererBoutons() {
+            document.querySelectorAll(".plus").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const input = btn.parentElement.querySelector(".qte");
+                    input.value = parseInt(input.value) + 1;
+                    calculerTotal();
+                });
+            });
+
+            document.querySelectorAll(".moins").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const input = btn.parentElement.querySelector(".qte");
+                    if (parseInt(input.value) > 1) {
+                        input.value = parseInt(input.value) - 1;
+                        calculerTotal();
+                    }
+                });
+            });
+        }
+
+        // Initialisation
+        calculerTotal();
+        gererBoutons();
+        document.querySelectorAll(".qte").forEach(input => {
+            input.addEventListener("change", calculerTotal);
+        });
+    </script>
+{% endblock %}
