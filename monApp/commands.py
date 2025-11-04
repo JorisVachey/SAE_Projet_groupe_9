@@ -18,35 +18,20 @@ def loaddb(file):
         click.echo("Le fichier data.yaml est introuvable.")
         return
 
-    click.echo("Insertion des restauratrices...")
-    for r in data.get("restauratrices", []):
-        m = sha256()
-        m.update(r["mdp"].encode())
-        hashed_passwd = m.hexdigest()
-
-        rest = Restauratrice(
-            idRest=r["idRest"],
-            nomRest=r["nomRest"],
-            prenomRest=r["prenomRest"],
-            numtelRest=r["numtelRest"],
-            mdp=hashed_passwd
+    click.echo("Insertion des utilisateurs...")
+    for u in data.get("users", []):
+        user = User(
+            idUser=u["idUser"],
+            numtelUser=u["numtelUser"],
+            pseudonyme=u["pseudonyme"],
+            mdp=u["mdp"],
+            est_banni=u["est_banni"],
+            pts_fidelite=u.get("pts_fidelite", 0),
+            est_admin=u.get("est_admin", False)
         )
-        db.session.add(rest)
+        db.session.add(user)
+    db.session.commit()
 
-    click.echo("Insertion des clients...")
-    for c in data.get("clients", []):
-        m = sha256()
-        m.update(c["mdp"].encode())
-        hashed_passwd = m.hexdigest()
-
-        cli = Client(
-            numtelCli=c["numtelCli"],
-            pseudonyme=c["pseudonyme"],
-            mdp=hashed_passwd,
-            est_banni=c["est_banni"],
-            pts_fidelite=c["pts_fidelite"]
-        )
-        db.session.add(cli)
 
     click.echo("Insertion des types de plats...")
     for t in data.get("type_plats", []):
@@ -73,6 +58,23 @@ def loaddb(file):
         )
         db.session.add(plat)
 
+    click.echo("Insertion des restrictions...")
+    for r in data.get("restrictions", []):
+        restriction = Restriction(
+            nomA=r["nomA"]
+        )
+        db.session.add(restriction)
+    db.session.commit()
+
+    click.echo("Insertion des associations plat <-> restrictions...")
+    for ca in data.get("contenir_R", []):
+        contenir_a = ContenirR(
+            idP=ca["idP"],
+            nomA=ca["nomA"]
+        )
+        db.session.add(contenir_a)
+    db.session.commit()
+
     click.echo("Insertion des formules...")
     for f in data.get("formules", []):
         form = Formule(
@@ -82,7 +84,7 @@ def loaddb(file):
         )
         db.session.add(form)
 
-    db.session.commit()  #on fait un commit pour eviter les erreurs de clé etrangere 
+    db.session.commit()  #on fait un commit pour eviter les erreurs de clé etrangere
 
     click.echo("Insertion des compositions de formules...")
     for c in data.get("composer", []):
@@ -93,14 +95,14 @@ def loaddb(file):
         )
         db.session.add(comp)
 
-    db.session.commit() 
+    db.session.commit()
 
     click.echo("Insertion des réservations...")
     for r in data.get("reservations", []):
         date_r = datetime.strptime(r["dateR"], "%Y-%m-%d").date()
         resa = Reservation(
             idR=r["idR"],
-            numtelCli=r["numtelCli"],
+            numtelUser=r["numtelUser"],
             dateR=date_r,
             nb_couverts=r["nb_couverts"],
             sur_place=r["sur_place"],

@@ -11,13 +11,13 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_registered_user(self):
-        user = Client.query.get(self.numtel.data)
+        user = User.query.get(self.numtel.data)
         if user is not None:
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        newClient = Client(numtelCli=self.numtel.data, pseudonyme=self.pseudonyme.data, mdp=passwd)
+        newClient = User(numtelCli=self.numtel.data, pseudonyme=self.pseudonyme.data, mdp=passwd)
         return newClient
 
 class LoginForm(FlaskForm):
@@ -25,9 +25,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_authenticated_user(self):
-        user = Client.query.get(self.numtel.data)
+        user = User.query.get(self.numtel.data)
         if not user:
-            user = Restauratrice.query.filter_by(numtelRest=self.numtel.data).first()
+            user = User.query.filter_by(numtelRest=self.numtel.data).first()
         if not user:
             return None
         m = sha256()
