@@ -45,6 +45,7 @@
     </main>
 
     <!-- Pied de page -->
+     {% block footer %}
     <footer>
         <article class="footer1">
             <p>Oumami<br> 
@@ -65,5 +66,6 @@
             <a href="https://www.facebook.com/p/Oumami-100039524718080/?locale=fr_FR"><img src="{{ url_for('static', filename='img/base/logo_facebook.png') }}" alt="logo facebook"></a>
         </article>
     </footer>
+    {%endblock%}
 </body>
 </html>
