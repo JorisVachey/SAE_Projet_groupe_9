@@ -12,16 +12,13 @@ class User(db.Model, UserMixin):
     pts_fidelite = db.Column(db.Integer, default=0)
     est_admin = db.Column(db.Boolean, default=False)
 
-    def __init__(self, numtelUser, pseudonyme, mdp, est_banni=False, pts_fidelite=0, est_admin=False, idUser=None):
-        self.idUser = idUser
+    def __init__(self, numtelUser, pseudonyme, mdp, est_banni=False, pts_fidelite=0, est_admin=False):
         self.numtelUser = numtelUser
         self.pseudonyme = pseudonyme
         self.mdp = mdp
         self.est_banni = est_banni
         self.pts_fidelite = pts_fidelite
         self.est_admin = est_admin
-        if idUser is not None:
-            self.idUser = idUser
 
     def __repr__(self):
         return f"<User(id={self.idUser}, pseudo={self.pseudonyme}, admin={self.est_admin})>"
