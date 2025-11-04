@@ -17,19 +17,29 @@
     <!-- Barre de navigation -->
     {% block navbar %}
     <header>
-        <nav>
+        <article>
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami"></a>
-            <ul>
-                <a href="{{ url_for('index') }}">Accueil</a>
-                <a href="{{ url_for('propos') }}">À Propos</a>
-                <a href="{{ url_for('menu') }}">Menu</a>
-                <a href="{{ url_for('contact') }}">Contact</a>
-                <a href="{{ url_for('nouvautes') }}">Nouveautés</a>
+            <button id="btn_hamburger"><img src="{{ url_for('static', filename='img/base/hamburger.png') }}" alt="icon hamburger"></button>
+        </article>
+        <nav>
+            <ul class="menu" id="menu">
+                <li><a href="{{ url_for('index') }}">Accueil</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('propos') }}">À Propos</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('nouvautes') }}">Nouveautés</a></li>
+                <div class="trait-horizontal"></div>
                 {% if current_user.is_authenticated %}
-                <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
-                {% else %}
-                <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a>
-                <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a>
+                    <li><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
+                {% else %} 
+                    <article>
+                        <li><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
+                        <li><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
+                    </article>
                 {% endif %}
             </ul>
         </nav>
@@ -63,5 +73,6 @@
             <a href="https://www.facebook.com/p/Oumami-100039524718080/?locale=fr_FR"><img src="{{ url_for('static', filename='img/base/logo_facebook.png') }}" alt="logo facebook"></a>
         </article>
     </footer>
+    <script src="{{ url_for('static', filename='js/responsive.js') }}"></script>
 </body>
 </html>
