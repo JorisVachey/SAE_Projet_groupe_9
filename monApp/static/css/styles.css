@@ -3,7 +3,10 @@ html, body {
     margin: 0;
 }
 
-body {
+main {
+    flex: 1;
+}
+:root {
   --bg-base:#FAF5E1;
   --gris: #666666;
   --orange-f: #E84D0E;
@@ -16,37 +19,36 @@ body {
   --btn:#95A57E;
   --gris-c:#E4E4E4;
   --tableau:#E4E4E4;
+
+}
+.dark {
+    --bg-base:#050A1E;
+    --gris: #999999;
+    --orange-f: #F5936B;
+    --orange-c: #E84D0E;
+    --texte: #FFFFFF;
+    --blanc-casser:#1B1B1B;
+    --blanc:#060B1C;
+    --case-produit:#E6E7E9;
+    --header:#E6E7E9;
+    --btn:#94A47D;
+    --gris-c:#666666;
+    --tableau:#B7B7B7;
+    background-color: var(--bg-base);
+}
+
+body{
     background-color: var(--bg-base);
     display: flex;
+    position: relative;
     flex-direction: column;
-}
-
-body.dark {
-  --bg-base:#050A1E;
-  --gris: #999999;
-  --orange-f: #F5936B;
-  --orange-c: #E84D0E;
-  --texte: #FFFFFF;
-  --blanc-casser:#1B1B1B;
-  --blanc:#060B1C;
-  --case-produit:#E6E7E9;
-  --header:#E6E7E9;
-  --btn:#94A47D;
-  --gris-c:#666666;
-  --tableau:#B7B7B7;
-    background-color: var(--bg-base);
-}
-
-main {
-    flex: 1;
-}
 
 /*css du header*/
 header {
     top: 0; 
     left: 0;
     position: fixed;
-    background-color: #E6E7E9;
+    background-color: var(--header);
     padding: 0.7em 0;
     z-index: 1000;
     width: 100%;
@@ -62,6 +64,12 @@ header img {
     width: 5em;
     height: auto;
 }
+#toggle-theme {
+    color: var(--texte);
+    padding: 0;
+    border: none;
+    size: 2em;
+}
 
 header nav ul {
     display: flex;
@@ -74,19 +82,29 @@ header nav ul {
 header nav a {
     margin-left: 2em;
     text-decoration: none;
-    color: #666666;;
+    color: var(--gris);
 }
 
-header .btn_inscription, .btn_connection, .btn_deconnection{
-    background-color: #95A57E;
+header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
+    background-color: var(--btn);
     border-radius: 10px;
     color: white;
     border: 1px solid black;
     padding: 0.2em 0.3em;
 }
 
-footer {
-    background-color: #E6E7E9;
+.titre_admin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-admin-accueil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}footer {
+    background-color: var(--header);
     display: flex;
     flex-direction: row;
     align-items: center;
