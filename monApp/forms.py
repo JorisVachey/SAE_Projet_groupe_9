@@ -13,6 +13,7 @@ class RegisterForm(FlaskForm):
     def get_registered_user(self):
         user = User.query.get(self.numtel.data)
         if user is not None:
+            print("Utilisateur inexistant")
             return None
         m = sha256()
         m.update(self.password.data.encode())
@@ -29,6 +30,7 @@ class LoginForm(FlaskForm):
         if not user:
             user = User.query.filter_by(numtelUser=self.numtel.data).first()
         if not user:
+            print("Utilisateur introuvable")
             return None
         m = sha256()
         m.update(self.password.data.encode())

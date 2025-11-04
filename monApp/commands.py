@@ -2,10 +2,34 @@ from .app import app, db
 from .models import *
 import yaml
 from flask.cli import with_appcontext
-import click
+import click, logging as lg
 from datetime import datetime
 from hashlib import sha256
 
+# fonction utilitaire
+def create_user(num_tel, pseudonyme, mdp, admin, est_bannie,pts_fidelite):
+    """
+    Créer un nouvel utilisateur
+    
+    Args:
+        num_tel (str): numéro de téléphone de l'utilisateur
+        pseudonyme (str): pseudo de l'utilisateur
+        mdp (str): mot de passe de l'utilisateur
+        admin (bool): True si l'utilisateur est administrateur, False sinon
+        est_bannie (bool): True si l'utilisateur est bannie, False sinon
+        pts_fidelite (int): les points de fidelite de l'utilisateur
+
+    Returns:
+        User: l'utilisateur crée
+    """
+    m = sha256()
+    m.update(mdp.encode())
+    unUser = User(num_tel, pseudonyme,m.hexdigest() , admin, est_bannie,pts_fidelite)
+    db.session.add(unUser)
+    db.session.commit()
+    return unUser 
+
+# partie commands flask
 @click.command("loaddb")
 @click.option("--file", default="monApp/data/data.yaml", help="Chemin du fichier YAML à charger")
 @with_appcontext
@@ -20,18 +44,14 @@ def loaddb(file):
 
     click.echo("Insertion des utilisateurs...")
     for u in data.get("users", []):
-        user = User(
-            idUser=u["idUser"],
-            numtelUser=u["numtelUser"],
-            pseudonyme=u["pseudonyme"],
-            mdp=u["mdp"],
-            est_banni=u["est_banni"],
-            pts_fidelite=u.get("pts_fidelite", 0),
-            est_admin=u.get("est_admin", False)
+        create_user(
+            u["numtelUser"],
+            u["pseudonyme"],
+            u["mdp"],
+            u["est_banni"],
+            u.get("pts_fidelite", 0),
+            u.get("est_admin", False)
         )
-        db.session.add(user)
-    db.session.commit()
-
 
     click.echo("Insertion des types de plats...")
     for t in data.get("type_plats", []):
@@ -137,3 +157,20 @@ def loaddb(file):
     click.echo("Base de données remplie avec succès !")
 
 app.cli.add_command(loaddb)
+
+@app.cli.command()
+@click.argument('num_tel')
+@click.argument('pseudonyme')
+@click.argument('pwd')
+@click.option("--admin", default=False, help="l'utilisateur est administrateur")
+@click.option("--est_bannie", default=False, help="Creer un nouvel utilisateur bannie")
+def newuser(num_tel, pseudonyme, pwd, admin, est_bannie,pts_fidelite):
+    """Créer un nouvel utilisateur via CLI"""
+    create_user(num_tel, pseudonyme, pwd, admin, est_bannie,pts_fidelite)
+    lg.warning('User ' + num_tel + ' created!')
+
+app.cli.add_command(newuser)
+
+
+
+
