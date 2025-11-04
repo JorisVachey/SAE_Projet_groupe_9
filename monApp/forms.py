@@ -25,14 +25,14 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_authenticated_user(self):
-        user = User.query.get(self.numtel.data)
-        if not user:
-            user = User.query.filter_by(numtelUser=self.numtel.data).first()
+        user = User.query.filter_by(numtelUser=self.numtel.data).first()
         if not user:
             return None
+        print(user)
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
+        print(user.mdp, passwd)
         return user if passwd == user.mdp else None
 
 class SansCompteclientForm(FlaskForm):
