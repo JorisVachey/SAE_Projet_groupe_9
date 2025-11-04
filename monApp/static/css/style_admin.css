@@ -3,13 +3,21 @@ main{
     align-items: center;
     justify-content: center;
 }
-
-.actions{
+.page-admin-accueil{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 0; /* supprime margin:auto qui peut poser problème */
+}
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: line;
+}
+
+.titre_admin{
+    display: block;
 }
 
 .boutons_admin{
@@ -26,9 +34,10 @@ main{
     position: absolute;
     overflow: hidden;
     bottom: 0%;
-    right: 30%;
+    right: 40%;
     transform: scaleX(-1);
     transform-origin: center;
+    z-index: 10;
 }
 
 #bambou_coin{
@@ -59,4 +68,5 @@ header{
 
 footer{
     height: 15vh;
+    z-index: 20;
 }
