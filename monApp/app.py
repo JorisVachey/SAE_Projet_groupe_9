@@ -16,17 +16,14 @@ mail = Mail(app)
 
 
 from flask_login import LoginManager
-from monApp.models import Client, Restauratrice
+from monApp.models import User
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id.startswith("client-"):
+    if user_id.startswith("user-"):
         numtel = user_id.split("-", 1)[1]
-        return Client.query.get(numtel)
-    elif user_id.startswith("resto-"):
-        id_restauratrice = user_id.split("-", 1)[1]
-        return Restauratrice.query.get(id_restauratrice)
+        return User.query.get(numtel)
     return None

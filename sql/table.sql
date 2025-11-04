@@ -1,33 +1,25 @@
-create table RESTAURATRICE (
-    idRest int,
-    nomRest varchar(50),
-    prenomRest varchar(50),
-    numtelRest varchar(50),
-    mdp varchar(500),
-    PRIMARY KEY (idRest)
-);
-
-create table CLIENT (
-    numtelCli varchar(50),
+create table USER (
+    idUser int,
+    numtelUser varchar(50) unique,
     pseudonyme varchar(50),
     mdp varchar(500),
     est_banni boolean,
     pts_fidelite int,
-    PRIMARY KEY (numtelCli)
-
+    est_admin boolean,
+    PRIMARY KEY (idUser)
 );
 
 create table RESERVATION (
     idR int,
-    numtelCli varchar(50),
+    numtelUser varchar(50),
     dateR date,
     nb_couverts int,
     sur_place boolean,
     statut varchar(50),
-    PRIMARY KEY (idR,numtelCli)
+    PRIMARY KEY (idR,numtelUser)
 );
 
-ALTER TABLE RESERVATION ADD FOREIGN KEY (numtelCli) REFERENCES CLIENT(numtelCli);
+ALTER TABLE RESERVATION ADD FOREIGN KEY (numtelUser) REFERENCES USER(numtelUser);
 
 create table FORMULE (
     idF int,
@@ -87,4 +79,19 @@ create table CONTENIR_P (
 
 ALTER TABLE CONTENIR_P ADD FOREIGN KEY (idR) REFERENCES RESERVATION (idR);
 ALTER TABLE CONTENIR_P ADD FOREIGN KEY (idP) REFERENCES PLAT (idP);
+
+create table RESTRICTION (
+    nomA varchar(50),
+    PRIMARY KEY (nomA)
+);
+
+create table CONTENIR_R (
+    idP int,
+    nomA varchar(50),
+    PRIMARY KEY (idP,nomA)
+);
+
+ALTER TABLE CONTENIR_R ADD FOREIGN KEY (idP) REFERENCES PLAT (idP);
+ALTER TABLE CONTENIR_R ADD FOREIGN KEY (nomA) REFERENCES RESTRICTION (nomA);
+
 
