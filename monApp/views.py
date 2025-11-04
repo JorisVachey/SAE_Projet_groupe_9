@@ -1,6 +1,6 @@
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash
-from monApp.models import db,Client, Restauratrice, Type_plat, Plat
+from monApp.models import db,User, Type_plat, Plat
 from flask_login import login_user, logout_user, login_required
 from flask_mail import Mail,Message
 import os
@@ -88,10 +88,10 @@ def connection() :
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
-            if isinstance(unUser, Client):
-                return redirect(url_for('index'))
-            if isinstance(unUser, Restauratrice):
+            if unUser.est_admin:
                 return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('index'))
     return render_template("connection.html", form=connection_form)
 
 @app.route('/deconnection/')

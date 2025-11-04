@@ -508,6 +508,167 @@ plats:
     descriptionP: "Plateau complet pour événements, sur demande."
     cheminImg: "img/imgP/image50.png"
 
+restrictions:
+  - nomA: "végétarien"
+  - nomA: "vegan"
+  - nomA: "sans gluten"
+  - nomA: "sans lactose"
+  - nomA: "sans arachide"
+  - nomA: "sans fruits de mer"
+  - nomA: "sans porc"
+  - nomA: "aucune"
+
+contenir_R:
+  - idP: 1
+    nomA: "végétarien"
+  - idP: 1
+    nomA: "sans porc"
+  - idP: 2
+    nomA: "aucune"
+  - idP: 3
+    nomA: "végétarien"
+  - idP: 3
+    nomA: "sans gluten"
+  - idP: 4
+    nomA: "sans gluten"
+  - idP: 5
+    nomA: "aucune"
+  - idP: 6
+    nomA: "végétarien"
+  - idP: 6
+    nomA: "sans gluten"
+  - idP: 7
+    nomA: "sans gluten"
+  - idP: 7
+    nomA: "sans porc"
+  - idP: 8
+    nomA: "sans gluten"
+  - idP: 8
+    nomA: "sans lactose"
+  - idP: 9
+    nomA: "végétarien"
+  - idP: 9
+    nomA: "sans arachide"
+  - idP: 10
+    nomA: "sans gluten"
+  - idP: 11
+    nomA: "sans gluten"
+  - idP: 11
+    nomA: "sans porc"
+  - idP: 12
+    nomA: "sans gluten"
+  - idP: 13
+    nomA: "aucune"
+  - idP: 14
+    nomA: "végétarien"
+  - idP: 14
+    nomA: "sans porc"
+  - idP: 15
+    nomA: "végétarien"
+  - idP: 16
+    nomA: "sans gluten"
+  - idP: 17
+    nomA: "sans gluten"
+  - idP: 18
+    nomA: "sans gluten"
+  - idP: 18
+    nomA: "sans lactose"
+  - idP: 19
+    nomA: "vegan"
+  - idP: 19
+    nomA: "sans gluten"
+  - idP: 20
+    nomA: "sans gluten"
+  - idP: 20
+    nomA: "sans porc"
+  - idP: 21
+    nomA: "végétarien"
+  - idP: 21
+    nomA: "sans gluten"
+  - idP: 22
+    nomA: "végétarien"
+  - idP: 23
+    nomA: "vegan"
+  - idP: 23
+    nomA: "sans gluten"
+  - idP: 24
+    nomA: "sans porc"
+  - idP: 25
+    nomA: "sans gluten"
+  - idP: 25
+    nomA: "sans lactose"
+  - idP: 26
+    nomA: "végétarien"
+  - idP: 26
+    nomA: "vegan"
+  - idP: 27
+    nomA: "végétarien"
+  - idP: 28
+    nomA: "sans gluten"
+  - idP: 29
+    nomA: "sans gluten"
+  - idP: 30
+    nomA: "aucune"
+  - idP: 31
+    nomA: "végétarien"
+  - idP: 31
+    nomA: "sans arachide"
+  - idP: 32
+    nomA: "sans gluten"
+  - idP: 32
+    nomA: "sans lactose"
+  - idP: 33
+    nomA: "sans gluten"
+  - idP: 33
+    nomA: "sans porc"
+  - idP: 34
+    nomA: "vegan"
+  - idP: 34
+    nomA: "sans gluten"
+  - idP: 35
+    nomA: "sans gluten"
+  - idP: 36
+    nomA: "végétarien"
+  - idP: 37
+    nomA: "sans gluten"
+  - idP: 38
+    nomA: "sans gluten"
+  - idP: 39
+    nomA: "sans gluten"
+  - idP: 40
+    nomA: "végétarien"
+  - idP: 40
+    nomA: "sans arachide"
+  - idP: 41
+    nomA: "sans gluten"
+  - idP: 42
+    nomA: "végétarien"
+  - idP: 42
+    nomA: "vegan"
+  - idP: 43
+    nomA: "sans gluten"
+  - idP: 44
+    nomA: "aucune"
+  - idP: 45
+    nomA: "végétarien"
+  - idP: 45
+    nomA: "sans gluten"
+  - idP: 46
+    nomA: "aucune"
+  - idP: 47
+    nomA: "sans gluten"
+  - idP: 48
+    nomA: "sans gluten"
+  - idP: 48
+    nomA: "sans lactose"
+  - idP: 49
+    nomA: "végétarien"
+  - idP: 49
+    nomA: "sans gluten"
+  - idP: 50
+    nomA: "aucune"
+
+
 formules:
   - idF: 1
     nomF: "Menu Déjeuner"
@@ -565,49 +726,49 @@ composer:
 
 reservations:
   - idR: 1
-    numtelCli: "0601020304"
+    numtelUser: "0601020304"
     dateR: "2025-10-10"
     nb_couverts: 2
     sur_place: true
     statut: "confirmée"
   - idR: 2
-    numtelCli: "0607080910"
+    numtelUser: "0607080910"
     dateR: "2025-10-11"
     nb_couverts: 4
     sur_place: false
     statut: "en attente"
   - idR: 3
-    numtelCli: "0622334455"
+    numtelUser: "0622334455"
     dateR: "2025-10-12"
     nb_couverts: 3
     sur_place: true
     statut: "confirmée"
   - idR: 4
-    numtelCli: "0655443322"
+    numtelUser: "0655443322"
     dateR: "2025-10-13"
     nb_couverts: 1
     sur_place: true
     statut: "annulée"
   - idR: 5
-    numtelCli: "0612345678"
+    numtelUser: "0612345678"
     dateR: "2025-10-14"
     nb_couverts: 2
     sur_place: false
     statut: "confirmée"
   - idR: 6
-    numtelCli: "0699887766"
+    numtelUser: "0699887766"
     dateR: "2025-10-15"
     nb_couverts: 6
     sur_place: true
     statut: "en attente"
   - idR: 7
-    numtelCli: "0633445566"
+    numtelUser: "0633445566"
     dateR: "2025-10-16"
     nb_couverts: 3
     sur_place: true
     statut: "confirmée"
   - idR: 8
-    numtelCli: "0677889900"
+    numtelUser: "0677889900"
     dateR: "2025-10-17"
     nb_couverts: 5
     sur_place: false
