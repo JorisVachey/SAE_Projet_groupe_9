@@ -12,7 +12,7 @@ class RegisterForm(FlaskForm):
     
     def get_registered_user(self):
         user = User.query.get(self.numtel.data)
-        if user is not None:
+        if user:
             print("Utilisateur inexistant")
             return None
         m = sha256()
@@ -26,14 +26,14 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_authenticated_user(self):
-        user = User.query.get(self.numtel.data)
-        if not user:
-            user = User.query.filter_by(numtelUser=self.numtel.data).first()
-        if not user:
-            print("Utilisateur introuvable")
+        user = User.query.filter_by(numtelUser=self.numtel.data).first()
+        if user is None:
+            print("--Utilisateur introuvable--")
             return None
         m = sha256()
         m.update(self.password.data.encode())
+        print(m.hexdigest())
+        print(user.mdp)
         passwd = m.hexdigest()
         return user if passwd == user.mdp else None
 
