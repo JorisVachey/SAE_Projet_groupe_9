@@ -46,6 +46,7 @@
     </main>
 
     <!-- Pied de page -->
+     {% block footer %}
     <footer>
         <article class="footer1">
             <p>Oumami<br> 
@@ -67,5 +68,6 @@
         </article>
     </footer>
     <script src="{{ url_for('static', filename='js/bnt_theme.js') }}"></script>
+    {%endblock%}
 </body>
 </html>

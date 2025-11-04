@@ -75,10 +75,6 @@ def contact() :
 def nouvautes() :
     return "page nouvautes"
 
-@app.route('/admin/')
-def admin() :
-    return "page admin"
-
 @app.route('/connection/', methods=("GET","POST",))
 def connection() :
     from .forms import LoginForm
@@ -115,9 +111,21 @@ def inscription():
 @app.route('/admin/')
 def admin() :
     return render_template("admin.html")
-@app.route('/modif_plats/')
-def modif_plats() :
+@app.route('/admin/gestion_plats/')
+def gestion_plats() :
     return "page de modif des plats"
+@app.route('/admin/gestion_formules/')
+def gestion_formules():
+    return "page de gestion des formules"
+@app.route('/admin/gestion_cli/')
+def gestion_cli():
+    return "page de gestion des clients"
+@app.route('/admin/voir_comm/')
+def voir_comm():
+    return "page de visionnage des commandes"
+@app.route('/admin/gestion_compte/')
+def gestion_compte():
+    return "page de festion du compte admin"
     
 if __name__== "__main__" :
     app.run()
