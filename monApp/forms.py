@@ -30,11 +30,13 @@ class LoginForm(FlaskForm):
         if user is None:
             print("--Utilisateur introuvable--")
             return None
+        print(user)
         m = sha256()
         m.update(self.password.data.encode())
         print(m.hexdigest())
         print(user.mdp)
         passwd = m.hexdigest()
+        print(user.mdp, passwd)
         return user if passwd == user.mdp else None
 
 class SansCompteclientForm(FlaskForm):
