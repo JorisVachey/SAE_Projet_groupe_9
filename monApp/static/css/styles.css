@@ -40,9 +40,9 @@ main {
 body{
     background-color: var(--bg-base);
     display: flex;
+    position: relative;
     flex-direction: column;
 }
-
 /*css du header*/
 header {
     top: 0; 
@@ -68,7 +68,10 @@ header img {
     color: var(--texte);
     padding: 0;
     border: none;
-    size: 2em;
+}
+
+#toggle-theme img {
+    width: 2em;
 }
 
 header nav ul {
@@ -85,7 +88,7 @@ header nav a {
     color: var(--gris);
 }
 
-header .btn_inscription, .btn_connection, .btn_deconnection{
+header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
     background-color: var(--btn);
     border-radius: 10px;
     color: white;
@@ -93,7 +96,17 @@ header .btn_inscription, .btn_connection, .btn_deconnection{
     padding: 0.2em 0.3em;
 }
 
-footer {
+.titre_admin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-admin-accueil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}footer {
     background-color: var(--header);
     display: flex;
     flex-direction: row;
@@ -116,3 +129,16 @@ footer article p {
 footer article img {
     margin-left: 1.2em;
 }
+
+.titre_admin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-admin-accueil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
