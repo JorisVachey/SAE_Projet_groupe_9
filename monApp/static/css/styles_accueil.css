@@ -141,41 +141,6 @@
     --header-height: 13dvh;
 }
 
-/* Téléphone */
-@media screen and (max-width: 600px) {
-
-    .bienvenue img {
-        display: none;
-    }
-
-    .collage_image {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        margin: 0;
-        padding: 0;
-        height: calc(100dvh - var(--header-height) + 0.3em);
-    }
-
-    .collage {
-        width: 100%;
-        object-fit: cover;
-        display: block;
-        margin: 0;
-        padding: 0;
-    }
-
-    .cercle {
-        width: 10em;
-        height: 10em;
-    }
-
-    .fait_maison {
-        width: 27em;
-        height: auto;
-    }
-}
-
 /* === STYLE === */
 
 body {
@@ -243,6 +208,10 @@ body.dark {
     border-radius: 70%;
 }
 
+.plats_titre .trait-horizontal {
+    background-color: var(--gris);
+}
+
 .plateau_repas,
 .plat_emporter {
     transition: 0.3s;
@@ -273,4 +242,87 @@ body.dark {
 
 .plats_titre h3 {
     color: var(--gris);
+}
+
+/* Téléphone */
+@media screen and (max-width: 600px) {
+
+    .bienvenue img {
+        display: none;
+    }
+
+    .collage_image {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 0;
+        padding: 0;
+        height: calc(100dvh - var(--header-height) + 0.3em);
+    }
+
+    .collage {
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    .cercle {
+        width: 10em;
+        height: 10em;
+    }
+
+    .fait_maison {
+        width: 27em;
+        height: auto;
+    }
+
+    .bienvenue h3 {
+        font-size: 1em;
+    }
+
+    .bienvenue h1 {
+        font-size: 4em;
+    }
+
+    .offre_titre h3,
+    .plats_titre h3 {
+        font-size: 1em;
+    }
+
+    .offre_titre .trait-horizontal {
+        width: 19.7em;
+    }
+
+    .offre_description {
+        flex-direction: column;
+    }
+
+    .offre_description h1 {
+        font-size: 1.5em;
+    }   
+
+    .offre_description .trait-horizontal {
+        width: 18em;
+    }
+
+    .offre_description p {
+        font-size: 0.9em;
+        margin-left: 0.8em;
+    }
+
+    .plats_titre .trait-horizontal {
+        width: 14.3em;
+    }
+
+    .un_type_plat {
+        flex-direction: column;
+        flex-basis: 30%;
+    }
+
+    .un_type_plat img {
+        width: 15em;
+        height: auto;
+    }
 }

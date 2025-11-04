@@ -155,6 +155,7 @@ footer article img {
     header button img {
         width: 3.5em;
         height: auto;
+        transition: opacity 0.5s ease;
     }
 
     header li a {
@@ -199,5 +200,10 @@ footer article img {
         height: 1px;
         width: 17em;
         background-color: var(--texte);
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 2em;
     }
 }
