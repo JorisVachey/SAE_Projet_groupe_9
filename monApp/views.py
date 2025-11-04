@@ -1,9 +1,24 @@
 from .app import app, db, mail
-from flask import render_template, redirect, url_for,request,flash
+from flask import render_template, redirect, url_for,request,flash, abort
 from monApp.models import db,Client, Restauratrice, Type_plat, Plat
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Mail,Message
 import os
+from functools import wraps
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Vérifie si le user est connecté
+        if not current_user.is_authenticated:
+            flash("Veuillez vous connecter pour accéder à cette page.", "warning")
+            return redirect(url_for('connection'))
+        # Vérifie si l user est l'admin
+        if not isinstance(current_user, Restauratrice):
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/')
@@ -107,23 +122,34 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 @app.route('/admin/')
-def admin() :
+@admin_required
+def admin():
     return render_template("admin.html")
+
 @app.route('/admin/gestion_plats/')
-def gestion_plats() :
+@admin_required
+def gestion_plats():
     return "page de modif des plats"
+
 @app.route('/admin/gestion_formules/')
+@admin_required
 def gestion_formules():
     return "page de gestion des formules"
+
 @app.route('/admin/gestion_cli/')
+@admin_required
 def gestion_cli():
     return "page de gestion des clients"
+
 @app.route('/admin/voir_comm/')
+@admin_required
 def voir_comm():
     return "page de visionnage des commandes"
+
 @app.route('/admin/gestion_compte/')
+@admin_required
 def gestion_compte():
-    return "page de festion du compte admin"
+    return "page de gestion du compte admin"
     
 if __name__== "__main__" :
     app.run()
