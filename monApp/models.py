@@ -1,18 +1,18 @@
 from .app import db
 from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "USER"
 
     idUser = db.Column(db.Integer, primary_key=True)
     numtelUser = db.Column(db.String(50), unique=True)
     pseudonyme = db.Column(db.String(50))
     mdp = db.Column(db.String(500))
-    est_banni = db.Column(db.Boolean)
+    est_banni = db.Column(db.Boolean, default=False)
     pts_fidelite = db.Column(db.Integer, default=0)
     est_admin = db.Column(db.Boolean, default=False)
 
-    def __init__(self, idUser, numtelUser, pseudonyme, mdp, est_banni, pts_fidelite=0, est_admin=False):
+    def __init__(self, numtelUser, pseudonyme, mdp, est_banni=False, pts_fidelite=0, est_admin=False, idUser=None):
         self.idUser = idUser
         self.numtelUser = numtelUser
         self.pseudonyme = pseudonyme
@@ -20,6 +20,8 @@ class User(db.Model):
         self.est_banni = est_banni
         self.pts_fidelite = pts_fidelite
         self.est_admin = est_admin
+        if idUser is not None:
+            self.idUser = idUser
 
     def __repr__(self):
         return f"<User(id={self.idUser}, pseudo={self.pseudonyme}, admin={self.est_admin})>"
