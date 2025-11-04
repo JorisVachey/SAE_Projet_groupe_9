@@ -15,7 +15,7 @@ def admin_required(f):
             flash("Veuillez vous connecter pour accéder à cette page.", "warning")
             return redirect(url_for('connection'))
         # Vérifie si l user est l'admin
-        if not current_user.est_admin:
+        if current_user.est_admin:
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
@@ -97,6 +97,7 @@ def connection() :
     unUser = None
     if connection_form.validate_on_submit():
         unUser = connection_form.get_authenticated_user()
+        print(unUser)
         if unUser:
             login_user(unUser)
             if unUser.est_admin:
