@@ -42,7 +42,7 @@ body{
     display: flex;
     position: relative;
     flex-direction: column;
-
+}
 /*css du header*/
 header {
     top: 0; 
@@ -68,7 +68,10 @@ header img {
     color: var(--texte);
     padding: 0;
     border: none;
-    size: 2em;
+}
+
+#toggle-theme img {
+    width: 2em;
 }
 
 header nav ul {
@@ -127,9 +130,15 @@ footer article img {
     margin-left: 1.2em;
 }
 
-footer {
-  position:static;
-  bottom: 0%;
-  left: 0%;
-  width: 100%;
+.titre_admin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.page-admin-accueil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
