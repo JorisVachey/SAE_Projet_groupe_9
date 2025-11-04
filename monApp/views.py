@@ -13,8 +13,9 @@ def index() :
     return render_template("index.html", TypeDePlats=lesTypeDePlats)
 
 @app.route('/propos/')
+@app.route('/propos')
 def propos() :
-    return "page a propos"
+    return render_template("apropos.html")
 
 @app.route('/menu/')
 def menu():

@@ -1,0 +1,123 @@
+article{
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 25em;
+    background-color: var(--gris);
+}
+h3{
+    color: #666666;
+    text-align: center;
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+
+section{
+  margin: 5em;
+}
+
+.premier {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 0;
+}
+
+.premier img {
+  position: absolute;
+  left: 0;
+  top: 9em;
+  transform: translateY(-50%);
+  height: 20em;
+  opacity: 0.9;
+}
+
+.premier article {
+  max-width: 500px;
+  text-align: center;
+}
+
+.contenu{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 0;
+}
+
+.deuxieme img {
+  position: absolute;
+  right: 0;
+  top: 100em;
+  transform: translateY(-50%);
+  height: 30em;
+  opacity: 0.9;
+}
+
+.horaire article{
+  text-align: center;
+}
+
+.horaire img{
+  margin: 5em;
+}
+
+.conges img {
+  position: absolute;
+  left: 0;
+  top: 168em;
+  transform: translateY(-50%);
+  height: 200px;
+  transform: rotate(180deg);
+  opacity: 0.9;
+}
+
+@media (max-width: 600px){
+  .contenu{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 0;
+  }
+  .contenu img{
+    width: 20em;
+  }
+  section{
+    margin: 2em;
+  }
+  .horaire img{
+    width: 20em;
+  }
+  .premier img{
+    position: absolute;
+    left: 0;
+    top: 9em;
+    transform: translateY(-50%);
+    height: 6em;
+    opacity: 0.9;
+  }
+  .deuxieme img{
+    position: absolute;
+    right: 0;
+    top: 100em;
+    transform: translateY(-50%);
+    height: 10em;
+    opacity: 0.6;
+  }
+  .conges img{
+    position: absolute;
+    left: 0;
+    top: 152em;
+    transform: translateY(-50%);
+    transform: rotate(180deg);
+    height: 6em;
+    opacity: 0.8;
+  }
+}
