@@ -86,7 +86,7 @@ plats:
     stock: 40
     stockInit: 50
     descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
-    cheminImg: "img/imgP/Image1.png"
+    cheminImg: "img/imgP/image1.png"
   - idP: 2
     nomP: "Lasagnes Bolognaises"
     idTp: 2
@@ -94,7 +94,7 @@ plats:
     stock: 35
     stockInit: 40
     descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
-    cheminImg: "img/imgP/Image2.png"
+    cheminImg: "img/imgP/image2.png"
   - idP: 3
     nomP: "Tiramisu"
     idTp: 5
@@ -102,7 +102,7 @@ plats:
     stock: 25
     stockInit: 30
     descriptionP: "Dessert italien au café et mascarpone."
-    cheminImg: "img/imgP/Image3.png"
+    cheminImg: "img/imgP/image3.png"
   - idP: 4
     nomP: "Soupe Pho"
     idTp: 2
@@ -110,7 +110,7 @@ plats:
     stock: 20
     stockInit: 25
     descriptionP: "Soupe vietnamienne parfumée au bœuf."
-    cheminImg: "img/imgP/Image4.png"
+    cheminImg: "img/imgP/image4.png"
   - idP: 5
     nomP: "Salade César"
     idTp: 3
@@ -118,7 +118,7 @@ plats:
     stock: 15
     stockInit: 20
     descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
-    cheminImg: "img/imgP/Image5.png"
+    cheminImg: "img/imgP/image5.png"
   - idP: 6
     nomP: "Cheesecake"
     idTp: 5
@@ -126,7 +126,7 @@ plats:
     stock: 18
     stockInit: 25
     descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
-    cheminImg: "img/imgP/Image6.png"
+    cheminImg: "img/imgP/image6.png"
   - idP: 7
     nomP: "Curry Thaï"
     idTp: 2
@@ -134,7 +134,7 @@ plats:
     stock: 28
     stockInit: 30
     descriptionP: "Poulet au lait de coco et curry rouge."
-    cheminImg: "img/imgP/Image7.png"
+    cheminImg: "img/imgP/image7.png"
   - idP: 8
     nomP: "Sushi Maki Mix"
     idTp: 4
@@ -142,7 +142,7 @@ plats:
     stock: 30
     stockInit: 35
     descriptionP: "Assortiment de makis, nigiris et sashimis frais."
-    cheminImg: "img/imgP/Image8.png"
+    cheminImg: "img/imgP/image8.png"
   - idP: 9
     nomP: "Brownie chocolat"
     idTp: 5
@@ -150,23 +150,335 @@ plats:
     stock: 22
     stockInit: 30
     descriptionP: "Fondant au chocolat noir et noix de pécan."
-    cheminImg: "img/imgP/Image9.png"
+    cheminImg: "img/imgP/image9.png"
   - idP: 10
-    nomP: "Brownie chocolat"
-    idTp: 5
-    prixP: 5.30
-    stock: 45
-    stockInit: 65
-    descriptionP: "Fondant au chocolat noir et noix de pécan."
-    cheminImg: "img/imgP/Image10.png"
+    nomP: "Bento Poulet Teriyaki"
+    idTp: 1
+    prixP: 13.00
+    stock: 25
+    stockInit: 30
+    descriptionP: "Formule complète avec riz, poulet teriyaki et légumes."
+    cheminImg: "img/imgP/image10.png"
   - idP: 11
-    nomP: "Brownie chocolat"
+    nomP: "Rouleaux de printemps"
+    idTp: 3
+    prixP: 7.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Frais et légers, garnis de crevettes et légumes croquants."
+    cheminImg: "img/imgP/image11.png"
+  - idP: 12
+    nomP: "Maki Saumon"
+    idTp: 4
+    prixP: 12.50
+    stock: 28
+    stockInit: 35
+    descriptionP: "Maki au saumon frais et riz vinaigré."
+    cheminImg: "img/imgP/image12.png"
+  - idP: 13
+    nomP: "Pâtes Carbonara"
+    idTp: 2
+    prixP: 11.50
+    stock: 30
+    stockInit: 35
+    descriptionP: "Pâtes à la sauce crémeuse, lardons et parmesan."
+    cheminImg: "img/imgP/image13.png"
+  - idP: 14
+    nomP: "Salade Grecque"
+    idTp: 3
+    prixP: 8.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Tomates, concombre, feta, olives et oignons rouges."
+    cheminImg: "img/imgP/image14.png"
+  - idP: 15
+    nomP: "Mochi Vanille"
     idTp: 5
-    prixP: 2.90
-    stock: 21
-    stockInit: 36
-    descriptionP: "Fondant au chocolat noir et noix de pécan."
-    cheminImg: "img/imgP/Image11.png"
+    prixP: 3.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Dessert japonais moelleux à la vanille."
+    cheminImg: "img/imgP/image15.png"
+  - idP: 16
+    nomP: "Brochette Poulet"
+    idTp: 2
+    prixP: 9.50
+    stock: 30
+    stockInit: 35
+    descriptionP: "Poulet mariné et grillé, servi avec sauce barbecue."
+    cheminImg: "img/imgP/image16.png"
+  - idP: 17
+    nomP: "Sushi Nigiri Thon"
+    idTp: 4
+    prixP: 14.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Nigiri frais au thon rouge."
+    cheminImg: "img/imgP/image17.png"
+  - idP: 18
+    nomP: "Bento Saumon Teriyaki"
+    idTp: 1
+    prixP: 14.50
+    stock: 22
+    stockInit: 25
+    descriptionP: "Riz, saumon teriyaki, légumes et salade."
+    cheminImg: "img/imgP/image18.png"
+  - idP: 19
+    nomP: "Soupe Miso"
+    idTp: 2
+    prixP: 5.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Soupe japonaise à base de miso et algues."
+    cheminImg: "img/imgP/image19.png"
+  - idP: 20
+    nomP: "Salade Niçoise"
+    idTp: 3
+    prixP: 9.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Thon, œuf, olives, haricots verts et pommes de terre."
+    cheminImg: "img/imgP/image20.png"
+  - idP: 21
+    nomP: "Maki Avocat"
+    idTp: 4
+    prixP: 11.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Maki végétarien avec avocat frais et riz vinaigré."
+    cheminImg: "img/imgP/image21.png"
+  - idP: 22
+    nomP: "Pizza Quattro Formaggi"
+    idTp: 2
+    prixP: 13.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Pizza généreuse avec 4 fromages fondants."
+    cheminImg: "img/imgP/image22.png"
+  - idP: 23
+    nomP: "Bento Veggie"
+    idTp: 1
+    prixP: 12.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Riz, légumes sautés, tofu et salade fraîche."
+    cheminImg: "img/imgP/image23.png"
+  - idP: 24
+    nomP: "Gyozas Poulet"
+    idTp: 2
+    prixP: 8.00
+    stock: 28
+    stockInit: 30
+    descriptionP: "Raviolis japonais fourrés au poulet et légumes."
+    cheminImg: "img/imgP/image24.png"
+  - idP: 25
+    nomP: "Salade Thaï"
+    idTp: 3
+    prixP: 9.00
+    stock: 18
+    stockInit: 20
+    descriptionP: "Salade épicée aux crevettes, carottes et menthe."
+    cheminImg: "img/imgP/image25.png"
+  - idP: 26
+    nomP: "Maki Concombre"
+    idTp: 4
+    prixP: 10.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Maki frais au concombre et riz vinaigré."
+    cheminImg: "img/imgP/image26.png"
+  - idP: 27
+    nomP: "Crêpe Nutella"
+    idTp: 5
+    prixP: 4.00
+    stock: 30
+    stockInit: 35
+    descriptionP: "Crêpe moelleuse garnie de Nutella."
+    cheminImg: "img/imgP/image27.png"
+  - idP: 28
+    nomP: "Poulet Rôti"
+    idTp: 2
+    prixP: 14.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Poulet rôti au four avec herbes de Provence."
+    cheminImg: "img/imgP/image28.png"
+  - idP: 29
+    nomP: "Sushi Saumon Avocat"
+    idTp: 4
+    prixP: 15.00
+    stock: 22
+    stockInit: 25
+    descriptionP: "Assortiment de nigiris et makis saumon-avocat."
+    cheminImg: "img/imgP/image29.png"
+  - idP: 30
+    nomP: "Formule Déjeuner"
+    idTp: 1
+    prixP: 16.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Entrée + plat + dessert à prix attractif."
+    cheminImg: "img/imgP/image30.png"
+  - idP: 31
+    nomP: "Brownie Caramel"
+    idTp: 5
+    prixP: 4.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Brownie au chocolat noir avec coulis caramel."
+    cheminImg: "img/imgP/image31.png"
+  - idP: 32
+    nomP: "Bento Saumon Avocat"
+    idTp: 1
+    prixP: 14.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Riz, saumon frais, avocat et légumes croquants."
+    cheminImg: "img/imgP/image32.png"
+  - idP: 33
+    nomP: "Soupe Tom Yum"
+    idTp: 2
+    prixP: 9.50
+    stock: 22
+    stockInit: 25
+    descriptionP: "Soupe thaïe épicée aux crevettes et citronnelle."
+    cheminImg: "img/imgP/image33.png"
+  - idP: 34
+    nomP: "Salade Quinoa"
+    idTp: 3
+    prixP: 9.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Quinoa, légumes croquants, graines et vinaigrette légère."
+    cheminImg: "img/imgP/image34.png"
+  - idP: 35
+    nomP: "Maki Crevette"
+    idTp: 4
+    prixP: 13.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Maki frais garni de crevettes et riz vinaigré."
+    cheminImg: "img/imgP/image35.png"
+  - idP: 36
+    nomP: "Panna Cotta"
+    idTp: 5
+    prixP: 5.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Dessert italien crémeux avec coulis de fruits rouges."
+    cheminImg: "img/imgP/image36.png"
+  - idP: 37
+    nomP: "Côte de porc"
+    idTp: 2
+    prixP: 15.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Côte de porc grillée avec sauce moutarde."
+    cheminImg: "img/imgP/image37.png"
+  - idP: 38
+    nomP: "Salade Avocat Poulet"
+    idTp: 3
+    prixP: 10.50
+    stock: 18
+    stockInit: 20
+    descriptionP: "Salade complète avec avocat, poulet et légumes frais."
+    cheminImg: "img/imgP/image38.png"
+  - idP: 39
+    nomP: "Formule Sushi"
+    idTp: 1
+    prixP: 18.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Assortiment de sushis pour une expérience complète."
+    cheminImg: "img/imgP/image39.png"
+  - idP: 40
+    nomP: "Tarte aux Pommes"
+    idTp: 5
+    prixP: 4.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Tarte maison avec pommes fraîches et pâte croustillante."
+    cheminImg: "img/imgP/image40.png"
+  - idP: 41
+    nomP: "Bento Poulet Curry"
+    idTp: 1
+    prixP: 13.50
+    stock: 22
+    stockInit: 25
+    descriptionP: "Riz, poulet curry et légumes."
+    cheminImg: "img/imgP/image41.png"
+  - idP: 42
+    nomP: "Gyozas Légumes"
+    idTp: 2
+    prixP: 7.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Raviolis japonais végétariens."
+    cheminImg: "img/imgP/image42.png"
+  - idP: 43
+    nomP: "Maki Thon Avocat"
+    idTp: 4
+    prixP: 14.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Maki frais au thon et avocat."
+    cheminImg: "img/imgP/image43.png"
+  - idP: 44
+    nomP: "Salade Poulet Fromage"
+    idTp: 3
+    prixP: 10.00
+    stock: 18
+    stockInit: 20
+    descriptionP: "Salade composée de poulet grillé, légumes et fromage."
+    cheminImg: "img/imgP/image44.png"
+  - idP: 45
+    nomP: "Crème Brûlée"
+    idTp: 5
+    prixP: 5.50
+    stock: 22
+    stockInit: 25
+    descriptionP: "Dessert classique à la vanille et caramel croquant."
+    cheminImg: "img/imgP/image45.png"
+  - idP: 46
+    nomP: "Formule Famille"
+    idTp: 1
+    prixP: 45.00
+    stock: 15
+    stockInit: 20
+    descriptionP: "Menu complet pour 4 personnes, entrée, plats et desserts."
+    cheminImg: "img/imgP/image46.png"
+  - idP: 47
+    nomP: "Poulet Ramen"
+    idTp: 2
+    prixP: 12.50
+    stock: 20
+    stockInit: 25
+    descriptionP: "Soupe ramen avec poulet, œuf et légumes."
+    cheminImg: "img/imgP/image47.png"
+  - idP: 48
+    nomP: "Sushi Mix Deluxe"
+    idTp: 4
+    prixP: 19.50
+    stock: 25
+    stockInit: 30
+    descriptionP: "Assortiment premium de sushis frais."
+    cheminImg: "img/imgP/image48.png"
+  - idP: 49
+    nomP: "Brownie Pistache"
+    idTp: 5
+    prixP: 5.00
+    stock: 20
+    stockInit: 25
+    descriptionP: "Brownie chocolat noir aux éclats de pistache."
+    cheminImg: "img/imgP/image49.png"
+  - idP: 50
+    nomP: "Plateau Sur Commande"
+    idTp: 6
+    prixP: 50.00
+    stock: 10
+    stockInit: 10
+    descriptionP: "Plateau complet pour événements, sur demande."
+    cheminImg: "img/imgP/image50.png"
 
 formules:
   - idF: 1

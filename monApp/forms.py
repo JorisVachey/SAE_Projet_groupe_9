@@ -6,7 +6,7 @@ from hashlib import sha256
 
 
 class RegisterForm(FlaskForm):
-    numtel = StringField('Numéro de téléphone', validators=[DataRequired()])
+    numtel = StringField('Numéro de téléphone', validators=[DataRequired(), Length(max=10)])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
@@ -21,7 +21,7 @@ class RegisterForm(FlaskForm):
         return newClient
 
 class LoginForm(FlaskForm):
-    numtel = StringField('Numéro de téléphone', validators=[DataRequired()])
+    numtel = StringField('Numéro de téléphone', validators=[DataRequired(), Length(max=10)])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_authenticated_user(self):

@@ -8,7 +8,7 @@ class Restauratrice(UserMixin, db.Model):
     nomRest = db.Column(db.String(50))
     prenomRest = db.Column(db.String(50))
     numtelRest = db.Column(db.String(50))
-    mdp = db.Column(db.String(50))
+    mdp = db.Column(db.String(500))
 
     def __init__(self, idRest, nomRest, prenomRest, numtelRest, mdp):
         self.idRest = idRest
