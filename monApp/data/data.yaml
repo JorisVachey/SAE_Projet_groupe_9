@@ -1,56 +1,84 @@
-restauratrices:
-  - idRest: 1
-    nomRest: "Martin"
-    prenomRest: "Julie"
-    numtelRest: "0678123456"
+users:
+  - idUser: 1
+    numtelUser: "0678123456"
+    pseudonyme: "JulieMartin"
     mdp: "admin123"
-  - idRest: 2
-    nomRest: "Lopez"
-    prenomRest: "Carlos"
-    numtelRest: "0666554433"
-    mdp: "tapas2025"
+    est_banni: false
+    pts_fidelite: null
+    est_admin: true
 
-clients:
-  - numtelCli: "0601020304"
+  - idUser: 2
+    numtelUser: "0666554433"
+    pseudonyme: "CarlosLopez"
+    mdp: "tapas2025"
+    est_banni: false
+    pts_fidelite: null
+    est_admin: true
+
+  - idUser: 3
+    numtelUser: "0601020304"
     pseudonyme: "AlexDu75"
     mdp: "p4ssword!"
     est_banni: false
     pts_fidelite: 25
-  - numtelCli: "0607080910"
+    est_admin: false
+
+  - idUser: 4
+    numtelUser: "0607080910"
     pseudonyme: "LilaRose"
     mdp: "rose123"
     est_banni: false
     pts_fidelite: 80
-  - numtelCli: "0622334455"
+    est_admin: false
+
+  - idUser: 5
+    numtelUser: "0622334455"
     pseudonyme: "BobLeGourmet"
     mdp: "123bob"
     est_banni: false
     pts_fidelite: 120
-  - numtelCli: "0655443322"
+    est_admin: false
+
+  - idUser: 6
+    numtelUser: "0655443322"
     pseudonyme: "Momo"
     mdp: "momo2024"
     est_banni: true
     pts_fidelite: 0
-  - numtelCli: "0612345678"
+    est_admin: false
+
+  - idUser: 7
+    numtelUser: "0612345678"
     pseudonyme: "SophieC"
     mdp: "s0phie"
     est_banni: false
     pts_fidelite: 55
-  - numtelCli: "0699887766"
+    est_admin: false
+
+  - idUser: 8
+    numtelUser: "0699887766"
     pseudonyme: "ChefFan"
     mdp: "cookit"
     est_banni: false
     pts_fidelite: 90
-  - numtelCli: "0633445566"
+    est_admin: false
+
+  - idUser: 9
+    numtelUser: "0633445566"
     pseudonyme: "JulienParis"
     mdp: "julien"
     est_banni: false
     pts_fidelite: 10
-  - numtelCli: "0677889900"
+    est_admin: false
+
+  - idUser: 10
+    numtelUser: "0677889900"
     pseudonyme: "EmmaFoodie"
     mdp: "eats123"
     est_banni: false
     pts_fidelite: 40
+    est_admin: false
+
 
 type_plats:
   - idTp: 1
