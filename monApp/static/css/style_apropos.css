@@ -87,6 +87,37 @@ section{
     padding: 60px 0;
   }
   .contenu img{
+    width: 20em;
+  }
+  section{
+    margin: 2em;
+  }
+  .horaire img{
+    width: 20em;
+  }
+  .premier img{
+    position: absolute;
+    left: 0;
+    top: 9em;
+    transform: translateY(-50%);
+    height: 6em;
+    opacity: 0.9;
+  }
+  .deuxieme img{
+    position: absolute;
+    right: 0;
+    top: 100em;
+    transform: translateY(-50%);
     height: 10em;
+    opacity: 0.6;
+  }
+  .conges img{
+    position: absolute;
+    left: 0;
+    top: 152em;
+    transform: translateY(-50%);
+    transform: rotate(180deg);
+    height: 6em;
+    opacity: 0.8;
   }
 }
