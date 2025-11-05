@@ -7,34 +7,25 @@ main {
     flex: 1;
 }
 :root {
-  --bg-base:#FAF5E1;
-  --gris: #666666;
-  --orange-f: #E84D0E;
-  --orange-c: #E84D0E;
-  --texte: #000000;
-  --blanc-casser:#E4E4E4;
-  --blanc:#FFFFFF;
-  --case-produit:#FFFFFF;
-  --header:#E6E7E9;
-  --btn:#95A57E;
-  --gris-c:#E4E4E4;
-  --tableau:#E4E4E4;
+    --header:#E6E7E9;
+    --text-gris: #666666;
+    --noir-blanc:#000000;
+    --orange: #E84D0E;
+    --ombre-noir-blanc: #000000;
+    --bg-base:#FAF5E1;
+    --btn:#95A57E;
+    --tableau:#E4E4E4;
 
 }
 .dark {
-    --bg-base:#050A1E;
-    --gris: #999999;
-    --orange-f: #F5936B;
-    --orange-c: #E84D0E;
-    --texte: #FFFFFF;
-    --blanc-casser:#1B1B1B;
-    --blanc:#060B1C;
-    --case-produit:#E6E7E9;
     --header:#E6E7E9;
-    --btn:#94A47D;
-    --gris-c:#666666;
+    --text-gris:#999999;
+    --noir-blanc:#FFFFFF;
+    --orange: #e0602d;
+    --ombre-noir-blanc: #FFFFFF;
+    --bg-base:#050A1E;
+    --btn:#95A57E;
     --tableau:#B7B7B7;
-    background-color: var(--bg-base);
 }
 
 body{
@@ -45,6 +36,10 @@ body{
 }
 /*css du header*/
 header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     top: 0; 
     left: 0;
     position: fixed;
@@ -53,6 +48,12 @@ header {
     z-index: 1000;
     width: 100%;
     box-shadow: 0px 3px 20px black;
+}
+
+header article {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header nav {
@@ -68,6 +69,7 @@ header img {
     color: var(--texte);
     padding: 0;
     border: none;
+    background-color: transparent;
 }
 
 #toggle-theme img {
@@ -82,32 +84,34 @@ header nav ul {
     margin-bottom: 0;
 }
 
+header li {
+    list-style-type: none;
+}
+
 header nav a {
     margin-left: 2em;
     text-decoration: none;
-    color: var(--gris);
+    color: #000000;
 }
 
 header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
     background-color: var(--btn);
     border-radius: 10px;
-    color: white;
+    color: #FFFFFF;
     border: 1px solid black;
     padding: 0.2em 0.3em;
 }
 
-.titre_admin{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+header article button {
+    display: none;
 }
 
-.page-admin-accueil{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}footer {
-    background-color: var(--header);
+header .trait-horizontal {
+    display: none;
+}
+
+footer {
+    background-color: #E6E7E9;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -130,15 +134,86 @@ footer article img {
     margin-left: 1.2em;
 }
 
-.titre_admin{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+@media screen and (max-width: 600px) {
 
-.page-admin-accueil{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    body {
+        background-color: var(--header);
+    }
+     main {
+        background-color: var(--bg-base);
+     }
 
+    header {
+        position: relative;
+        
+    }
+
+    header>article {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    header img {
+        margin-left: 1em;
+    }
+
+    header article button {
+        display:block;
+        margin-right: 1em;
+        border: none;
+    }
+
+    header button img {
+        width: 2.5em;
+        height: auto;
+        transition: opacity 0.5s ease;
+    }
+
+    header li a {
+        margin-left: 0;
+        color: #000000;
+    }
+
+    .menu {
+        flex-direction: column;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: var(--header);
+        z-index: 999;
+        margin: 0;
+        padding: 0;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+    }
+
+    .menu li {
+        margin-bottom: 0.7em;
+    }
+
+    .menu.active {
+        max-height: 500px;
+        opacity: 1;
+    }
+
+    .menu article {
+        display: flex;
+        gap: 0.5em;
+        margin-top: 0.7em;
+    }
+
+    .menu .trait-horizontal {
+        display: block;
+        height: 1px;
+        width: 17em;
+        background-color: #000000;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 2em;
+    }
+}
