@@ -1,58 +1,38 @@
 from .app import db
 from flask_login import UserMixin
 
-class Restauratrice(UserMixin, db.Model):
-    __tablename__ = "RESTAURATRICE"
+class User(db.Model):
+    __tablename__ = "USER"
 
-    idRest = db.Column(db.Integer, primary_key=True)
-    nomRest = db.Column(db.String(50))
-    prenomRest = db.Column(db.String(50))
-    numtelRest = db.Column(db.String(50))
-    mdp = db.Column(db.String(500))
-
-    def __init__(self, idRest, nomRest, prenomRest, numtelRest, mdp):
-        self.idRest = idRest
-        self.nomRest = nomRest
-        self.prenomRest = prenomRest
-        self.numtelRest = numtelRest
-        self.mdp = mdp
-
-    def __repr__(self):
-        return f"<Restauratrice(id={self.idRest}, nom={self.nomRest}, prenom={self.prenomRest})>"
-    
-    def get_id(self):
-        return f"resto-{self.idRest}"
-
-class Client(UserMixin, db.Model):
-    __tablename__ = "CLIENT"
-
-    numtelCli = db.Column(db.String(50), primary_key=True)
+    idUser = db.Column(db.Integer, primary_key=True)
+    numtelUser = db.Column(db.String(50), unique=True)
     pseudonyme = db.Column(db.String(50))
     mdp = db.Column(db.String(500))
     est_banni = db.Column(db.Boolean)
-    pts_fidelite = db.Column(db.Integer)
+    pts_fidelite = db.Column(db.Integer, default=0)
+    est_admin = db.Column(db.Boolean, default=False)
 
-    reservations = db.relationship("Reservation", backref="client")
-
-    def __init__(self, numtelCli, pseudonyme, mdp, est_banni=False, pts_fidelite=0):
-        self.numtelCli = numtelCli
+    def __init__(self, idUser, numtelUser, pseudonyme, mdp, est_banni, pts_fidelite=0, est_admin=False):
+        self.idUser = idUser
+        self.numtelUser = numtelUser
         self.pseudonyme = pseudonyme
         self.mdp = mdp
         self.est_banni = est_banni
         self.pts_fidelite = pts_fidelite
+        self.est_admin = est_admin
 
     def __repr__(self):
-        return f"<Client(numtel={self.numtelCli}, pseudo={self.pseudonyme})>"
-    
+        return f"<User(id={self.idUser}, pseudo={self.pseudonyme}, admin={self.est_admin})>"
+
     def get_id(self):
-        return f"client-{self.numtelCli}"
+        return f"user-{self.numtelUser}"
 
 
 class Reservation(db.Model):
     __tablename__ = "RESERVATION"
 
     idR = db.Column(db.Integer, primary_key=True)
-    numtelCli = db.Column(db.String(50), db.ForeignKey("CLIENT.numtelCli"))
+    numtelUser = db.Column(db.String(50), db.ForeignKey("USER.numtelUser"))
     dateR = db.Column(db.Date)
     nb_couverts = db.Column(db.Integer)
     sur_place = db.Column(db.Boolean)
@@ -61,16 +41,16 @@ class Reservation(db.Model):
     formules = db.relationship("ContenirF", backref="reservation")
     plats = db.relationship("ContenirP", backref="reservation")
 
-    def __init__(self, idR, numtelCli, dateR, nb_couverts, sur_place, statut):
+    def __init__(self, idR, numtelUser, dateR, nb_couverts, sur_place, statut):
         self.idR = idR
-        self.numtelCli = numtelCli
+        self.numtelUser = numtelUser
         self.dateR = dateR
         self.nb_couverts = nb_couverts
         self.sur_place = sur_place
         self.statut = statut
 
     def __repr__(self):
-        return f"<Reservation(id={self.idR}, client={self.numtelCli}, date={self.dateR})>"
+        return f"<Reservation(id={self.idR}, user={self.numtelUser}, date={self.dateR})>"
 
 class Formule(db.Model):
     __tablename__ = "FORMULE"
@@ -134,6 +114,34 @@ class Plat(db.Model):
 
     def __repr__(self):
         return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
+
+
+class Restriction(db.Model):
+    __tablename__ = "RESTRICTION"
+
+    nomA = db.Column(db.String(50), primary_key=True)
+
+    plats = db.relationship("ContenirR", backref="restriction")
+
+    def __init__(self, nomA):
+        self.nomA = nomA
+
+    def __repr__(self):
+        return f"<Restriction(nom={self.nomA})>"
+
+
+class ContenirR(db.Model):
+    __tablename__ = "CONTENIR_R"
+
+    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    nomA = db.Column(db.String(50), db.ForeignKey("RESTRICTION.nomA"), primary_key=True)
+
+    def __init__(self, idP, nomA):
+        self.idP = idP
+        self.nomA = nomA
+
+    def __repr__(self):
+        return f"<ContenirR(plat={self.idP}, restriction={self.nomA})>"
 
 
 class Composer(db.Model):
