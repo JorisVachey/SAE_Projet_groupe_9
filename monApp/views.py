@@ -127,20 +127,20 @@ def inscription():
     return render_template("inscription.html", form=inscription_form)
 
 @login_required
-def get_or_create_panier(numtelUser):
+def get_or_create_panier(idUser):
     """créé ou recupere la panier en cour
 
     Args:
-        numtelUser (_type_): _description_
+        idUser (_type_): _description_
 
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(numtelUser=numtelUser, statut="en attente").first()
+    panier = Reservation.query.filter_by(idUser=idUser, statut="en attente").first()
     if not panier:
         panier = Reservation(
             idR=None,
-            numtelUser=numtelUser,
+            idUser=idUser,
             dateR=None,
             nb_couverts=1,
             sur_place=False,
@@ -153,8 +153,8 @@ def get_or_create_panier(numtelUser):
 @login_required
 @app.route('/panier/')
 def afficher_panier():
-    numtel = current_user.numtelUser
-    panier = get_or_create_panier(numtel)
+    idU = current_user.idUser
+    panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
     return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules)
@@ -165,7 +165,7 @@ def afficher_panier():
 def ajouter_plat(idP):
     """ajoute un plat depuis le menu, créé un panier si il n'y en a pas
     """
-    reservation = get_or_create_panier(current_user.numtelUser)
+    reservation = get_or_create_panier(current_user.idUser)
     plat = Plat.query.get(idP)
     if not plat:
         flash("Ce plat n’existe pas.", "error")
@@ -192,7 +192,7 @@ def ajouter_formule(idF):
     Returns:
         _type_: _description_
     """
-    reservation = get_or_create_panier(current_user.numtelUser)
+    reservation = get_or_create_panier(current_user.idUser)
     formule = Formule.query.get(idF)
     if not formule:
         flash("Cette formule n’existe pas.", "error")
@@ -221,7 +221,7 @@ def modifier_quantite_plat(idP, action):
         _type_: _description_
     """
     reservation = Reservation.query.filter_by(
-        numtelUser=current_user.numtelUser, statut="en attente"
+        idUser=current_user.idUser, statut="en attente"
     ).first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
@@ -265,7 +265,7 @@ def modifier_quantite_formule(idF, action):
         _type_: _description_
     """
     reservation = Reservation.query.filter_by(
-        numtelUser=current_user.numtelUser, statut="en attente"
+        idUser=current_user.idUser, statut="en attente"
     ).first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
@@ -309,7 +309,7 @@ def valider_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(numtelUser=current_user.numtelUser, statut="panier").first()
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
     for cp in panier.plats:
         cp.plat.stock -= cp.quantiteP
     for cf in panier.formules:
