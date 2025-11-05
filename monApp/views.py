@@ -111,21 +111,6 @@ def deconnection() :
     logout_user()
     return redirect(url_for('index'))
 
-@login_required
-def get_or_create_panier(numtelUser):
-    panier = Reservation.query.filter_by(numtelUser=numtelUser, statut="panier").first()
-    if not panier:
-        panier = Reservation(
-            idR=None,
-            numtelUser=numtelUser,
-            dateR=None,
-            nb_couverts=1,
-            sur_place=False,
-            statut="panier"
-        )
-        db.session.add(panier)
-        db.session.commit()
-    return panier
 
 
 @app.route('/inscription/', methods=("GET","POST",))
@@ -141,6 +126,29 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 
+@login_required
+def get_or_create_panier(numtelUser):
+    """créé ou recupere la panier en cour
+
+    Args:
+        numtelUser (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    panier = Reservation.query.filter_by(numtelUser=numtelUser, statut="en attente").first()
+    if not panier:
+        panier = Reservation(
+            idR=None,
+            numtelUser=numtelUser,
+            dateR=None,
+            nb_couverts=1,
+            sur_place=False,
+            statut="panier"
+        )
+        db.session.add(panier)
+        db.session.commit()
+    return panier
 
 @login_required
 @app.route('/panier/')
@@ -151,29 +159,13 @@ def afficher_panier():
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
     return render_template("panier.html", panier=panier, plats=plats, formules=formules)
 
+
 @login_required
-@app.route("/panier/ajouter-plat", methods=["POST"])
-def ajouter_panier(idP):
-    """créé un panier ou le recupere par rapport a l'utilisateur connecté
-
-    Args:
-        idP (_type_): _description_
-
-    Returns:
-        _type_: _description_
+@app.route("/ajouter_plat/<int:idP>", methods=["POST"])
+def ajouter_plat(idP):
+    """ajoute un plat depuis le menu, créé un panier si il n'y en a pas
     """
-    reservation = Reservation.query.filter_by(numtelUser=current_user.numtelUser, statut="en attente").first()
-    if not reservation:
-        reservation = Reservation(
-            idR=None,
-            numtelUser=current_user.numtelUser,
-            dateR=date.today(),
-            nb_couverts=1,
-            sur_place=False,
-            statut="en attente"
-        )
-        db.session.add(reservation)
-        db.session.commit()
+    reservation = get_or_create_panier(current_user.numtelUser)
     plat = Plat.query.get(idP)
     if not plat:
         flash("Ce plat n’existe pas.", "error")
@@ -186,24 +178,21 @@ def ajouter_panier(idP):
         db.session.add(item)
 
     db.session.commit()
-    flash(f"{plat.nomP} ajouté au panier !", "success")
+    flash(f"{plat.nomP} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
 
 @login_required
 @app.route("/ajouter_formule/<int:idF>", methods=["POST"])
 def ajouter_formule(idF):
-    reservation = Reservation.query.filter_by(numtelUser=current_user.numtelUser, statut="en attente").first()
-    if not reservation:
-        reservation = Reservation(
-            idR=None,
-            numtelUser=current_user.numtelUser,
-            dateR=date.today(),
-            nb_couverts=1,
-            sur_place=False,
-            statut="en attente"
-        )
-        db.session.add(reservation)
-        db.session.commit()
+    """ajoute une formule depuis le menu, créé la panier si besoin
+
+    Args:
+        idF (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    reservation = get_or_create_panier(current_user.numtelUser)
     formule = Formule.query.get(idF)
     if not formule:
         flash("Cette formule n’existe pas.", "error")
@@ -218,27 +207,6 @@ def ajouter_formule(idF):
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
-
-@app.route("/panier/modifier-plat", methods=["POST"])
-@login_required
-def modifier_plat():
-    data = request.get_json()
-    idP = int(data["idP"])
-    quantite = int(data["quantite"])
-
-    panier = get_or_create_panier(current_user.numtelUser)
-    cp = ContenirP.query.filter_by(idR=panier.idR, idP=idP).first()
-
-    if not cp:
-        return jsonify({"error": "Plat non présent dans le panier"}), 404
-
-    if quantite <= 0:
-        db.session.delete(cp)
-    else:
-        cp.quantiteP = quantite
-
-    db.session.commit()
-    return jsonify({"success": True})
 
 @login_required
 @app.route("/modifier_quantite_plat/<int:idP>/<action>", methods=["POST"])
