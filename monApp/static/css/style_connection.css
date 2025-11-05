@@ -38,3 +38,54 @@
 a.text-dark:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+  .container-fluid.vh-100 {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .row.g-0.h-100 {
+    height: auto;
+  }
+
+  .bg-image {
+    display: none;
+  }
+
+  .form-container {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0 1rem;
+    padding: 2rem 0;
+    z-index: 1;
+  }
+
+  .card-login {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 16px;
+  }
+
+  .input-field {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .card-login h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .card-login p.small {
+    margin-top: 1rem;
+  }
+}
