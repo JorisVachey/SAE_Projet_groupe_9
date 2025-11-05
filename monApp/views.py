@@ -320,6 +320,11 @@ def valider_panier():
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
 
+@login_required
+@app.route('/mesreservation/')
+def mes_reservations() :
+    return "page reservation client"
+
 @app.route('/admin/')
 @admin_required
 def admin():
