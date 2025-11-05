@@ -5,7 +5,7 @@ section{
     justify-content: center;
     text-align: center;
     margin-bottom: 2.5em;
-    color: var(--texte);
+    color: var(--noir-blanc);
 }
 
 section img{
@@ -22,13 +22,13 @@ section img{
 .trait-horizontal {
     height: 0.125em;
     width: 20em;
-    background-color: var(--gris);
+    background-color: var(--text-gris);
     margin-bottom: 0.5em;
 }
 
 .page-titre h2{
     text-align: center;
-    color: var(--gris);
+    color: var(--text-gris);
     font-size: 1.75rem;
     margin: 0.25em 0;
 }

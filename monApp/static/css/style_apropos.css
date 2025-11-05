@@ -1,24 +1,31 @@
-article{
-   display: flex;
+main article{
+  display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 }
 
-.trait-horizontal {
+.premier .trait-horizontal {
     height: 0.125em;
-    width: 25em;
-    background-color: var(--gris);
+    width: 19em;
+    background-color: var(--text-gris);
 }
-h3{
-    color: #666666;
-    text-align: center;
-    font-size: 1.8em;
-    margin: 10px 0;
+main h3{
+  color: var(--text-gris);
+  text-align: center;
+  font-size: 1.8em;
+  margin: 10px 0;
 }
 
-section{
-  margin: 5em;
+main p {
+  color: var(--noir-blanc);
+}
+
+main a {
+  color: var(--text-gris);
+  font-weight: bold;
+  text-decoration: none;
+  font-style: italic;
 }
 
 .premier {
@@ -27,12 +34,13 @@ section{
   justify-content: center;
   gap: 40px;
   padding: 60px 0;
+  margin-top: 8em;
 }
 
 .premier img {
   position: absolute;
   left: 0;
-  top: 9em;
+  top: 10em;
   transform: translateY(-50%);
   height: 20em;
   opacity: 0.9;
@@ -48,7 +56,8 @@ section{
   align-items: center;
   justify-content: center;
   gap: 40px;
-  padding: 60px 0;
+  padding: 50px 0;
+  margin: 0 6em;
 }
 
 .deuxieme img {
@@ -60,22 +69,51 @@ section{
   opacity: 0.9;
 }
 
+.txt {
+  margin: 2em 0;
+}
+
+.deuxieme .trait-horizontal {
+  height: 0.125em;
+  width: 17em;
+  background-color: var(--text-gris);
+}
+
 .horaire article{
   text-align: center;
 }
 
 .horaire img{
-  margin: 5em;
+  margin: 5em 0 2em 0;
+}
+
+.horaire .trait-horizontal {
+  height: 0.125em;
+  width: 26em;
+  background-color: var(--text-gris);
+}
+
+.conges {
+  position: relative;
+}
+
+.conges article {
+  padding-top: 1.5em;
 }
 
 .conges img {
   position: absolute;
+  bottom: 0;
   left: 0;
-  top: 168em;
-  transform: translateY(-50%);
   height: 200px;
   transform: rotate(180deg);
   opacity: 0.9;
+}
+
+.conges .trait-horizontal {
+    height: 0.125em;
+    width: 17em;
+    background-color: var(--text-gris);
 }
 
 @media (max-width: 600px){
@@ -89,7 +127,7 @@ section{
   .contenu img{
     width: 20em;
   }
-  section{
+  main section{
     margin: 2em;
   }
   .horaire img{

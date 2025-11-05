@@ -12,15 +12,15 @@
 
 .recherche_container input{
     border-radius: 10px;
-    border: 1px solid black;
+    border: 1px solid var(--ombre-noir-blanc);
     padding: 0.2em 0.3em;
 }
 
 .recherche_container button{
-    background-color: #95A57E;
+    background-color: var(--btn);
     border-radius: 10px;
     color: white;
-    border: 1px solid black;
+    border: 1px solid var(--ombre-noir-blanc);
     padding: 0.2em 0.3em;
     transition: 0.3s;
 }
@@ -31,10 +31,10 @@
 
 .filtre button {
     margin-right: 2em;
-    background-color: #95A57E;
+    background-color: var(--btn);
     border-radius: 10px;
     color: white;
-    border: 1px solid black;
+    border: 1px solid var(--ombre-noir-blanc);
     padding: 0.2em 1.2em;
     transition: 0.3s;
 }
@@ -52,7 +52,7 @@
 .nav_type_plat {
     display: flex;
     flex-direction: column;
-    background-color: #E6E7E9;
+    background-color: var(--header);
     border-radius: 20px;
     gap: 1em;
     margin-left: 4em;
@@ -71,7 +71,7 @@
 .nav_type_plat button p{
     padding: 0;
     margin: 0;
-    border-bottom: solid 0.05em #E84D0E;
+    border-bottom: solid 0.05em var(--orange);
 }
 
 .nav_type_plat button:hover {
@@ -80,7 +80,7 @@
 }
 
 .nav_type_plat button p:hover{
-    border-bottom: solid 0.125em #E84D0E;
+    border-bottom: solid 0.125em var(--orange);
 }
 
 .derouler {
@@ -88,23 +88,22 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
     gap: 1em;
-    margin-left: 3em;
-    margin-right: 3em;
+    margin: 0 3em 3em 3em;
     height: 53em;
     overflow-y: auto;
-    border: 0.125em solid #E6E7E9;
+    border: 0.125em solid var(--header);
     border-radius: 20px 0 0 20px;
 }
 
 .derouler article {
-    background-color: #FFFFFF;
+    background-color: var(--header);
     margin: 1.2em;
     padding: 1.2em;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    box-shadow: 2px 2px 10px;
+    box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
     height: 25em;
     position: relative;     
@@ -121,7 +120,7 @@
 }
 
 .derouler article h5 {
-    color: #E84D0E;
+    color: var(--orange);
     margin-top: 0.4em;
 }
 

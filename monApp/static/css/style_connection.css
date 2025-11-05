@@ -59,7 +59,7 @@
     border-radius: 8px;
     padding: 12px;
     font-weight: 500;
-    color: var(--texte);
+    color: var(--noir-blanc);
 }
 
 a.text-dark:hover {

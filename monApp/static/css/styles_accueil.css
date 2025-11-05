@@ -90,8 +90,15 @@
 
 .offre_description .trait-horizontal {
     height: 0.125em;
-    width: 34.4em;
+    width: 35.5em;
     margin: 0.8em 0 1.3em 0;
+}
+
+.plateau_repas,
+.plat_emporter {
+    transition: 0.3s;
+    border-radius: 0.7em;
+    padding: 1.2em;
 }
 
 .plats {
@@ -102,12 +109,15 @@
 
 .plats_titre {
     margin: 0.7em 0 3em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .plats_titre .trait-horizontal {
     height: 0.125em;
-    width: 24.8em;
-    margin: 1em 0;
+    width: 25.5em;
+    margin: 0.6em 0 1em 0;
 }
 
 .liste_plats {
@@ -143,47 +153,18 @@
 
 /* === STYLE === */
 
-body {
-  --bg-base:#FAF5E1;
-  --gris: #999999;
-  --orange-f: #E84D0E;
-  --orange-c: #E84D0E;
-  --texte: #000000;
-  --blanc-casser:#E4E4E4;
-  --blanc:#FFFFFF;
-  --case-produit:#FFFFFF;
-  --header:#E6E7E9;
-  --btn:#95A57E;
-  --tableau:#E4E4E4;
-}
-
-body.dark {
-  --bg-base:#050A1E;
-  --gris: #999999;
-  --orange-f: #F5936B;
-  --orange-c: #E84D0E;
-  --texte: #FFFFFF;
-  --blanc-casser:#1B1B1B;
-  --blanc:#060B1C;
-  --case-produit:#E6E7E9;
-  --header:#E6E7E9;
-  --btn:#94A47D;
-  --gris:var(--gris);
-  --tableau:#B7B7B7;
-}
-
 .collage_image {
-    background-color: var(--texte);
+    background-color: #000000;
 }
 
 .cercle {
     border-radius: 50%;
-    background-color: var(--texte);
+    background-color: #000000;
 }
 
 .bienvenue_titre h1,
 .bienvenue_titre h3 {
-    color: var(--gris);
+    color: var(--text-gris);
 }
 
 .bienvenue_titre h1 {
@@ -192,32 +173,32 @@ body.dark {
 }
 
 .bienvenue .trait-horizontal {
-    background-color: var(--gris);
+    background-color: var(--text-gris);
 }
 
 .offre_titre h3 {
-    color: var(--gris);
+    color: var(--text-gris);
 }
 
 .offre_titre .trait-horizontal {
-    background-color: var(--gris);
+    background-color: var(--text-gris);
 }
 
 .offre_description .trait-horizontal {
-    background-color: var(--orange-c);
+    background-color: var(--orange);
     border-radius: 70%;
 }
 
-.plats_titre .trait-horizontal {
-    background-color: var(--gris);
+.offre_description p,
+.offre_description h1 {
+    color: var(--noir-blanc);
 }
 
-.plateau_repas,
-.plat_emporter {
-    transition: 0.3s;
-    border-radius: 0.7em;
-    padding: 1.2em;
+.plats_titre .trait-horizontal {
+    background-color: var(--text-gris);
 }
+
+
 
 .plateau_repas:hover,
 .plat_emporter:hover {
@@ -226,9 +207,9 @@ body.dark {
 }
 
 .un_type_plat {
-    background-color: var(--blanc);
+    background-color: var(--header);
     border-radius: 0.7em;
-    box-shadow: 2px 2px 10px;
+    box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
 }
 
@@ -237,11 +218,11 @@ body.dark {
 }
 
 .un_type_plat h3 {
-    color: var(--orange-c);
+    color: var(--orange);
 }
 
 .plats_titre h3 {
-    color: var(--gris);
+    color: var(--text-gris);
 }
 
 :root {

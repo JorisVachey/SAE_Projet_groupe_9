@@ -54,13 +54,13 @@
   padding:10px;
 }
 
-.btn-register{
-  background:var(--bg-base);
-  border:none;
-  border-radius:8px;
-  padding:12px;
-  font-weight:500;
-  color:var(--texte);
+.btn-register {
+    background-color: var(--bg-base);
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: 500;
+    color: var(--noir-blanc);
 }
 
 a.text-dark:hover{
