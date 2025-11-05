@@ -3,15 +3,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style_inscription.css') }}">
 
 <div class="container-fluid min-vh-100 p-0 position-relative bg-main">
-    <div class="row g-0 min-vh-100">
-        <div class="col-8 position-relative bg-image"></div>
-        <div class="col-4"></div>
-    </div>
+    <div class="bg-image"></div>
+    <div class="color-side"></div>
 
-    <div class="position-absolute top-50 start-50 translate-middle form-container">
+    <div class="form-container d-flex align-items-center justify-content-center">
         <div class="card shadow-lg card-register">
             <div class="card-body p-4">
-                <h2 class="text-center mb-4">Bienvenue</h2>
+                <h2 class="text-center mb-4">Inscription</h2>
 
                 <form method="POST" action="{{ url_for('inscription') }}">
                     {{ form.hidden_tag() }}

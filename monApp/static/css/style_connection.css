@@ -1,23 +1,50 @@
 .bg-main {
-    background-color: var(--bg-base);
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
     background-image: url('../img/inscription.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.color-side {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: var(--bg-base);
+    z-index: 1;
 }
 
 .form-container {
-    z-index: 10;
-    margin-left: 16%;
+    position: absolute;
+    top: 50%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card-login {
-    width: 420px;
+    width: 100%;
     border-radius: 20px;
     border: none;
+    background-color: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
 .input-field {
@@ -40,34 +67,37 @@ a.text-dark:hover {
 }
 
 @media (max-width: 600px) {
-  .container-fluid.vh-100 {
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .row.g-0.h-100 {
-    height: auto;
-  }
-
   .bg-image {
+    width: 100%;
+    background-position: center;
+  }
+
+  .color-side {
     display: none;
   }
 
   .form-container {
-    position: static;
+    position: relative;
     top: auto;
     left: auto;
     transform: none;
-    margin: 0 1rem;
-    padding: 2rem 0;
-    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../img/inscription.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .card-login {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
+    width: 90%;
+    max-width: 380px;
     border-radius: 16px;
+    background-color: rgba(255, 255, 255);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   }
 
   .input-field {
@@ -83,9 +113,5 @@ a.text-dark:hover {
     width: 100%;
     padding: 12px;
     font-size: 1rem;
-  }
-
-  .card-login p.small {
-    margin-top: 1rem;
   }
 }
