@@ -9,6 +9,8 @@ create table USER (
     PRIMARY KEY (idUser)
 );
 
+ALTER TABLE USER MODIFY idUser INT NOT NULL AUTO_INCREMENT;
+
 create table RESERVATION (
     idR int,
     numtelUser varchar(50),

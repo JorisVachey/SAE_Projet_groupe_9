@@ -20,11 +20,15 @@ def loaddb(file):
 
     click.echo("Insertion des utilisateurs...")
     for u in data.get("users", []):
+        psswd_clair= u["mdp"]
+        m=sha256()
+        m.update(psswd_clair.encode())
+        mdp_u=m.hexdigest()
         user = User(
             idUser=u["idUser"],
             numtelUser=u["numtelUser"],
             pseudonyme=u["pseudonyme"],
-            mdp=u["mdp"],
+            mdp=mdp_u,
             est_banni=u["est_banni"],
             pts_fidelite=u.get("pts_fidelite", 0),
             est_admin=u.get("est_admin", False)

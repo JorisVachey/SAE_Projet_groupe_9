@@ -99,6 +99,7 @@ def connection() :
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
+            print(current_user)
             if unUser.est_admin:
                 return redirect(url_for('admin'))
             else:
