@@ -1,17 +1,5 @@
-{%extends "admin.html"%}
+{%extends "base.html"%}
  
-
-
-{%block boutons_header%}
-<ul class="boutons_base">
-    <a href="{{ url_for('gestion_plats') }}">GESTION DES PLATS</a>
-    <a href="{{ url_for('gestion_formules') }}">GESTION DES FORMULES</a>
-    <a href="{{ url_for('gestion_cli') }}">GESTION DES CLIENTS</a>
-    <a href="{{ url_for('voir_comm') }}">VOIR LES COMMANDES</a>
-    <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
-    <a class="navbar-brand btn_inscription" href="{{ url_for('gestion_compte') }}">Gérer le compte</a>
-</ul>
-{%endblock%}
-
 {% block main %}
+<h1>Gestion des plats</h1>
 {% endblock %}

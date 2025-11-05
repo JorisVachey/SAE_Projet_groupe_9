@@ -20,21 +20,30 @@
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami"></a>
             <ul>
                 <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
-            {%block boutons_header%}
-            <ul class="boutons_base">
-                <a href="{{ url_for('index') }}">Accueil</a>
-                <a href="{{ url_for('propos') }}">À Propos</a>
-                <a href="{{ url_for('menu') }}">Menu</a>
-                <a href="{{ url_for('contact') }}">Contact</a>
-                <a href="{{ url_for('nouvautes') }}">Nouveautés</a>
-                {% if current_user.is_authenticated %}
+            {% if current_user.est_admin %}
+                <ul class="boutons_base">
+                    <a href="{{ url_for('gestion_plats') }}">GESTION DES PLATS</a>
+                    <a href="{{ url_for('gestion_formules') }}">GESTION DES FORMULES</a>
+                    <a href="{{ url_for('gestion_cli') }}">GESTION DES CLIENTS</a>
+                    <a href="{{ url_for('voir_comm') }}">VOIR LES COMMANDES</a>
                     <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
-                {% else %}
-                    <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a>
-                    <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a>
-                {% endif %}
-            </ul>
-            {%endblock%}
+                    <a class="navbar-brand btn_inscription" href="{{ url_for('gestion_compte') }}">Gérer le compte</a>
+                </ul>
+            {% else %}
+                <ul class="boutons_base">
+                    <a href="{{ url_for('index') }}">Accueil</a>
+                    <a href="{{ url_for('propos') }}">À Propos</a>
+                    <a href="{{ url_for('menu') }}">Menu</a>
+                    <a href="{{ url_for('contact') }}">Contact</a>
+                    <a href="{{ url_for('nouvautes') }}">Nouveautés</a>
+                    {% if current_user.is_authenticated %}
+                        <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
+                    {% else %}
+                        <a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a>
+                        <a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a>
+                    {% endif %}
+                </ul>
+            {% endif %}
         </nav>
     </header>
     {% endblock %}
