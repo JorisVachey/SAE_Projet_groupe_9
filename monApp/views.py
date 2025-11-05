@@ -157,7 +157,7 @@ def afficher_panier():
     panier = get_or_create_panier(numtel)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html", panier=panier, plats=plats, formules=formules)
+    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules)
 
 
 @login_required

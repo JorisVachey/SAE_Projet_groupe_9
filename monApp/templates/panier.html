@@ -1,28 +1,83 @@
 {% extends "base.html" %}
 
 {% block styles_additionnels %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_panier.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/panier.css') }}">
 {% endblock %}
 
-{% block main %}
-<h1>🛒 Mon Panier</h1>
+{% block content %}
+<h1>Mon Panier</h1>
 
-    <table id="panier">
+{% if panier %}
+    <h2>Plats uniques</h2>
+    <table class="table">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Nom</th>
+                <th>Plat</th>
                 <th>Quantité</th>
-                <th>Prix (€)</th>
-                <th>Total (€)</th>
-                <th>Action</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            {% for cp in panier.plats %}
+            <tr>
+                <td>{{ cp.plat.nomP }}</td>
+                <td>{{ cp.quantiteP }}</td>
+                <td>{{ cp.plat.prixP }} €</td>
+                <td>{{ cp.quantiteP * cp.plat.prixP }} €</td>
+                <td>
+                    <form action="{{ url_for('modifier_quantite_plat', idP=cp.idP, action='ajouter') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </form>
+                    <form action="{{ url_for('modifier_quantite_plat', idP=cp.idP, action='diminuer') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <div id="totalCommande">Total de la commande : <span id="commande">0.00</span> €</div>
+    <h2>Formules</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Formule</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cf in panier.formules %}
+            <tr>
+                <td>{{ cf.formule.nomF }}</td>
+                <td>{{ cf.quantiteF }}</td>
+                <td>{{ cf.formule.prixF }} €</td>
+                <td>{{ cf.quantiteF * cf.formule.prixF }} €</td>
+                <td>
+                    <form action="{{ url_for('modifier_quantite_formule', idF=cf.idF, action='ajouter') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </form>
+                    <form action="{{ url_for('modifier_quantite_formule', idF=cf.idF, action='diminuer') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <script src="{{ url_for('static', filename='panier.js') }}"></script>
+    <h3>Total du panier: {{ panier_total }} €</h3>
+
+    <form action="{{ url_for('valider_panier') }}" method="post">
+        <button type="submit" class="btn btn-primary">Valider le panier</button>
+    </form>
+
+{% else %}
+    <p>Votre panier est vide.</p>
+{% endif %}
+
 {% endblock %}
