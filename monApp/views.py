@@ -323,7 +323,9 @@ def valider_panier():
 @login_required
 @app.route('/mesreservation/')
 def mes_reservations() :
-    return "page reservation client"
+    reservations = Reservation.query.filter_by(idUser=current_user.idUser).all().order_by(Reservation.dateR.desc())
+    return render_template("reservation.html", user=current_user, reservations=reservations)
+
 
 @app.route('/admin/')
 @admin_required

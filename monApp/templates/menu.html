@@ -31,6 +31,10 @@
                     <h5 class="nom">{{ plat.nomP }}</h5>
                 <p>{{ plat.descriptionP }}</p>
                 <p class="prix">{{ plat.prixP }} €</p>
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('ajouter_plat', idP=plat.idP) }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                    </form>
             </article>
         {% endfor %}
     </section>
