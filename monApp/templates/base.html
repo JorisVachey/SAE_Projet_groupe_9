@@ -16,6 +16,18 @@
     <!-- Barre de navigation -->
     {% block navbar %}
     <header>
+        <article>
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami">
+            </a>
+            <button id="btn_hamburger">
+                <img id="logo_hamburger" 
+                    src="{{ url_for('static', filename='img/base/hamburger.png') }}" 
+                    alt="icon hamburger"
+                    data-croix="{{ url_for('static', filename='img/base/croix.png') }}"
+                    data-hamburger="{{ url_for('static', filename='img/base/hamburger.png') }}">
+            </button>
+        </article>
         <nav>
             <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami"></a>
             <ul>

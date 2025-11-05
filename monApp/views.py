@@ -87,9 +87,9 @@ def contact() :
     return render_template("contact.html")
 
 
-@app.route('/nouvautes/')
-def nouvautes() :
-    return "page nouvautes"
+@app.route('/nouveautes/')
+def nouveautes() :
+    return render_template("nouveautes.html")
 
 @app.route('/connection/', methods=("GET","POST",))
 def connection() :
