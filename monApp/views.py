@@ -133,7 +133,8 @@ def admin():
 @app.route('/admin/gestion_plats/')
 @admin_required
 def gestion_plats():
-    return render_template("gestion_plat.html")
+    plats= Plat.query.all()
+    return render_template("gestion_plat.html", plats = plats)
 
 @app.route('/admin/gestion_formules/')
 @admin_required

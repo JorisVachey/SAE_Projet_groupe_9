@@ -100,6 +100,8 @@ class Plat(db.Model):
 
     formules = db.relationship("Composer", backref="plat")
     reservations = db.relationship("ContenirP", backref="plat")
+    type = db.relationship("Type_plat", backref="plat")
+
 
     def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
         self.idP = idP

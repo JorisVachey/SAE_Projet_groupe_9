@@ -1,5 +1,34 @@
 {%extends "base.html"%}
- 
-{% block main %}
-<h1>Gestion des plats</h1>
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestion_plat.css') }}">
 {% endblock %}
+
+{%block main%}
+<h1>Gestion des plats</h1>
+
+<div class="table-container">
+    <table>
+            <thead>
+                <tr>
+                    <th>Plat</th>
+                    <th>Type de plat</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Quantité réservée</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for unPlat in plats %}
+                    <tr>
+                        <td>{{ unPlat.nomP }}</td>
+                        <td>{{ unPlat.type.nomTp }}</td>
+                        <td>{{ unPlat.prixP }}</td>
+                        <td>{{ unPlat.stockInit }}</td>
+                        <td>{{ unPlat.stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div> {%endblock %}
+{%block footer%}
+{%endblock%}
