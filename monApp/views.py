@@ -133,7 +133,7 @@ def admin():
 @app.route('/admin/gestion_plats/')
 @admin_required
 def gestion_plats():
-    return "page de modif des plats"
+    return render_template("gestion_plat.html")
 
 @app.route('/admin/gestion_formules/')
 @admin_required

@@ -6,13 +6,15 @@
     flex-direction: column;
 }
 .boutons_admin{
-    background-color: #95A57E;
+    background-color: var(--btn);
     border-radius: 10px;
-    color: white;
-    border: 1px solid black;
+    color: var(--blanc);
+    border: 1px solid var(--gris);
     padding: 0.2em 0.3em;
     margin-right: 0.4em;
     text-decoration: none;
+    border-color: var(--texte);
+    color: var(--blanc);
 }
 
 .titre_admin{
@@ -62,7 +64,7 @@ left: 0%;
 .trait-horizontal {
     height: 0.125em;
     width: 20em;
-    background-color: #666666;
+    background-color: var(--gris);
     margin: 0 0 1.6em 0;
 }
 

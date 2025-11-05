@@ -39,6 +39,7 @@ main {
 
 body{
     background-color: var(--bg-base);
+    color: var(--texte);
     display: flex;
     position: relative;
     flex-direction: column;
