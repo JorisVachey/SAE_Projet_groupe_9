@@ -1,19 +1,18 @@
 from .app import db
 from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "USER"
 
     idUser = db.Column(db.Integer, primary_key=True)
     numtelUser = db.Column(db.String(50), unique=True)
     pseudonyme = db.Column(db.String(50))
     mdp = db.Column(db.String(500))
-    est_banni = db.Column(db.Boolean)
+    est_banni = db.Column(db.Boolean, default=False)
     pts_fidelite = db.Column(db.Integer, default=0)
     est_admin = db.Column(db.Boolean, default=False)
 
-    def __init__(self, idUser, numtelUser, pseudonyme, mdp, est_banni, pts_fidelite=0, est_admin=False):
-        self.idUser = idUser
+    def __init__(self, numtelUser, pseudonyme, mdp, est_banni=False, pts_fidelite=0, est_admin=False):
         self.numtelUser = numtelUser
         self.pseudonyme = pseudonyme
         self.mdp = mdp
@@ -25,7 +24,7 @@ class User(db.Model):
         return f"<User(id={self.idUser}, pseudo={self.pseudonyme}, admin={self.est_admin})>"
 
     def get_id(self):
-        return f"user-{self.numtelUser}"
+        return str(self.idUser)
 
 
 class Reservation(db.Model):

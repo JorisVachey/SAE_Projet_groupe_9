@@ -12,6 +12,7 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # Vérifie si le user est connecté
+        print(current_user)
         if not current_user.is_authenticated:
             flash("Veuillez vous connecter pour accéder à cette page.", "warning")
             return redirect(url_for('connection'))
@@ -100,6 +101,7 @@ def connection() :
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
+            print(current_user)
             if unUser.est_admin:
                 return redirect(url_for('admin'))
             else:

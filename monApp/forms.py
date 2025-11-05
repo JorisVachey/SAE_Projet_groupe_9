@@ -12,12 +12,13 @@ class RegisterForm(FlaskForm):
     
     def get_registered_user(self):
         user = User.query.get(self.numtel.data)
-        if user is not None:
+        if user:
+            print("Utilisateur inexistant")
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        newClient = User(numtelCli=self.numtel.data, pseudonyme=self.pseudonyme.data, mdp=passwd)
+        newClient = User(numtelUser=self.numtel.data, pseudonyme=self.pseudonyme.data, mdp=passwd)
         return newClient
 
 class LoginForm(FlaskForm):
@@ -25,30 +26,25 @@ class LoginForm(FlaskForm):
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     
     def get_authenticated_user(self):
-        user = User.query.get(self.numtel.data)
-        if not user:
-            user = User.query.filter_by(numtelRest=self.numtel.data).first()
-        if not user:
+        user = User.query.filter_by(numtelUser=self.numtel.data).first()
+        if user is None:
+            print("--Utilisateur introuvable--")
             return None
         m = sha256()
         m.update(self.password.data.encode())
+        print(m.hexdigest())
+        print(user.mdp)
         passwd = m.hexdigest()
         return user if passwd == user.mdp else None
 
 class SansCompteclientForm(FlaskForm):
-    numtelCli = StringField('Numéro de téléphone', validators=[DataRequired()])
+    numtelUser = StringField('Numéro de téléphone', validators=[DataRequired()])
     valider = SubmitField('Valider')
 
-class CompteclientForm(FlaskForm):
-    numtelCli = StringField('Numéro de téléphone', validators=[DataRequired()])
+class CompteuserForm(FlaskForm):
+    numtelUser = StringField('Numéro de téléphone', validators=[DataRequired()])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     mdp = PasswordField('Mot de passe', validators=[DataRequired()])
-    valider = SubmitField('Valider')
-
-class restauratriceForm(FlaskForm):
-    idRest = StringField('Identifiant', validators=[DataRequired()])
-    nomRest = StringField('Nom', validators=[DataRequired()])
-    prenomRest = StringField('Prénom', validators=[DataRequired()])
     valider = SubmitField('Valider')
 
 
@@ -56,7 +52,7 @@ class restauratriceForm(FlaskForm):
 
 class ReservationForm(FlaskForm):
     idR = IntegerField('ID de la réservation', validators=[DataRequired()])
-    numtelCli = StringField('Numéro de téléphone du client', validators=[DataRequired(), Length(max=50)])
+    numtelUser = StringField('Numéro de téléphone du client', validators=[DataRequired(), Length(max=50)])
     dateR = DateField('Date de réservation', validators=[DataRequired()], format='%Y-%m-%d')
     nb_couverts = IntegerField('Nombre de couverts', validators=[DataRequired()])
     sur_place = BooleanField('Sur place ?')
