@@ -1,0 +1,40 @@
+.bg-main {
+    background-color: var(--bg-base);
+}
+
+.bg-image {
+    background-image: url('../img/inscription.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.form-container {
+    z-index: 10;
+    margin-left: 16%;
+}
+
+.card-register {
+    width: 420px;
+    border-radius: 20px;
+    border: none;
+}
+
+.input-field {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.btn-register {
+    background-color: var(--bg-base);
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: 500;
+    color: var(--texte);
+}
+
+a.text-dark:hover {
+    text-decoration: underline;
+}

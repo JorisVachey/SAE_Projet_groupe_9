@@ -1,0 +1,32 @@
+section{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 2.5em;
+    color: var(--texte);
+}
+
+section img{
+    width: 70em;
+    height: 30em;
+    margin-bottom: 1.5em;
+}
+
+.page-titre{
+    margin-top: 9em;
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: var(--gris);
+    margin-bottom: 0.5em;
+}
+
+.page-titre h3{
+    text-align: center;
+    color: var(--gris);
+}
+
