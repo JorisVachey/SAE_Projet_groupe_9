@@ -9,11 +9,14 @@ main{
 
 .table-container{
     overflow-x: auto;
-    height: 50em;
+    height: 35em;
     overflow-y: auto;
     width: 80%;
     max-height: 100%;
 }
 table{
-    max-width: 80%;
+    max-width: 100%;
+}
+h1{
+    margin-bottom: 2em;
 }
