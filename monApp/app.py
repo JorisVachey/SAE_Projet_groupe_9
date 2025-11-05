@@ -23,7 +23,4 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id.startswith("user-"):
-        numtel = user_id.split("-", 1)[1]
-        return User.query.get(numtel)
-    return None
+    return User.query.get(int(user_id))
