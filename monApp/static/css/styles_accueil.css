@@ -244,6 +244,10 @@ body.dark {
     color: var(--gris);
 }
 
+:root {
+    --header-height: 13dvh;
+}
+
 /* Téléphone */
 @media screen and (max-width: 600px) {
 
@@ -257,7 +261,7 @@ body.dark {
         flex-wrap: nowrap;
         margin: 0;
         padding: 0;
-        height: calc(100dvh - var(--header-height) + 0.3em);
+        height: calc(100dvh - var(--header-height));
     }
 
     .collage {
@@ -266,6 +270,7 @@ body.dark {
         display: block;
         margin: 0;
         padding: 0;
+        flex-grow: 0;
     }
 
     .cercle {
@@ -274,7 +279,7 @@ body.dark {
     }
 
     .fait_maison {
-        width: 27em;
+        width: 100%;
         height: auto;
     }
 
@@ -297,6 +302,10 @@ body.dark {
 
     .offre_description {
         flex-direction: column;
+    }
+
+    .offre_description article {
+        margin: 3em 0;
     }
 
     .offre_description h1 {
@@ -322,7 +331,17 @@ body.dark {
     }
 
     .un_type_plat img {
-        width: 15em;
+        width: 60vw;
         height: auto;
+    }
+
+    .un_type_plat p {
+        font-size: 0.9em;
+    }
+
+    .plateau_repas,
+    .plat_emporter {
+        margin: 0;
+        padding: 0;
     }
 }

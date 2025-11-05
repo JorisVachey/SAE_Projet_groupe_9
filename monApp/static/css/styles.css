@@ -132,6 +132,14 @@ footer article img {
 }
 
 @media screen and (max-width: 600px) {
+
+    body {
+        background-color: var(--header);
+    }
+     main {
+        background-color: var(--bg-base);
+     }
+
     header {
         position: relative;
         
@@ -153,7 +161,7 @@ footer article img {
     }
 
     header button img {
-        width: 3.5em;
+        width: 2.5em;
         height: auto;
         transition: opacity 0.5s ease;
     }
@@ -166,7 +174,6 @@ footer article img {
     .menu {
         flex-direction: column;
         position: absolute;
-        top: calc(var(--header-height) - 0.3em);
         left: 0;
         right: 0;
         width: 100%;
