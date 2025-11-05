@@ -40,9 +40,9 @@ class Reservation(db.Model):
     formules = db.relationship("ContenirF", backref="reservation")
     plats = db.relationship("ContenirP", backref="reservation")
 
-    def __init__(self, idR, numtelUser, dateR, nb_couverts, sur_place, statut):
+    def __init__(self, idR, idUser, dateR, nb_couverts, sur_place, statut):
         self.idR = idR
-        self.numtelUser = numtelUser
+        self.idUser = idUser
         self.dateR = dateR
         self.nb_couverts = nb_couverts
         self.sur_place = sur_place
