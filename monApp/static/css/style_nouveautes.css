@@ -10,8 +10,9 @@ section{
 
 section img{
     width: 70em;
-    height: 30em;
     margin-bottom: 1.5em;
+    max-width: 100%;
+    height: auto;
 }
 
 .page-titre{
@@ -25,8 +26,70 @@ section img{
     margin-bottom: 0.5em;
 }
 
-.page-titre h3{
+.page-titre h2{
     text-align: center;
+    color: var(--gris);
+    font-size: 1.75rem;
+    margin: 0.25em 0;
+}
+
+.bloc {
+    max-width: 70ch;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.bloc h3 {
+    margin-bottom: 0.25em;
+}
+
+.bloc time {
+    display: block;
+    margin-bottom: 0.75em;
     color: var(--gris);
 }
 
+.liste {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+
+.liste li {
+    margin: 0.25em 0;
+}
+
+.prix {
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .page-titre{
+    margin-top: 5em;
+  }
+
+  .trait-horizontal {
+    width: 10em;
+  }
+
+  .bloc {
+    padding: 0 1rem;
+  }
+
+  .page-titre h2{
+    font-size: 1.4rem;
+  }
+
+  .bloc h3{
+    font-size: 1.2rem;
+  }
+
+  section{
+    margin-bottom: 2em;
+  }
+
+  section img{
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}

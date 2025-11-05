@@ -2,15 +2,14 @@
 {% block main %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style_connection.css') }}">
 
-<div class="container-fluid vh-100 p-0 position-relative overflow-hidden bg-main">
-    <div class="row g-0 h-100">
-        <div class="col-8 h-100 bg-image"></div>
-        <div class="col-4 h-100"></div>
-    </div>
-    <div class="position-absolute top-50 start-50 translate-middle form-container">
+<div class="container-fluid vh-100 p-0 position-relative bg-main">
+    <div class="bg-image"></div>
+    <div class="color-side"></div>
+
+    <div class="form-container d-flex align-items-center justify-content-center">
         <div class="card shadow-lg card-login">
             <div class="card-body p-4">
-                <h2 class="text-center mb-4">Bienvenue</h2>
+                <h2 class="text-center mb-4">Connexion</h2>
                 <form method="POST" action="{{ url_for('connection') }}">
                     {{ form.hidden_tag() }}
                     <div class="mb-3">
@@ -26,7 +25,7 @@
                     </div>
                 </form>
                 <p class="text-center mt-3 mb-0 small text-muted">
-                    Pas encore de compte ? <a href="{{ url_for('inscription') }}" class="text-dark">Inscrivez-vous ici</a>
+                    Pas encore de compte ? <a href="{{ url_for('inscription') }}" class="text-dark">Inscription</a>
                 </p>
             </div>
         </div>
