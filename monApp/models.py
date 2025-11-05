@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
         return f"<User(id={self.idUser}, pseudo={self.pseudonyme}, admin={self.est_admin})>"
 
     def get_id(self):
-        return f"user-{self.numtelUser}"
+        return str(self.idUser)
 
 
 class Reservation(db.Model):
