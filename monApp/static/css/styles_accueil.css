@@ -233,7 +233,10 @@
 @media screen and (max-width: 600px) {
 
     .bienvenue img {
-        display: none;
+        width: 5em;
+        position: absolute;
+        right: 0;
+        margin-top: -8.6em;
     }
 
     .collage_image {
