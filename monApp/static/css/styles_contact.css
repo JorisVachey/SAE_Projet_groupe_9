@@ -33,15 +33,75 @@ article > iframe{
     background-color: var(--header);
     border-radius: 55px;
     border: 3px solid var(--btn);
-    margin-bottom: 3%;
+    margin-bottom: 2em;
+    padding: 1em;
+    box-shadow: 2px 2px 10px 0 var(--ombre-noir-blanc)
 }
 #info-contact ul li{
     list-style: none;
 }
 
-#info-contact textarea{
-    width: 90%;
+input {
+    width: 100%;
+    border-radius: 5px;
+    border: none;
 }
-#info-contact input{
-    width: 70%;
+
+textarea {
+    margin-bottom: 1em;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    resize: none;
+}
+
+button {
+    width: 100%;
+    border-radius: 5px;
+    background-color: var(--bg-base);
+    border: var(--text-gris) solid 0.1em;
+    color: var(--noir-blanc);
+}
+
+@media screen and (max-width: 600px) {
+    .page-titre{
+    margin-top: 3em;
+    }
+
+    #contact {
+        padding: 0 2em;
+    }
+
+    #contact >article {
+        margin-bottom: 5em;
+    }
+    
+    article > iframe {
+        max-width: 100%;
+    }
+
+    #info-contact {
+        padding: 3em 2em;
+    }
+    a {
+        color: #000000;
+        text-decoration: none;
+    }
+    form button {
+        background-color: var(--bg-base);
+        color: var(--noir-blanc);
+        padding: 0.7em 0;
+        width: 100%;
+        border-radius: 10px;
+    }
+    input {
+        width: 100%;
+    }
+    textarea {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    .trait-horizontal {
+        width: 13.5em;
+    }
 }
