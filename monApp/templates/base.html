@@ -26,7 +26,7 @@
                 <a href="{{ url_for('propos') }}">À Propos</a>
                 <a href="{{ url_for('menu') }}">Menu</a>
                 <a href="{{ url_for('contact') }}">Contact</a>
-                <a href="{{ url_for('nouvautes') }}">Nouveautés</a>
+                <a href="{{ url_for('nouveautes') }}">Nouveautés</a>
                 {% if current_user.is_authenticated %}
                     <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
                 {% else %}

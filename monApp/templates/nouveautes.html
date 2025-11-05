@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_nouveautes.css') }}">
+{% endblock %}
+
+{% block main %}
+<section class="page-titre">
+    <div class="trait-horizontal"></div>
+        <h3>NOUVEAUTÉS OUMAMI</h3>
+    <div class="trait-horizontal"></div>
+</section>
+<section class="horaire">
+    <img src="{{ url_for('static', filename='img/nouveautes/horaires.jpg') }}" alt="horaires d'ouverture">
+    <p><strong>OUVERTURES DE FIN D'ANNÉE</strong></p>
+    <p>16 DÉCEMBRE 2024</p>
+    <p>
+        Le dimanche 22 décembre : Marché de Noël 10h30-18h<br>
+        Le mardi 24 décembre : 11h30-14h<br>
+        Le mercredi 25 décembre : fermé<br>
+        Du jeudi 26 au samedi 28 décembre : 11h30-14h et 17h-20h<br>
+        Le dimanche 29 décembre : 11h30-14h<br>
+        Le lundi 30 décembre : 11h30-14h et 17h-20h<br>
+        Le mardi 31 décembre : 11h30-14h<br>
+        Du 1er au 6 janvier 2025 : congés annuels. La réouverture sera le mardi 7 janvier 2025.<br>
+    </p>
+    <div class="trait-horizontal"></div>
+</section>
+<section class="reveillon">
+    <img src="{{ url_for('static', filename='img/nouveautes/reveillon.jpg') }}" alt="repas réveillon">
+    <p><strong>REPAS DE LA SAINT-SYLVESTRE</strong></p>
+    <p>16 DÉCEMBRE 2024</p>
+    <p>
+        Le magasin Oumami vous propose un repas de la Saint-Sylvestre à <strong>32,50 € / personne.</strong><br>
+        + + +<br>
+        Sushi 9 pièces<br>
+        Brochette de poulet au caramel<br>
+        Salade de crevettes<br>
+        Soupe miso<br>
+        Œuf mollet à la façon thermale<br>
+        Carpaccio de bœf<br>
+        Bière japonaise (33cl) ou boisson sans alcool OFFERTE !<br>
+        + + +<br>
+        <strong>Plateau à emporter uniquement sur réservation.</strong><br>
+        Merci de commander <strong>jusqu’au 28 décembre</strong> et de venir chercher <strong>de 11h30 à 14h du 31 décembre.</strong><br>
+    </p>
+    <div class="trait-horizontal"></div>
+</section>
+
+
+{% endblock %}
