@@ -149,7 +149,7 @@ def gestion_cli():
 @admin_required
 def voir_comm():
     commandes = Reservation.query.all()
-    prix_commande = 0
+    prix_commande = 0 # TODO requete pour calculer le prix de la commande le 0 est une valeur temp
     return render_template("commande.html", commandes=commandes,prix_commande = prix_commande)
 
 

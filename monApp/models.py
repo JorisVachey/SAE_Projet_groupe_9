@@ -31,7 +31,7 @@ class Reservation(db.Model):
     __tablename__ = "RESERVATION"
 
     idR = db.Column(db.Integer, primary_key=True)
-    numtelUser = db.Column(db.String(50), db.ForeignKey("USER.numtelUser"))
+    idUser = db.Column(db.Integer, db.ForeignKey("USER.idUser"), nullable=False)
     dateR = db.Column(db.Date)
     nb_couverts = db.Column(db.Integer)
     sur_place = db.Column(db.Boolean)
@@ -39,6 +39,7 @@ class Reservation(db.Model):
 
     formules = db.relationship("ContenirF", backref="reservation")
     plats = db.relationship("ContenirP", backref="reservation")
+    user = db.relationship("User", backref=db.backref("reservations"))
 
     def __init__(self, idR, idUser, dateR, nb_couverts, sur_place, statut):
         self.idR = idR
