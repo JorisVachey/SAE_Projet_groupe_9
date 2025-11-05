@@ -1,0 +1,29 @@
+body {
+  background-color: var(--bg-base);
+  color: var(--noir-blanc);
+}
+
+main{
+    margin-top: 7em;
+}
+
+h2 {
+  color: var(--noir-blanc);
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.btn-primary {
+  background-color: var(--bg-base);
+  border: none;
+  color: var(--noir-blanc);
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}

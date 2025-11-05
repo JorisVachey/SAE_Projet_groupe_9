@@ -1,3 +1,4 @@
+from hashlib import sha256
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash, abort
 from flask_login import login_user, logout_user, login_required, current_user
@@ -150,10 +151,53 @@ def gestion_cli():
 def voir_comm():
     return "page de visionnage des commandes"
 
-@app.route('/admin/gestion_compte/')
+@app.route('/admin/gestion_compte/', methods=("GET","POST",))
 @admin_required
 def gestion_compte():
-    return "page de gestion du compte admin"
+    return render_template("admin_compte.html", user=current_user)
+
+@app.route('/admin/modifier_pseudo', methods=['POST'])
+@admin_required
+def modifier_pseudo():
+    nouveau_pseudo = request.form.get('pseudonyme')
+    if nouveau_pseudo:
+        current_user.pseudonyme = nouveau_pseudo
+        db.session.commit()
+        flash('Pseudonyme mis à jour avec succès.', 'success')
+    return redirect(url_for('gestion_compte'))
+
+
+@app.route('/admin/modifier_numtel', methods=['POST'])
+@admin_required
+def modifier_numtel():
+    nouveau_numtel = request.form.get('numtel')
+    if nouveau_numtel:
+        current_user.numtelUser = nouveau_numtel
+        db.session.commit()
+        flash('Numéro de téléphone mis à jour avec succès.', 'success')
+    return redirect(url_for('gestion_compte'))
+
+
+@app.route('/admin/modifier_mdp', methods=['POST'])
+@admin_required
+def modifier_mdp():
+    ancien_mdp = request.form.get('ancien_mdp')
+    nouveau_mdp = request.form.get('nouveau_mdp')
+
+    # Vérification de l'ancien mot de passe
+    hash_ancien = sha256(ancien_mdp.encode('utf-8')).hexdigest()
+    if current_user.mdp != hash_ancien:
+        flash("L'ancien mot de passe est incorrect.", "danger")
+        return redirect(url_for('mon_compte'))
+
+    # Hachage du nouveau mot de passe
+    hash_nouveau = sha256(nouveau_mdp.encode('utf-8')).hexdigest()
+    current_user.mdp = hash_nouveau
+    db.session.commit()
+
+    flash('Mot de passe mis à jour avec succès.', 'success')
+    return redirect(url_for('gestion_compte'))
+
     
 if __name__== "__main__" :
     app.run()

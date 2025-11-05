@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin_compte.css') }}">
+{% endblock %}
+
+{% block main %}
+<div class="container py-5">
+  <h2 class="text-center mb-5">Mon compte</h2>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm h-100">
+        <h5 class="mb-3">Informations</h5>
+        <p><strong>Numéro :</strong> {{ user.numtelUser }}</p>
+        <p><strong>Pseudonyme :</strong> {{ user.pseudonyme }}</p>
+        <p><strong>Points fidélité :</strong> {{ user.pts_fidelite }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card p-4 shadow-sm mb-4">
+        <h5 class="mb-3">Modifier le pseudonyme</h5>
+        <form method="POST" action="{{ url_for('modifier_pseudo') }}">
+          <div class="input-group">
+            <input type="text" class="form-control" name="pseudonyme" placeholder="Nouveau pseudo" required>
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card p-4 shadow-sm mb-4">
+        <h5 class="mb-3">Modifier le numéro de téléphone</h5>
+        <form method="POST" action="{{ url_for('modifier_numtel') }}">
+          <div class="input-group">
+            <input type="text" class="form-control" name="numtel" placeholder="Nouveau numéro" required>
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card p-4 shadow-sm">
+        <h5 class="mb-3">Modifier le mot de passe</h5>
+        <form method="POST" action="{{ url_for('modifier_mdp') }}">
+          <div class="mb-3">
+            <input type="password" class="form-control" name="ancien_mdp" placeholder="Ancien mot de passe" required>
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" name="nouveau_mdp" placeholder="Nouveau mot de passe" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Mettre à jour</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
