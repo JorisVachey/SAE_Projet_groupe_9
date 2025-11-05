@@ -4,7 +4,7 @@ from flask_login import UserMixin
 class User(db.Model, UserMixin):
     __tablename__ = "USER"
 
-    idUser = db.Column(db.Integer, primary_key=True)
+    idUser = db.Column(db.Integer, primary_key=True, autoincrement=True)
     numtelUser = db.Column(db.String(50), unique=True)
     pseudonyme = db.Column(db.String(50))
     mdp = db.Column(db.String(500))
@@ -131,7 +131,7 @@ class Restriction(db.Model):
 
 class ContenirR(db.Model):
     __tablename__ = "CONTENIR_R"
-
+    
     idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
     nomA = db.Column(db.String(50), db.ForeignKey("RESTRICTION.nomA"), primary_key=True)
 

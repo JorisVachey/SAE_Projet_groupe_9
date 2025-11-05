@@ -726,49 +726,49 @@ composer:
 
 reservations:
   - idR: 1
-    numtelUser: "0601020304"
+    idUser: 3
     dateR: "2025-10-10"
     nb_couverts: 2
     sur_place: true
     statut: "confirmée"
   - idR: 2
-    numtelUser: "0607080910"
+    idUser: 4
     dateR: "2025-10-11"
     nb_couverts: 4
     sur_place: false
     statut: "en attente"
   - idR: 3
-    numtelUser: "0622334455"
+    idUser: 5
     dateR: "2025-10-12"
     nb_couverts: 3
     sur_place: true
     statut: "confirmée"
   - idR: 4
-    numtelUser: "0655443322"
+    idUser: 6
     dateR: "2025-10-13"
     nb_couverts: 1
     sur_place: true
     statut: "annulée"
   - idR: 5
-    numtelUser: "0612345678"
+    idUser: 7
     dateR: "2025-10-14"
     nb_couverts: 2
     sur_place: false
     statut: "confirmée"
   - idR: 6
-    numtelUser: "0699887766"
+    idUser: 8
     dateR: "2025-10-15"
     nb_couverts: 6
     sur_place: true
     statut: "en attente"
   - idR: 7
-    numtelUser: "0633445566"
+    idUser: 9
     dateR: "2025-10-16"
     nb_couverts: 3
     sur_place: true
     statut: "confirmée"
   - idR: 8
-    numtelUser: "0677889900"
+    idUser: 10
     dateR: "2025-10-17"
     nb_couverts: 5
     sur_place: false
