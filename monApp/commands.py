@@ -42,6 +42,12 @@ def loaddb(file):
         click.echo("Le fichier data.yaml est introuvable.")
         return
 
+    for key in ["users", "type_plats", "plats", "restrictions",
+                "contenir_R", "formules", "composer",
+                "reservations", "contenir_f", "contenir_p"]:
+        if data.get(key) is None:
+            data[key] = []
+
     click.echo("Insertion des utilisateurs...")
     for u in data.get("users", []):
         create_user(

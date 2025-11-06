@@ -16,6 +16,7 @@
                 <th>Nombre de couvert</th>
                 <th>Statut</th>
                 <th>Detail</th>
+                <th>Prix Total</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,7 @@
                     <p>Plat: {{ plat.plat.nomP }} (x{{ plat.quantiteP }})</p>
                     {%endfor%}
                 </td>
+                <td> {{ reservation.get_total() }}</td>
             </tr>
             {% endfor %}
         </tbody>

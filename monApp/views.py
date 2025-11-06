@@ -152,6 +152,20 @@ def get_or_create_panier(idUser):
         db.session.commit()
     return panier
 
+@app.route("/reservation/<int:idR>/total")
+@login_required
+def get_total_panier(idR):
+    """permet de calculer le cout total de la commande a partir d'un idR
+    """
+    total =0
+    for cp in ContenirP.query.filter_by(idR=idR).all():
+        plat = Plat.query.get(cp.idP)
+        total += plat.prixP * cp.quantiteP
+    for cf in ContenirF.query.filter_by(idR=idR).all():
+        formule = Formule.query.get(cf.idF)
+        total += formule.prixF * cf.quantiteF
+    return total
+
 @login_required
 @app.route('/panier/')
 def voir_panier():
@@ -159,7 +173,7 @@ def voir_panier():
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules)
+    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=get_total_panier(panier.idR))
 
 
 @login_required
@@ -303,7 +317,17 @@ def modifier_quantite_formule(idF, action):
     db.session.commit()
     return redirect(url_for("voir_panier"))
 
+@app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
+@login_required
+def modifier_nb_couvert(idR, action):
+    #if action == "ajouter":
 
+
+    #elif action == "diminuer":
+
+
+    db.session.commit()
+    return redirect(url_for("voir_panier"))
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
