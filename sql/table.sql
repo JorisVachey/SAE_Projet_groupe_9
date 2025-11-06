@@ -13,15 +13,15 @@ ALTER TABLE USER MODIFY idUser INT NOT NULL AUTO_INCREMENT;
 
 create table RESERVATION (
     idR int,
-    numtelUser varchar(50),
+    idUser int,
     dateR date,
     nb_couverts int,
     sur_place boolean,
     statut varchar(50),
-    PRIMARY KEY (idR,numtelUser)
+    PRIMARY KEY (idR,idUser)
 );
 
-ALTER TABLE RESERVATION ADD FOREIGN KEY (numtelUser) REFERENCES USER(numtelUser);
+ALTER TABLE RESERVATION ADD FOREIGN KEY (idUser) REFERENCES USER(idUser);
 
 create table FORMULE (
     idF int,
