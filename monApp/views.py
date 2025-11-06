@@ -1,7 +1,7 @@
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash, abort
 from flask_login import login_user, logout_user, login_required, current_user
-from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule
+from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
 from flask_mail import Mail,Message
 from datetime import date
 import os
@@ -74,7 +74,7 @@ def contact() :
         if email:
              msg_confirmation = Message(
                 subject="Confirmation : votre message a été envoyé",
-                sender=app.config["MAIL_USERNAME"],  # toujours ton SMTP
+                sender=app.config["MAIL_USERNAME"], 
                 recipients=[email],
                 body="Merci ! Nous avons bien reçu votre message envoyer sur notre site."
             )
@@ -352,7 +352,10 @@ def gestion_cli():
 @app.route('/admin/voir_comm/')
 @admin_required
 def voir_comm():
-    return "page de visionnage des commandes"
+    commandes = Reservation.query.all()
+    prix_commande = 0 # TODO requete pour calculer le prix de la commande le 0 est une valeur temp
+    return render_template("commande.html", commandes=commandes,prix_commande = prix_commande)
+
 
 @app.route('/admin/gestion_compte/')
 @admin_required
