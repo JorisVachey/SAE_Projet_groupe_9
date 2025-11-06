@@ -1,34 +1,91 @@
-main{
+main {
     display: flex;
-    margin-top: 10em;
-    align-items: center;
     flex-direction: column;
-    overflow-x: auto;
+    align-items: center;
+    margin-top: 10em;
     height: 50em;
 }
-.corps{
-    width: 80%;
-}
-input{
-    margin-bottom: 0.25em;
-    border-radius: 5px;
-}
-.table-container{
-    height: 35em;
-    overflow-y: auto;
-    width: 100%;
-    max-height: 100%;
+
+.corps {
+    width: 90%;
+    background-color: var(--tableau);
+    padding: 1em;
     border-radius: 10px;
 }
-table{
-    max-width: 100%;
-}
-h1{
-    margin-bottom: 2em;
+
+h1 {
+    margin-bottom: 0.5em;
 }
 
-.table th {
+h1,h3,.trait-horizontal{
+    color: var(--text-gris);
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: var(--text-gris);
+    margin: 0 0 1.6em 0;
+}
+
+.table-container {
+    border-radius: 8px;
+    box-shadow: 0 2px 2px var(--ombre-noir-blanc);
+    margin: 20px 0;
+    overflow-y: auto;
+    height: 30em;
+    border: solid 1px var(--orange);
+}
+
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.table-container table th {
+    background-color: var(--btn); 
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 15px;
+
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.table-container table td {
+    padding: 12px 15px;
+    text-align: left; 
+}
+
+
+.table-container table tbody tr {
+    border-bottom: 1px solid var(--orange);
+}
+.table-container table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table-container table tbody tr:nth-child(odd) {
+  background-color: var(--tableau);
+}
+
+.table-container table tbody tr:nth-child(even) {
+  background-color: var(--bg-base);
+  color: var(--noir-blanc)
+}
+
+#recherche{
+    margin-right: 55em;
+    border-radius: 5px;
+    border-color: var(--orange);
+}
+
+.boutons_plat{
+    border-radius: 5px;
+    background-color: var(--btn);
+    color: var(--noir-blanc);
 }

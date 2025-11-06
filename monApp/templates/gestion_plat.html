@@ -4,13 +4,19 @@
 {% endblock %}
 
 {%block main%}
-<h1>Gestion des plats</h1>
-
-<div class="corps">    
-    <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
-    <div class="table-container">
-
-        <table class="table table-striped table-bordered table-hover">
+<h3>GESTION DES</h3>
+<h1>PLATS</h1>
+<div class="trait-horizontal"></div>
+<section class="corps"> 
+    <article>
+            <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
+            <button class="boutons_plat">Ajouter un plat</button>
+            <button class="boutons_plat">Supprimer le plat</button>
+            <button class="boutons_plat">Modifier le prix</button>
+            <button class="boutons_plat">Modifier la quantité</button>
+    </article>   
+    <article class="table-container">
+        <table>
                 <thead>
                     <tr>
                         <th>Plat</th>
@@ -25,15 +31,15 @@
                         <tr>
                             <td>{{ unPlat.nomP }}</td>
                             <td>{{ unPlat.type.nomTp }}</td>
-                            <td>{{ unPlat.prixP }}</td>
+                            <td>{{ unPlat.prixP }}€</td>
                             <td>{{ unPlat.stockInit }}</td>
                             <td>{{ unPlat.stock }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
-    </div> 
-</div>
+    </article> 
+</section>
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 {%endblock %}
 {%block footer%}
