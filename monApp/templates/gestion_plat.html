@@ -16,7 +16,7 @@
             <button class="boutons_plat">Modifier la quantité</button>
     </article>   
     <article class="table-container">
-        <table>
+        <table id="tableau">
                 <thead>
                     <tr>
                         <th>Plat</th>
@@ -41,6 +41,7 @@
     </article> 
 </section>
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
+<script src="{{url_for('static', filename='js/selec_line.js')}}"></script>
 {%endblock %}
 {%block footer%}
 {%endblock%}

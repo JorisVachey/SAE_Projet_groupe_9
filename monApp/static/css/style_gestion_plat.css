@@ -54,11 +54,13 @@ h1,h3,.trait-horizontal{
     position: sticky;
     top: 0;
     z-index: 1;
+;
 }
 
 .table-container table td {
     padding: 12px 15px;
     text-align: left; 
+    text-align: center
 }
 
 
@@ -74,7 +76,7 @@ h1,h3,.trait-horizontal{
 }
 
 .table-container table tbody tr:nth-child(even) {
-  background-color: var(--bg-base);
+  background-color: var(--ligne-impair);
   color: var(--noir-blanc)
 }
 
@@ -88,4 +90,15 @@ h1,h3,.trait-horizontal{
     border-radius: 5px;
     background-color: var(--btn);
     color: var(--noir-blanc);
+}
+
+.table-container table tbody tr.selected {
+  background-color:var(--selected);
+  color: black;;
+}
+
+.table-container table tbody > tr:hover {
+  cursor: pointer;
+  background-color:var(--selected);
+  color: black;
 }

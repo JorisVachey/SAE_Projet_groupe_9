@@ -15,7 +15,8 @@ main {
     --bg-base:#FAF5E1;
     --btn:#95A57E;
     --tableau:#E4E4E4;
-
+    --ligne-impair:#FAF5E1;
+    --selected: rgba(222, 245, 187, 0.800);
 }
 .dark {
     --header:#E6E7E9;
@@ -26,6 +27,8 @@ main {
     --bg-base:#050A1E;
     --btn:#95A57E;
     --tableau:#B7B7B7;
+    --ligne-impair:#121b3b;
+    --selected:rgba(222, 245, 187, 0.525);
 }
 
 body{
