@@ -98,7 +98,7 @@ class Plat(db.Model):
     cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
-    formules = db.relationship("Composer", backref="plat")
+    compositions = db.relationship('Composer',backref='plat', cascade='all, delete-orphan')
     reservations = db.relationship("ContenirP", backref="plat")
     type = db.relationship("Type_plat", backref="plat")
 
@@ -149,7 +149,7 @@ class Composer(db.Model):
     __tablename__ = "COMPOSER"
 
     idF = db.Column(db.Integer, db.ForeignKey("FORMULE.idF"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey('PLAT.idP', ondelete='CASCADE'),primary_key=True)
     quantiteC = db.Column(db.Integer)
 
     def __init__(self, idF, idP, quantiteC):
