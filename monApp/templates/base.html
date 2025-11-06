@@ -20,6 +20,9 @@
             <a href="{{ url_for('index') }}">
                 <img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami">
             </a>
+            {% if current_user.is_authenticated %}
+                <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p>
+            {% endif %}
             <button id="btn_hamburger">
                 <img id="logo_hamburger" 
                     src="{{ url_for('static', filename='img/base/hamburger.png') }}" 
@@ -43,11 +46,11 @@
                 <li><a href="{{ url_for('nouveautes') }}">Nouveautés</a></li>
                 <div class="trait-horizontal"></div>
                 {% if current_user.is_authenticated %}
-                    <li><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
+                    <li class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
                 {% else %} 
                     <article>
-                        <li><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
-                        <li><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
+                        <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
+                        <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
                     </article>
                 {% endif %}
             </ul>
