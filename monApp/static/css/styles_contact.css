@@ -41,13 +41,13 @@ article > iframe{
     list-style: none;
 }
 
-input {
+main input {
     width: 100%;
     border-radius: 5px;
     border: none;
 }
 
-textarea {
+main textarea {
     margin-bottom: 1em;
     width: 100%;
     border-radius: 5px;
@@ -55,7 +55,7 @@ textarea {
     resize: none;
 }
 
-button {
+main button {
     width: 100%;
     border-radius: 5px;
     background-color: var(--bg-base);
@@ -87,21 +87,21 @@ button {
         color: #000000;
         text-decoration: none;
     }
-    form button {
+    main form button {
         background-color: var(--bg-base);
         color: var(--noir-blanc);
         padding: 0.7em 0;
         width: 100%;
         border-radius: 10px;
     }
-    input {
+    main input {
         width: 100%;
     }
-    textarea {
+    main textarea {
         width: 100%;
         margin-bottom: 1em;
     }
-    .trait-horizontal {
+    main .trait-horizontal {
         width: 13.5em;
     }
 }

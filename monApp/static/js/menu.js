@@ -96,16 +96,19 @@ function effectuerRecherche() {
 }
 
 const btnRechercher = document.getElementById("recherche_bouton");
+const inputRecherche = document.getElementById("recherche_bare");
+
 btnRechercher.addEventListener("click", () => {
+    e.preventDefault();
     effectuerRecherche();
-    document.getElementById("recherche_bare").value = "";
+    inputRecherche.blur();
 });
 
-const inputRecherche = document.getElementById("recherche_bare");
-inputRecherche.addEventListener("keypress", (e) => {
+inputRecherche.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
+        e.preventDefault();
         effectuerRecherche();
-        document.getElementById("recherche_bare").value = "";
+        inputRecherche.blur();
     }
 });
 
@@ -114,5 +117,5 @@ inputRecherche.addEventListener("input", () => {
 });
 
 inputRecherche.addEventListener("blur", () => {
-    document.getElementById("recherche_bare").value = "";
+    inputRecherche.value = "";
 });
