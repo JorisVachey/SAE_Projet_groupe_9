@@ -37,7 +37,7 @@
         <h3>Modifier le pseudonyme</h3>
         <form method="POST" action="{{ url_for('modifier_pseudo') }}">
           <input type="text" name="pseudonyme" maxlength="20" placeholder="Nouveau pseudo" required>
-          <button type="submit">Mettre à jour</button>
+          <button class="btn-type1" type="submit">Mettre à jour</button>
         </form>
       </section>
 
@@ -45,7 +45,7 @@
         <h3>Modifier le numéro de téléphone</h3>
         <form method="POST" action="{{ url_for('modifier_numtel') }}">
           <input type="text" name="numtel" maxlength="10" pattern="\d{10}" placeholder="Nouveau numéro" required> <!--pattern="\d{10}" = 10 chiffres consécutifs-->
-          <button type="submit">Mettre à jour</button>
+          <button class="btn-type1" type="submit">Mettre à jour</button>
         </form>
       </section>
 
