@@ -19,10 +19,10 @@
         <tbody>
             {% for commande in commandes %}
             <tr>
-                <td>{{ commande.client.pseudonyme }}</td>
-                <td>{{ commande.client.numtelCli }}</td>
+                <td>{{ commande.User.pseudonyme }}</td>
+                <td>{{ commande.User.numtelUser }}</td>
                 <td>{{ commande.idR }}</td>
-                <td> {{ commande.prix_commande }} €</td>
+                <td> {{ prix_commande }} €</td>
                 <td>{{ commande.dateR }}</td>
             {% if commande.sur_place is true %}
                 <td>Oui</td>
