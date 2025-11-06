@@ -11,9 +11,9 @@
     <article>
             <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
             <button class="boutons_plat">Ajouter un plat</button>
-            <button class="boutons_plat">Supprimer le plat</button>
-            <button class="boutons_plat">Modifier le prix</button>
-            <button class="boutons_plat">Modifier la quantité</button>
+            <button class="boutons_plat" id="btn_suppr">Supprimer le plat</button>
+            <button class="boutons_plat" id="btn_prix">Modifier le prix</button>
+            <button class="boutons_plat" id="btn_quantite">Modifier la quantité</button>
     </article>   
     <article class="table-container">
         <table id="tableau">
@@ -28,7 +28,7 @@
                 </thead>
                 <tbody id="tableBody">
                     {% for unPlat in plats %}
-                        <tr>
+                        <tr data-nom-plat="{{ unPlat.nomP }}">
                             <td>{{ unPlat.nomP }}</td>
                             <td>{{ unPlat.type.nomTp }}</td>
                             <td>{{ unPlat.prixP }}€</td>

@@ -1,5 +1,5 @@
 from .app import app, db, mail
-from flask import render_template, redirect, url_for,request,flash, abort
+from flask import render_template, redirect, url_for,request,flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from monApp.models import db, User, Type_plat, Plat
 from flask_mail import Mail,Message
@@ -155,6 +155,25 @@ def voir_comm():
 @admin_required
 def gestion_compte():
     return "page de gestion du compte admin"
+
+@app.route('/supprimer-plat/<string:nom_plat>', methods=['DELETE'])
+@admin_required
+def supprimer_plat(nom_plat): 
+    try:
+        plat_a_supprimer = Plat.query.filter_by(nomP=nom_plat).first()
+
+        if plat_a_supprimer:
+            db.session.delete(plat_a_supprimer)
+            db.session.commit()
+            
+            return jsonify({'success': True}), 200
+        else:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Erreur lors de la suppression : {e}") 
+        return jsonify({'success': False, 'error': 'Erreur interne du serveur.'}), 500
     
 if __name__== "__main__" :
     app.run()
