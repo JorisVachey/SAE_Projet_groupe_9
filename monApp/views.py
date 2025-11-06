@@ -314,11 +314,6 @@ def valider_panier():
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
-    for cp in panier.plats:
-        cp.plat.stock -= cp.quantiteP
-    for cf in panier.formules:
-        for c in cf.formule.plats:
-            c.plat.stock -= cf.quantiteF * c.quantiteC
     panier.statut = "confirmée"
     db.session.commit()
     flash("Réservation validée !", "success")
