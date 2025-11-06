@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for,request,flash, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
 from flask_mail import Mail,Message
-from datetime import date
+from datetime import datetime
 import os
 from functools import wraps
 
@@ -128,7 +128,7 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 
-@login_required
+
 def get_or_create_panier(idUser):
     """créé ou recupere la panier en cour
 
@@ -141,20 +141,20 @@ def get_or_create_panier(idUser):
     panier = Reservation.query.filter_by(idUser=idUser, statut="en attente").first()
     if not panier:
         panier = Reservation(
-            idR=None,
             idUser=idUser,
-            dateR=None,
+            dateR=datetime.now(),
             nb_couverts=1,
             sur_place=False,
-            statut="panier"
+            statut="en attente"
         )
         db.session.add(panier)
+        print(datetime.now())
         db.session.commit()
     return panier
 
 @login_required
 @app.route('/panier/')
-def afficher_panier():
+def voir_panier():
     idU = current_user.idUser
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
@@ -241,8 +241,10 @@ def modifier_quantite_plat(idP, action):
 
     if action == "ajouter":
         nouvelle_quantite = item.quantiteP + 1
-        if nouvelle_quantite > plat.stock or nouvelle_quantite > plat.stockInit * variableChoixCom:
+        if nouvelle_quantite > plat.stock+item.quantiteP or nouvelle_quantite > plat.stockInit * variableChoixCom:
             flash(f"Pas assez de stock pour '{plat.nomP}'", "error")
+            #print('Pas assez de stock pour le plat')
+            #print(nouvelle_quantite, plat.stock, plat.stockInit * variableChoixCom)
             return redirect(url_for("voir_panier"))
         item.quantiteP = nouvelle_quantite
 
@@ -325,7 +327,7 @@ def valider_panier():
 @login_required
 @app.route('/mesreservation/')
 def mes_reservations() :
-    reservations = Reservation.query.filter_by(idUser=current_user.idUser).all().order_by(Reservation.dateR.desc())
+    reservations = Reservation.query.filter_by(idUser=current_user.idUser).order_by(Reservation.dateR.desc()).all()
     return render_template("reservation.html", user=current_user, reservations=reservations)
 
 

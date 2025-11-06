@@ -44,7 +44,7 @@
                 <div class="trait-horizontal"></div>
                 {% if current_user.is_authenticated %}
                     <li><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
-                    <li><a class="navbar-brand btn_panier" href="{{ url_for('panier') }}">Mon panier</a></li>
+                    <li><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
                     <li><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
                 {% else %}
                     <article>
