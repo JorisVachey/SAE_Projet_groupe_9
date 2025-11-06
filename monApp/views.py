@@ -166,17 +166,32 @@ def modifier_pseudo():
         flash('Pseudonyme mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
 
-
 @app.route('/admin/modifier_numtel', methods=['POST'])
 @admin_required
 def modifier_numtel():
+    from sqlite3 import IntegrityError
     nouveau_numtel = request.form.get('numtel')
-    if nouveau_numtel:
+
+    if not nouveau_numtel:
+        flash("Veuillez entrer un numéro de téléphone.", "warning")
+        return redirect(url_for('gestion_compte'))
+
+    utilisateur_existant = User.query.filter_by(numtelUser=nouveau_numtel).first()
+
+    # Vérifie si le numéro de téléphone est déjà utilisé
+    if utilisateur_existant and utilisateur_existant.idUser != current_user.idUser:
+        flash("Ce numéro de téléphone est déjà utilisé.", "danger")
+        return redirect(url_for('gestion_compte'))
+
+    try:
         current_user.numtelUser = nouveau_numtel
         db.session.commit()
-        flash('Numéro de téléphone mis à jour avec succès.', 'success')
-    return redirect(url_for('gestion_compte'))
+        flash("Numéro de téléphone mis à jour avec succès.", "success")
+    except IntegrityError:
+        db.session.rollback()
+        flash("Erreur : ce numéro existe déjà ou la mise à jour a échoué.", "danger")
 
+    return redirect(url_for('gestion_compte'))
 
 @app.route('/admin/modifier_mdp', methods=['POST'])
 @admin_required
@@ -188,7 +203,7 @@ def modifier_mdp():
     hash_ancien = sha256(ancien_mdp.encode('utf-8')).hexdigest()
     if current_user.mdp != hash_ancien:
         flash("L'ancien mot de passe est incorrect.", "danger")
-        return redirect(url_for('mon_compte'))
+        return redirect(url_for('gestion_compte'))
 
     # Hachage du nouveau mot de passe
     hash_nouveau = sha256(nouveau_mdp.encode('utf-8')).hexdigest()
@@ -197,7 +212,6 @@ def modifier_mdp():
 
     flash('Mot de passe mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
-
     
 if __name__== "__main__" :
     app.run()
