@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
 class Reservation(db.Model):
     __tablename__ = "RESERVATION"
 
-    idR = db.Column(db.Integer, primary_key=True)
+    idR = db.Column(db.Integer, primary_key=True, autoincrement=True)
     idUser = db.Column(db.Integer, db.ForeignKey("USER.idUser"), nullable=False)
     dateR = db.Column(db.Date)
     nb_couverts = db.Column(db.Integer)
@@ -41,8 +41,7 @@ class Reservation(db.Model):
     plats = db.relationship("ContenirP", backref="reservation")
     user = db.relationship("User", backref=db.backref("reservations"))
 
-    def __init__(self, idR, idUser, dateR, nb_couverts, sur_place, statut):
-        self.idR = idR
+    def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
         self.idUser = idUser
         self.dateR = dateR
         self.nb_couverts = nb_couverts

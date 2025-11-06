@@ -46,12 +46,16 @@
                 <li><a href="{{ url_for('nouveautes') }}">Nouveautés</a></li>
                 <div class="trait-horizontal"></div>
                 {% if current_user.is_authenticated %}
-                    <li class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
-                {% else %} 
+
+                    <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
+                    <li  class="btn-conn"><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
+                    <li  class="btn-conn"><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
+                {% else %}
                     <article>
                         <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
                         <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
                     </article>
+
                 {% endif %}
             </ul>
             {%endblock%}
