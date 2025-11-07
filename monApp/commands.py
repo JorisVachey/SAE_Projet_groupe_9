@@ -77,7 +77,6 @@ def loaddb(file):
             idTp=p["idTp"],
             prixP=p["prixP"],
             stock=p["stock"],
-            stockInit=p["stockInit"],
             descriptionP=p["descriptionP"],
             cheminImg=p["cheminImg"]
         )
