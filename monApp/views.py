@@ -345,7 +345,22 @@ def gestion_formules():
 @app.route('/admin/gestion_cli/')
 @admin_required
 def gestion_cli():
-    return "page de gestion des clients"
+    clients = User.query.filter_by(est_admin=False).all()
+    return render_template("admin_gestion-client.html", clients=clients)
+
+@app.route('/admin/bannir-cli/<int:client_id>')
+@admin_required
+def bannir_cli(client_id):
+    client = User.query.filter_by(idUser=client_id).first()
+    client.bannir()
+    return redirect(url_for('gestion_cli'))
+    
+@app.route('/admin/debannir-cli/<int:client_id>')
+@admin_required
+def debannir_cli(client_id):
+    client = User.query.filter_by(idUser=client_id).first()
+    client.debannir()
+    return redirect(url_for('gestion_cli'))
 
 @app.route('/admin/voir_comm/')
 @admin_required
