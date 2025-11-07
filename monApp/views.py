@@ -93,21 +93,24 @@ def contact() :
 def nouveautes() :
     return render_template("nouveautes.html")
 
-@app.route('/connection/', methods=("GET","POST",))
+@app.route('/connection/', methods=("GET","POST"))
 def connection() :
     from .forms import LoginForm
     connection_form = LoginForm()
     unUser = None
+    next_page = request.form.get('next') or request.args.get('next')
     if connection_form.validate_on_submit():
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
-            print(current_user)
             if unUser.est_admin:
                 return redirect(url_for('admin'))
             else:
-                return redirect(url_for('index'))
-    return render_template("connection.html", form=connection_form)
+                if next_page == "menu":
+                    return redirect(url_for(next_page))
+                else:
+                    return redirect(url_for('index'))
+    return render_template("connection.html", form=connection_form, next_page=next_page)
 
 @app.route('/deconnection/')
 def deconnection() :
@@ -416,6 +419,6 @@ def modifier_mdp():
 
     flash('Mot de passe mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
-    
+
 if __name__== "__main__" :
     app.run()
