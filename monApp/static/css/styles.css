@@ -49,8 +49,20 @@ header {
     width: 100%;
     box-shadow: 0px 3px 20px black;
     opacity: 0;
-    transform: translateY(-50px); /* déplacé vers le haut */
+    transform: translateY(-50px);
     transition: opacity 1s ease, transform 1s ease;
+    transition: 1s;
+}
+
+header.shrink {
+    height: 5em;
+    backdrop-filter: blur(5px);
+    font-size: 0.9em;
+}
+
+header.shrink img {
+    height: 3em;
+    width: auto;
 }
 
 header article {
@@ -64,6 +76,7 @@ header .pseudo {
     font-weight: bold;
     font-size: 1.5em;
     font-style: italic;
+    padding-top: 0.75em;
 }
 
 header nav {
