@@ -41,6 +41,14 @@ class Reservation(db.Model):
     plats = db.relationship("ContenirP", backref="reservation")
     user = db.relationship("User", backref=db.backref("reservations"))
 
+    def get_total(self):
+        total = 0
+        for cp in self.plats:
+            total += cp.quantiteP * cp.plat.prixP
+        for cf in self.formules:
+            total += cf.quantiteF * cf.formule.prixF
+        return total
+
     def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
         self.idUser = idUser
         self.dateR = dateR
@@ -89,7 +97,7 @@ class Type_plat(db.Model):
 class Plat(db.Model):
     __tablename__ = "PLAT"
 
-    idP = db.Column(db.Integer, primary_key=True)
+    idP = db.Column(db.Integer, primary_key=True,autoincrement=True)
     nomP = db.Column(db.String(50))
     idTp = db.Column(db.Integer, db.ForeignKey("TYPE_PLAT.idTp"))
     prixP = db.Column(db.Numeric(10, 2))
@@ -103,8 +111,7 @@ class Plat(db.Model):
     type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
 
-    def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
-        self.idP = idP
+    def __init__(self, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP

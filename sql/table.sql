@@ -39,25 +39,26 @@
         PRIMARY KEY (idTp)
     );
 
-    create table PLAT(
-        idP int,
-        nomP varchar(50),
-        idTp int,
-        prixP decimal(10,2),
-        stock int,
-        stockInit int,
-        descriptionP longtext,
-        cheminImg varchar(200),
-        PRIMARY KEY (idP)
-    );
+create table PLAT(
+    idP int,
+    nomP varchar(50),
+    idTp int,
+    prixP decimal(10,2),
+    stock int,
+    stockInit int,
+    descriptionP longtext,
+    cheminImg varchar(200),
+    PRIMARY KEY (idP)
+);
+ALTER TABLE PLAT MODIFY idP INT NOT NULL AUTO_INCREMENT;
+ALTER TABLE PLAT ADD FOREIGN KEY (idTp) REFERENCES TYPE_PLAT (idTp);
 
-    ALTER TABLE PLAT ADD FOREIGN KEY (idTp) REFERENCES TYPE_PLAT (idTp);
-    create table COMPOSER (
-        idF int,
-        idP int,
-        quantiteC int,
-        PRIMARY KEY (idF,idP)
-    );
+create table COMPOSER (
+    idF int,
+    idP int,
+    quantiteC int,
+    PRIMARY KEY (idF,idP)
+);
 
     ALTER TABLE COMPOSER ADD FOREIGN KEY (idF) REFERENCES FORMULE (idF);
     ALTER TABLE COMPOSER ADD FOREIGN KEY (idP) REFERENCES PLAT (idP) ON DELETE CASCADE;

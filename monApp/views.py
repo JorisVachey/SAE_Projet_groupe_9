@@ -160,7 +160,7 @@ def voir_panier():
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules)
+    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=get_total_panier(panier.idR))
 
 
 @login_required
@@ -304,7 +304,21 @@ def modifier_quantite_formule(idF, action):
     db.session.commit()
     return redirect(url_for("voir_panier"))
 
+@app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
+@login_required
+def modifier_nb_couvert(idR, action):
+    if action == "ajouter":
+        reservation = Reservation.query.get(idR)
+        reservation.nb_couverts += 1
 
+    elif action == "diminuer":
+        reservation = Reservation.query.get(idR)
+        if reservation.nb_couverts > 1:
+            reservation.nb_couverts -= 1
+
+
+    db.session.commit()
+    return redirect(url_for("voir_panier"))
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
@@ -405,8 +419,7 @@ def gestion_cli():
 @admin_required
 def voir_comm():
     commandes = Reservation.query.all()
-    prix_commande = 0 # TODO requete pour calculer le prix de la commande le 0 est une valeur temp
-    return render_template("commande.html", commandes=commandes,prix_commande = prix_commande)
+    return render_template("commandes.html", commandes=commandes)
 
 
 @app.route('/admin/gestion_compte/', methods=("GET","POST",))
