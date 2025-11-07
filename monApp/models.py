@@ -98,9 +98,9 @@ class Plat(db.Model):
     cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
-    compositions = db.relationship('Composer',backref='plat', cascade='all, delete-orphan')
-    reservations = db.relationship("ContenirP", backref="plat")
-    type = db.relationship("Type_plat", backref="plat")
+    compositions = db.relationship('Composer',backref='plat', cascade='all, delete-orphan', passive_deletes=True)
+    reservations = db.relationship("ContenirP", backref="plat", passive_deletes=True)
+    type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
 
     def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
@@ -134,7 +134,7 @@ class Restriction(db.Model):
 class ContenirR(db.Model):
     __tablename__ = "CONTENIR_R"
     
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete="CASCADE"), primary_key=True)
     nomA = db.Column(db.String(50), db.ForeignKey("RESTRICTION.nomA"), primary_key=True)
 
     def __init__(self, idP, nomA):
@@ -181,7 +181,7 @@ class ContenirP(db.Model):
     __tablename__ = "CONTENIR_P"
 
     idR = db.Column(db.Integer, db.ForeignKey("RESERVATION.idR"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete='CASCADE'), primary_key=True)
     quantiteP = db.Column(db.Integer)
 
     def __init__(self, idR, idP, quantiteP):
