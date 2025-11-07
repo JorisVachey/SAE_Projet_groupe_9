@@ -20,6 +20,7 @@
                         {{ form.password.label(class="form-label text-muted small") }}
                         {{ form.password(class="form-control input-field", placeholder="Mot de passe") }}
                     </div>
+                    <input type="hidden" name="next" value="{{ request.args.get('next') }}">
                     <div class="d-grid mt-4">
                         <input type="submit" value="Se connecter" class="btn btn-login">
                     </div>
