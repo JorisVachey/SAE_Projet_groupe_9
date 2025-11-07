@@ -48,9 +48,17 @@ class Reservation(db.Model):
     sur_place = db.Column(db.Boolean)
     statut = db.Column(db.String(50))
 
-    formules = db.relationship("ContenirF", backref="reservation")
-    plats = db.relationship("ContenirP", backref="reservation")
+    formules = db.relationship("ContenirF", backref="reservation", cascade="all, delete-orphan")
+    plats = db.relationship("ContenirP", backref="reservation", cascade="all, delete-orphan")
     user = db.relationship("User", backref=db.backref("reservations"))
+
+    def get_total(self):
+        total = 0
+        for cp in self.plats:
+            total += cp.quantiteP * cp.plat.prixP
+        for cf in self.formules:
+            total += cf.quantiteF * cf.formule.prixF
+        return total
 
     def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
         self.idUser = idUser
@@ -100,7 +108,7 @@ class Type_plat(db.Model):
 class Plat(db.Model):
     __tablename__ = "PLAT"
 
-    idP = db.Column(db.Integer, primary_key=True)
+    idP = db.Column(db.Integer, primary_key=True,autoincrement=True)
     nomP = db.Column(db.String(50))
     idTp = db.Column(db.Integer, db.ForeignKey("TYPE_PLAT.idTp"))
     prixP = db.Column(db.Numeric(10, 2))
@@ -109,16 +117,16 @@ class Plat(db.Model):
     cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
-    formules = db.relationship("Composer", backref="plat")
-    reservations = db.relationship("ContenirP", backref="plat")
+    compositions = db.relationship('Composer',backref='plat', cascade='all, delete-orphan', passive_deletes=True)
+    reservations = db.relationship("ContenirP", backref="plat", passive_deletes=True)
+    type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
-    def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
-        self.idP = idP
+
+    def __init__(self, nomP, idTp, prixP, stock,cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP
         self.stock = stock
-        self.stockInit = stockInit
         self.cheminImg = cheminImg
         self.descriptionP = descriptionP
 
@@ -143,7 +151,7 @@ class Restriction(db.Model):
 class ContenirR(db.Model):
     __tablename__ = "CONTENIR_R"
     
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete="CASCADE"), primary_key=True)
     nomA = db.Column(db.String(50), db.ForeignKey("RESTRICTION.nomA"), primary_key=True)
 
     def __init__(self, idP, nomA):
@@ -158,7 +166,7 @@ class Composer(db.Model):
     __tablename__ = "COMPOSER"
 
     idF = db.Column(db.Integer, db.ForeignKey("FORMULE.idF"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey('PLAT.idP', ondelete='CASCADE'),primary_key=True)
     quantiteC = db.Column(db.Integer)
 
     def __init__(self, idF, idP, quantiteC):
@@ -190,7 +198,7 @@ class ContenirP(db.Model):
     __tablename__ = "CONTENIR_P"
 
     idR = db.Column(db.Integer, db.ForeignKey("RESERVATION.idR"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP"), primary_key=True)
+    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete='CASCADE'), primary_key=True)
     quantiteP = db.Column(db.Integer)
 
     def __init__(self, idR, idP, quantiteP):

@@ -1,6 +1,6 @@
 from hashlib import sha256
 from .app import app, db, mail
-from flask import render_template, redirect, url_for,request,flash, abort
+from flask import render_template, redirect, url_for,request,flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
 from flask_mail import Mail,Message
@@ -93,21 +93,24 @@ def contact() :
 def nouveautes() :
     return render_template("nouveautes.html")
 
-@app.route('/connection/', methods=("GET","POST",))
+@app.route('/connection/', methods=("GET","POST"))
 def connection() :
     from .forms import LoginForm
     connection_form = LoginForm()
     unUser = None
+    next_page = request.form.get('next') or request.args.get('next')
     if connection_form.validate_on_submit():
         unUser = connection_form.get_authenticated_user()
         if unUser:
             login_user(unUser)
-            print(current_user)
             if unUser.est_admin:
                 return redirect(url_for('admin'))
             else:
-                return redirect(url_for('index'))
-    return render_template("connection.html", form=connection_form)
+                if next_page == "menu":
+                    return redirect(url_for(next_page))
+                else:
+                    return redirect(url_for('index'))
+    return render_template("connection.html", form=connection_form, next_page=next_page)
 
 @app.route('/deconnection/')
 def deconnection() :
@@ -129,6 +132,12 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 
+def nb_couvert_jour(date):
+    couverts_journalier = 0
+    for reservationA in Reservation.query.filter_by(dateR=date).all():
+        if reservationA.sur_place:
+            couverts_journalier += reservationA.nb_couverts
+    return couverts_journalier
 
 def get_or_create_panier(idUser):
     """créé ou recupere la panier en cour
@@ -160,7 +169,7 @@ def voir_panier():
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules)
+    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=panier.get_total())
 
 
 @login_required
@@ -179,6 +188,7 @@ def ajouter_plat(idP):
     else:
         item = ContenirP(idR=reservation.idR, idP=idP, quantiteP=1)
         db.session.add(item)
+    plat.stock -= 1
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
@@ -206,7 +216,9 @@ def ajouter_formule(idF):
     else:
         item = ContenirF(idR=reservation.idR, idF=idF, quantiteF=1)
         db.session.add(item)
-
+    for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock -= c.quantiteC * item.quantiteF
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
@@ -247,10 +259,12 @@ def modifier_quantite_plat(idP, action):
             #print('Pas assez de stock pour le plat')
             #print(nouvelle_quantite, plat.stock, plat.stockInit * variableChoixCom)
             return redirect(url_for("voir_panier"))
+        plat.stock -=1
         item.quantiteP = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteP -= 1
+        plat.stock += 1
         if item.quantiteP <= 0:
             db.session.delete(item)  # supprime le plat si la quantité est 0
 
@@ -294,16 +308,93 @@ def modifier_quantite_formule(idF, action):
             if qte_totale > plat.stock or qte_totale > plat.stockInit * variableChoixCom:
                 flash(f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'", "error")
                 return redirect(url_for("voir_panier"))
+            for c in formule.plats:
+                plat = Plat.query.get(c.idP)
+                plat.stock -= c.quantiteC * item.quantiteF
         item.quantiteF = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteF -= 1
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * item.quantiteF
         if item.quantiteF <= 0:
             db.session.delete(item)
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
 
+@app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
+@login_required
+def modifier_nb_couvert(idR, action):
+    if action == "ajouter":
+        reservation = Reservation.query.get(idR)
+        if reservation.sur_place:
+            if not nb_couvert_jour(reservation.dateR)+1>12:
+                reservation.nb_couverts += 1
+        else:
+            reservation.nb_couverts += 1
+
+
+    elif action == "diminuer":
+        reservation = Reservation.query.get(idR)
+        if reservation.nb_couverts > 1:
+            reservation.nb_couverts -= 1
+
+
+    db.session.commit()
+    return redirect(url_for("voir_panier"))
+
+@app.route("/update_checkbox", methods=["POST"])
+def update_checkbox():
+    data = request.get_json()
+    idR = data.get("idR")
+    sur_place = data.get("sur_place")
+
+    resa = Reservation.query.filter_by(idR=idR, idUser=current_user.idUser).first()
+    if not resa:
+        return jsonify({"error": "Réservation introuvable"}), 404
+    for cp in ContenirP.query.filter_by(idR=idR).all():
+        plat = Plat.query.get(cp.idP)
+        plat.stock += cp.quantiteP
+        plat.stock -= 1
+        cp.quantiteP = 1
+
+    for cf in ContenirF.query.filter_by(idR=idR).all():
+        formule = Formule.query.get(cf.idF)
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * cf.quantiteF
+            plat.stock -= c.quantiteC
+        cf.quantiteF = 1
+    if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
+        resa.sur_place = sur_place
+        message = "Réservation mise à jour : sur place "
+        success = True
+    elif sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts > 12:
+        message = "Réservation mise à jour : sur place "
+        success = True
+        resa.nb_couverts = 12-nb_couvert_jour(resa.dateR)
+        resa.sur_place = sur_place
+    elif not sur_place:
+        resa.sur_place = False
+        message = "Réservation mise à jour : à emporter"
+        success = True
+    else:
+        resa.sur_place = False
+        message = "Impossible de réserver sur place : limite de 12 couverts atteinte."
+        success = False
+    
+    
+
+
+    db.session.commit()
+
+    return jsonify({
+        "success": success,
+        "message": message,
+        "sur_place": resa.sur_place
+    })
 
 
 @app.route("/panier/valider", methods=["POST"])
@@ -320,6 +411,28 @@ def valider_panier():
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
 
+@app.route("/panier/annuler", methods=["POST"])
+@login_required
+def supprimer_panier():
+    """supprime le panier
+
+    Returns:
+        _type_: _description_
+    """
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    for cp in ContenirP.query.filter_by(idR=panier.idR).all():
+        plat = Plat.query.get(cp.idP)
+        plat.stock += cp.quantiteP
+    for cf in ContenirF.query.filter_by(idR=panier.idR).all():
+        formule = Formule.query.get(cf.idF)
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * cf.quantiteF
+    db.session.delete(panier)
+    db.session.commit()
+    flash("Réservation annulée !", "success")
+    return redirect(url_for("menu"))
+
 @login_required
 @app.route('/mesreservation/')
 def mes_reservations() :
@@ -332,10 +445,69 @@ def mes_reservations() :
 def admin():
     return render_template("admin.html")
 
-@app.route('/admin/gestion_plats/')
+from flask import request, redirect, url_for, render_template, jsonify
+from .models import db, Plat, Type_plat
+
+@app.route('/admin/gestion_plats/', methods=['GET', 'POST'])
 @admin_required
 def gestion_plats():
-    return "page de modif des plats"
+
+    if request.method == 'POST':
+        try:
+            nom_plat = request.form.get('nomP')
+            type_plat_id = request.form.get('idTp')
+            prix_plat = request.form.get('prixP')
+            stock = request.form.get("stock")
+            desc= request.form.get("desc")
+
+            if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
+                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
+            
+            plat_existant = Plat.query.filter_by(nomP=nom_plat).first()
+            if plat_existant:
+                return jsonify({'success': False, 'error': 'Un plat avec ce nom existe déjà.'}), 400
+
+            try:
+                prix_decimal = float(prix_plat)
+                type_id_int = int(type_plat_id)
+                stock_int = int(stock)
+            except ValueError:
+                return jsonify({'success': False, 'error': 'Format de prix ou ID invalide'}), 400
+
+            nouveau_plat = Plat(
+                nomP=nom_plat,
+                idTp=type_id_int,
+                prixP=prix_decimal,
+                stock=stock_int,
+                cheminImg="",
+                descriptionP=desc
+            )
+
+            db.session.add(nouveau_plat)
+            db.session.commit()
+            
+            type_associe = Type_plat.query.get(type_id_int)
+            type_nom = type_associe.nomTp if type_associe else 'Inconnu'
+
+            return jsonify({
+                'success': True,
+                'plat': {
+                    'id': nouveau_plat.idP,
+                    'nomP': nouveau_plat.nomP,
+                    'prixP': nouveau_plat.prixP,
+                    'type_nom': type_nom,
+                    'stock': nouveau_plat.stock,
+                    'stockInit': nouveau_plat.stockInit
+                }
+            })
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'success': False, 'error': str(e)}), 500
+
+    plats = Plat.query.all()
+    types = Type_plat.query.all()
+    return render_template("gestion_plat.html", plats=plats, types=types)
 
 @app.route('/admin/gestion_formules/')
 @admin_required
@@ -366,8 +538,7 @@ def debannir_cli(client_id):
 @admin_required
 def voir_comm():
     commandes = Reservation.query.all()
-    prix_commande = 0 # TODO requete pour calculer le prix de la commande le 0 est une valeur temp
-    return render_template("commande.html", commandes=commandes,prix_commande = prix_commande)
+    return render_template("commandes.html", commandes=commandes)
 
 
 @app.route('/admin/gestion_compte/', methods=("GET","POST",))
@@ -431,6 +602,25 @@ def modifier_mdp():
 
     flash('Mot de passe mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
+
+@app.route('/supprimer-plat/<string:nom_plat>', methods=['DELETE'])
+@admin_required
+def supprimer_plat(nom_plat): 
+    try:
+        plat_a_supprimer = Plat.query.filter_by(nomP=nom_plat).first()
+
+        if plat_a_supprimer:
+            db.session.delete(plat_a_supprimer)
+            db.session.commit()
+            
+            return jsonify({'success': True}), 200
+        else:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Erreur lors de la suppression : {e}") 
+        return jsonify({'success': False, 'error': 'Erreur interne du serveur.'}), 500
     
 if __name__== "__main__" :
     app.run()

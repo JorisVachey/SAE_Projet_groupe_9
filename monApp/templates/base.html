@@ -32,20 +32,25 @@
             </button>
         </article>
         <nav>
-            {%block boutons_header%}
-            <ul class="menu" id="menu">
-                <li><button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button></li>       
-                <li><a href="{{ url_for('index') }}">Accueil</a></li>
-                <div class="trait-horizontal"></div>
-                <li><a href="{{ url_for('propos') }}">À Propos</a></li>
-                <div class="trait-horizontal"></div>
-                <li><a href="{{ url_for('menu') }}">Menu</a></li>
-                <div class="trait-horizontal"></div>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                <div class="trait-horizontal"></div>
-                <li><a href="{{ url_for('nouveautes') }}">Nouveautés</a></li>
-                <div class="trait-horizontal"></div>
-                {% if current_user.is_authenticated %}
+            <ul>
+                <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
+            {% if current_user.est_admin %}
+                <ul class="boutons_base">
+                    <a href="{{ url_for('gestion_plats') }}">GESTION DES PLATS</a>
+                    <a href="{{ url_for('gestion_formules') }}">GESTION DES FORMULES</a>
+                    <a href="{{ url_for('gestion_cli') }}">GESTION DES CLIENTS</a>
+                    <a href="{{ url_for('voir_comm') }}">VOIR LES COMMANDES</a>
+                    <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
+                    <a class="navbar-brand btn_inscription" href="{{ url_for('gestion_compte') }}">Gérer le compte</a>
+                </ul>
+            {% else %}
+                <ul class="boutons_base">
+                    <a href="{{ url_for('index') }}">Accueil</a>
+                    <a href="{{ url_for('propos') }}">À Propos</a>
+                    <a href="{{ url_for('menu') }}">Menu</a>
+                    <a href="{{ url_for('contact') }}">Contact</a>
+                    <a href="{{ url_for('nouveautes') }}">Nouveautés</a>
+                    {% if current_user.is_authenticated %}
 
                     <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
                     <li  class="btn-conn"><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
@@ -57,8 +62,9 @@
                     </article>
 
                 {% endif %}
-            </ul>
-            {%endblock%}
+
+                </ul>
+            {% endif %}
         </nav>  
     </header>
     {% endblock %}
@@ -91,8 +97,7 @@
             <a href="https://www.facebook.com/p/Oumami-100039524718080/?locale=fr_FR"><img src="{{ url_for('static', filename='img/base/logo_facebook.png') }}" alt="logo facebook"></a>
         </article>
     </footer>
-    {% endblock %}
-    <script src="{{ url_for('static', filename='js/responsive.js') }}"></script>
+    {%endblock%}
     <script src="{{ url_for('static', filename='js/bnt_theme.js') }}"></script>
 </body>
 </html>

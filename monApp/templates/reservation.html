@@ -16,6 +16,8 @@
                 <th>Nombre de couvert</th>
                 <th>Statut</th>
                 <th>Detail</th>
+                <th>Option</th>
+                <th>Prix Total</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +33,8 @@
                     <p>Plat: {{ plat.plat.nomP }} (x{{ plat.quantiteP }})</p>
                     {%endfor%}
                 </td>
+                <td>{% if reservation.sur_place %}Sur Place{% else %}A emporté {% endif %}</td></td>
+                <td> {{ reservation.get_total() }}</td>
             </tr>
             {% endfor %}
         </tbody>

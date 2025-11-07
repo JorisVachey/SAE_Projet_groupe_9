@@ -29,7 +29,7 @@ qu'il restera au minimum 20 % du stock initial de la journée
 permet de verifier pour chaque reservation (sur place ou non)
 si la quantité de plat ne depasse pas le stock du restaurant
 */
-DELIMITER |
+/* DELIMITER |
 create or replace trigger verifDisponibiliterPlatUnique before insert on CONTENIR_P for each row
 begin
     DECLARE mes VARCHAR(500) DEFAULT '';
@@ -49,9 +49,9 @@ begin
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = mes;
     end if ;
 end|
-DELIMITER ;
+DELIMITER ; */
 
-DELIMITER |
+/* DELIMITER |
 create or replace trigger verifDisponibiliterPlatUniqueUpdate before UPDATE on CONTENIR_P for each row
 begin
     declare mes varchar(500) default '';
@@ -82,11 +82,11 @@ begin
         END IF;
     END IF;
 end|
-DELIMITER ;
+DELIMITER ; */
 
 /* on met a jour le stock après avoir ajouter,modifier ou supprimer des plats des plats, si ils sont validés
 */
-DELIMITER |
+/* DELIMITER |
 CREATE OR REPLACE TRIGGER majStockPlatUnique AFTER INSERT ON CONTENIR_P FOR EACH ROW
 BEGIN
     UPDATE PLAT SET stock = stock - new.quantiteP WHERE idP = new.idP;
@@ -105,12 +105,12 @@ CREATE OR REPLACE TRIGGER majStockPlatUniqueDelete AFTER delete ON CONTENIR_P FO
 BEGIN
     UPDATE PLAT SET stock = stock + old.quantiteP WHERE idP = old.idP;
 END|
-DELIMITER ;
+DELIMITER ; */
 
 /*meme chose pour l'autre table
 */
 
-DELIMITER |
+/* DELIMITER |
 create or replace trigger verifDisponibiliterPlatForm before insert on CONTENIR_F for each row
 begin
     declare mes varchar(500) default '';
@@ -144,8 +144,8 @@ begin
     close platUnique ;
 end|
 DELIMITER ;
-
-DELIMITER |
+ */
+/* DELIMITER |
 create or replace trigger verifDisponibiliterPlatFormUpdate before UPDATE on CONTENIR_F for each row
 begin
     declare mes varchar(500) default '';
@@ -193,12 +193,12 @@ begin
     end while;
     close platUnique;
 end|
-DELIMITER ;
+DELIMITER ; */
 
 /*meme chose avec les formules
 */
 
-DELIMITER |
+/* DELIMITER |
 CREATE OR REPLACE TRIGGER majStockPlatForm AFTER INSERT ON CONTENIR_F FOR EACH ROW
 BEGIN
     UPDATE PLAT NATURAL JOIN COMPOSER SET stock = stock - (new.quantiteF * quantiteC) WHERE idF = new.idF;
@@ -217,7 +217,7 @@ CREATE OR REPLACE TRIGGER majStockPlatFormDelete AFTER delete ON CONTENIR_F FOR 
 BEGIN
     UPDATE PLAT NATURAL JOIN COMPOSER SET stock = stock + (old.quantiteF * quantiteC) WHERE idF = old.idF;
 END|
-DELIMITER ;
+DELIMITER ; */
 
 
 /* permet de verifier le refus de reservation en ligne pour un client banni du restaurant
