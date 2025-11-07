@@ -12,7 +12,7 @@ function masquerForm() {
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    const form = document.querySelector("#pop-up-ajout .champs");
+    const form = document.querySelector("#form-ajout-plat");
     const tableBody = document.getElementById('tableBody');
 
 form.addEventListener('submit', function(event) {
@@ -21,7 +21,7 @@ form.addEventListener('submit', function(event) {
 
         // --- DEBUT DE LA VALIDATION ---
         const nomP = form.querySelector('[name="nomP"]').value;
-        const idTP = form.querySelector('[name="idTP"]').value;
+        const idTP = form.querySelector('[name="idTp"]').value;
         const prixP = form.querySelector('[name="prixP"]').value;
         const stock = form.querySelector('[name="stock"]').value;
         const desc = form.querySelector('[name="desc"]').value;

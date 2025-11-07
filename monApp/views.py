@@ -356,7 +356,7 @@ def gestion_plats():
     if request.method == 'POST':
         try:
             nom_plat = request.form.get('nomP')
-            type_plat_id = request.form.get('idTP')
+            type_plat_id = request.form.get('idTp')
             prix_plat = request.form.get('prixP')
             stock = request.form.get("stock")
             desc= request.form.get("desc")
