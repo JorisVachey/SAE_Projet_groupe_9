@@ -97,7 +97,7 @@
     <h3>Total du panier: {{panier.get_total()}} €</h3>
 
     <form action="{{ url_for('valider_panier') }}" method="post">
-        <button type="submit" class="btn btn-primary">Valider le panier</button>
+        <button type="submit" class="btn btn-primary" {% if panier.get_total() == 0 %} disabled {% endif %}>Valider le panier</button>
     </form>
     <form action="{{ url_for('supprimer_panier') }}" method="post">
         <button type="submit" class="btn btn-primary">Supprimer le panier</button>
