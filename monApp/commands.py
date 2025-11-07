@@ -42,6 +42,12 @@ def loaddb(file):
         click.echo("Le fichier data.yaml est introuvable.")
         return
 
+    for key in ["users", "type_plats", "plats", "restrictions",
+                "contenir_R", "formules", "composer",
+                "reservations", "contenir_f", "contenir_p"]:
+        if data.get(key) is None:
+            data[key] = []
+
     click.echo("Insertion des utilisateurs...")
     for u in data.get("users", []):
         create_user(
@@ -121,7 +127,6 @@ def loaddb(file):
     for r in data.get("reservations", []):
         date_r = datetime.strptime(r["dateR"], "%Y-%m-%d").date()
         resa = Reservation(
-            idR=r["idR"],
             idUser=r["idUser"],
             dateR=date_r,
             nb_couverts=r["nb_couverts"],

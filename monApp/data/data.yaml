@@ -111,7 +111,7 @@ plats:
     nomP: "Pizza Margherita"
     idTp: 2
     prixP: 12.50
-    stock: 40
+    stock: 50
     stockInit: 50
     descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
     cheminImg: "img/imgP/image1.png"
@@ -119,7 +119,7 @@ plats:
     nomP: "Lasagnes Bolognaises"
     idTp: 2
     prixP: 14.00
-    stock: 35
+    stock: 40
     stockInit: 40
     descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
     cheminImg: "img/imgP/image2.png"
@@ -127,7 +127,7 @@ plats:
     nomP: "Tiramisu"
     idTp: 5
     prixP: 6.00
-    stock: 25
+    stock: 30
     stockInit: 30
     descriptionP: "Dessert italien au café et mascarpone."
     cheminImg: "img/imgP/image3.png"
@@ -135,7 +135,7 @@ plats:
     nomP: "Soupe Pho"
     idTp: 2
     prixP: 8.50
-    stock: 20
+    stock: 25
     stockInit: 25
     descriptionP: "Soupe vietnamienne parfumée au bœuf."
     cheminImg: "img/imgP/image4.png"
@@ -143,7 +143,7 @@ plats:
     nomP: "Salade César"
     idTp: 3
     prixP: 9.00
-    stock: 15
+    stock: 20
     stockInit: 20
     descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
     cheminImg: "img/imgP/image5.png"
@@ -151,7 +151,7 @@ plats:
     nomP: "Cheesecake"
     idTp: 5
     prixP: 5.50
-    stock: 18
+    stock: 25
     stockInit: 25
     descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
     cheminImg: "img/imgP/image6.png"
@@ -159,7 +159,7 @@ plats:
     nomP: "Curry Thaï"
     idTp: 2
     prixP: 15.90
-    stock: 28
+    stock: 30
     stockInit: 30
     descriptionP: "Poulet au lait de coco et curry rouge."
     cheminImg: "img/imgP/image7.png"
@@ -167,7 +167,7 @@ plats:
     nomP: "Sushi Maki Mix"
     idTp: 4
     prixP: 17.00
-    stock: 30
+    stock: 35
     stockInit: 35
     descriptionP: "Assortiment de makis, nigiris et sashimis frais."
     cheminImg: "img/imgP/image8.png"
@@ -175,7 +175,7 @@ plats:
     nomP: "Brownie chocolat"
     idTp: 5
     prixP: 4.50
-    stock: 22
+    stock: 30
     stockInit: 30
     descriptionP: "Fondant au chocolat noir et noix de pécan."
     cheminImg: "img/imgP/image9.png"
@@ -725,100 +725,7 @@ composer:
     quantiteC: 1
 
 reservations:
-  - idR: 1
-    idUser: 3
-    dateR: "2025-10-10"
-    nb_couverts: 2
-    sur_place: true
-    statut: "confirmée"
-  - idR: 2
-    idUser: 4
-    dateR: "2025-10-11"
-    nb_couverts: 4
-    sur_place: false
-    statut: "en attente"
-  - idR: 3
-    idUser: 5
-    dateR: "2025-10-12"
-    nb_couverts: 3
-    sur_place: true
-    statut: "confirmée"
-  - idR: 4
-    idUser: 6
-    dateR: "2025-10-13"
-    nb_couverts: 1
-    sur_place: true
-    statut: "annulée"
-  - idR: 5
-    idUser: 7
-    dateR: "2025-10-14"
-    nb_couverts: 2
-    sur_place: false
-    statut: "confirmée"
-  - idR: 6
-    idUser: 8
-    dateR: "2025-10-15"
-    nb_couverts: 6
-    sur_place: true
-    statut: "en attente"
-  - idR: 7
-    idUser: 9
-    dateR: "2025-10-16"
-    nb_couverts: 3
-    sur_place: true
-    statut: "confirmée"
-  - idR: 8
-    idUser: 10
-    dateR: "2025-10-17"
-    nb_couverts: 5
-    sur_place: false
-    statut: "livrée"
 
 contenir_f:
-  - idR: 1
-    idF: 1
-    quantiteF: 1
-  - idR: 2
-    idF: 2
-    quantiteF: 1
-  - idR: 3
-    idF: 3
-    quantiteF: 2
-  - idR: 4
-    idF: 5
-    quantiteF: 1
-  - idR: 5
-    idF: 4
-    quantiteF: 2
-  - idR: 6
-    idF: 1
-    quantiteF: 3
-  - idR: 7
-    idF: 2
-    quantiteF: 1
-  - idR: 8
-    idF: 3
-    quantiteF: 1
 
 contenir_p:
-  - idR: 1
-    idP: 3
-    quantiteP: 2
-  - idR: 2
-    idP: 10
-    quantiteP: 1
-  - idR: 3
-    idP: 1
-    quantiteP: 2
-  - idR: 4
-    idP: 2
-    quantiteP: 1
-  - idR: 5
-    idP: 7
-    quantiteP: 2
-  - idR: 6
-    idP: 8
-    quantiteP: 3
-  - idR: 8
-    idP: 11
-    quantiteP: 2
