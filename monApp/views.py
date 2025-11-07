@@ -202,6 +202,7 @@ def ajouter_plat(idP):
     else:
         item = ContenirP(idR=reservation.idR, idP=idP, quantiteP=1)
         db.session.add(item)
+    plat.stock -= 1
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
@@ -229,7 +230,9 @@ def ajouter_formule(idF):
     else:
         item = ContenirF(idR=reservation.idR, idF=idF, quantiteF=1)
         db.session.add(item)
-
+    for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock -= c.quantiteC * item.quantiteF
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
@@ -270,10 +273,12 @@ def modifier_quantite_plat(idP, action):
             #print('Pas assez de stock pour le plat')
             #print(nouvelle_quantite, plat.stock, plat.stockInit * variableChoixCom)
             return redirect(url_for("voir_panier"))
+        plat.stock -=1
         item.quantiteP = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteP -= 1
+        plat.stock += 1
         if item.quantiteP <= 0:
             db.session.delete(item)  # supprime le plat si la quantité est 0
 
@@ -317,10 +322,16 @@ def modifier_quantite_formule(idF, action):
             if qte_totale > plat.stock or qte_totale > plat.stockInit * variableChoixCom:
                 flash(f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'", "error")
                 return redirect(url_for("voir_panier"))
+            for c in formule.plats:
+                plat = Plat.query.get(c.idP)
+                plat.stock -= c.quantiteC * item.quantiteF
         item.quantiteF = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteF -= 1
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * item.quantiteF
         if item.quantiteF <= 0:
             db.session.delete(item)
 
@@ -359,14 +370,16 @@ def update_checkbox():
         return jsonify({"error": "Réservation introuvable"}), 404
     for cp in ContenirP.query.filter_by(idR=idR).all():
         plat = Plat.query.get(cp.idP)
-        plat.stock += cp.quantiteP - 1
+        plat.stock += cp.quantiteP
+        plat.stock -= 1
         cp.quantiteP = 1
 
     for cf in ContenirF.query.filter_by(idR=idR).all():
         formule = Formule.query.get(cf.idF)
         for c in formule.plats:
             plat = Plat.query.get(c.idP)
-            plat.stock += c.quantiteC * cf.quantiteF - c.quantiteC
+            plat.stock += c.quantiteC * cf.quantiteF
+            plat.stock -= c.quantiteC
         cf.quantiteF = 1
     if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
         resa.sur_place = sur_place
@@ -421,6 +434,14 @@ def supprimer_panier():
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    for cp in ContenirP.query.filter_by(idR=panier.idR).all():
+        plat = Plat.query.get(cp.idP)
+        plat.stock += cp.quantiteP
+    for cf in ContenirF.query.filter_by(idR=panier.idR).all():
+        formule = Formule.query.get(cf.idF)
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * cf.quantiteF
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
