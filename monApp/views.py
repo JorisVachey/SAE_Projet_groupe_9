@@ -320,10 +320,14 @@ def modifier_quantite_formule(idF, action):
 @app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
 @login_required
 def modifier_nb_couvert(idR, action):
-    #if action == "ajouter":
+    if action == "ajouter":
+        reservation = Reservation.query.get(idR)
+        reservation.nb_couverts += 1
 
-
-    #elif action == "diminuer":
+    elif action == "diminuer":
+        reservation = Reservation.query.get(idR)
+        if reservation.nb_couverts > 1:
+            reservation.nb_couverts -= 1
 
 
     db.session.commit()
