@@ -54,13 +54,15 @@
     </section>
     <section class="liste_plats">
         {% for unTpeDePlat in TypeDePlats %}
-        <article class="un_type_plat">
+        <a href="{{ url_for('menu') }}">
+            <article class="un_type_plat">
             <img src="{{ url_for('static', filename=unTpeDePlat.cheminImg) }}" alt="image de {{ unTpeDePlat.nomTp }}">
             <article>
                 <h3>{{ unTpeDePlat.nomTp }}</h3>
                 <p>{{ unTpeDePlat.descriptionTp }}</p>
             </article>
         </article>
+        </a>
         {% endfor %}
     </section>
 </section>
