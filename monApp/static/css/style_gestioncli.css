@@ -87,9 +87,8 @@ h2 .titre {
 }
 
 .trait-horizontal2 {
-    height: 0.25em;
-    width: 10em;
-    background-color: var(--orange);
+    height: 0.4em;
+    width: 7em;
+    background-color: var(--noir-blanc);
     margin-top: 1em;
-    margin-bottom: 2em;
 }
