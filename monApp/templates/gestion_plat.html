@@ -41,24 +41,27 @@
     </article> 
 </section>
 <section id="pop-up-ajout">
-    <form method="POST" class="champs">
+    <form method="POST" class="champs" id="form-ajout-plat">
         <label for="nomP">Nom du Plat</label>
         <input id="nomP" type="text" name="nomP" placeholder="Saisir nom du plat...">
         <label for="user_select">Choisissez un type de plat :</label>
-        <select class="select_t" name="idTP" > 
-            <option>-- Veuillez choisir --</option>
+        <select class="select_t" name="idTp"required > 
+            <option value="">-- Veuillez choisir --</option>
             {% for unType in types %}
-                <option value="{{ unType.id }}">{{ unType.nomTp }}</option>
+                <option value="{{ unType.idTP }}">{{ unType.nomTp }}</option>
             {% endfor %}
-            </select>
+        </select>
         <label for="prix">Prix du plat</label>
-        <input id="prix" type="decimal" name="prixP" placeholder="Saisir le prix...">
+        <input id="prix" type="decimal" name="prixP" placeholder="Saisir le prix..."required    >
+        <label for="stock">Stock</label>
+        <input id="stock" type="text" name="stock" placeholder="Saisir le stock..."required>
+        <label for="desc">Description du plat</label>
+        <input id="desc" type="text" name="desc" placeholder="Saisir la descritpion..." required>
         <div class="boutons_form">
             <button type="reset" class="annuler" onclick="masquerForm()">Annuler</button>
             <button type="submit" class="boutons_plat">Ajouter</button>
         </div>
     </form>
-    </article>
 </section>
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 <script src="{{url_for('static', filename='js/selec_line.js')}}"></script>

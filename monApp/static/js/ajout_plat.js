@@ -15,9 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector("#pop-up-ajout .champs");
     const tableBody = document.getElementById('tableBody');
 
-    form.addEventListener('submit', function(event) {
+form.addEventListener('submit', function(event) {
         
         event.preventDefault(); 
+
+        // --- DEBUT DE LA VALIDATION ---
+        const nomP = form.querySelector('[name="nomP"]').value;
+        const idTP = form.querySelector('[name="idTP"]').value;
+        const prixP = form.querySelector('[name="prixP"]').value;
+        const stock = form.querySelector('[name="stock"]').value;
+        const desc = form.querySelector('[name="desc"]').value;
+
+        // Vérifie si un champ est vide
+        if (!nomP || !idTP || !prixP || !stock || !desc) {
+            // Vous pouvez afficher une erreur plus claire à l'utilisateur ici
+            console.error("Erreur : Tous les champs sont requis.");
+            alert("Veuillez remplir tous les champs, y compris le type de plat.");
+            return; // Stoppe l'exécution
+        }
+        // --- FIN DE LA VALIDATION ---
 
         const formData = new FormData(form);
         const url = form.action;
@@ -35,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 masquerForm();
                 form.reset();
             } else {
+                // Cette ligne affiche l'erreur "Champs manquants"
                 console.error("Erreur lors de l'ajout : " + (data.error));
             }
         })
@@ -47,12 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
 function ajouterPlatALaListe(plat, tableBody) {
     const nouvelleLigne = document.createElement('tr');
     
-    nouvelleLigne.dataset.nomPlat = plat.nom;
+    nouvelleLigne.dataset.nomPlat = plat.nomP;
 
     nouvelleLigne.innerHTML = `
-        <td>${plat.nom}</td>
+        <td>${plat.nomP}</td>
         <td>${plat.type_nom || 'N/A'}</td>
-        <td>${plat.prix} €</td>
+        <td>${plat.prixP} €</td>
+        <td>${plat.stockInit}</td>
+        <td>${plat.stock}</td>
     `;
     
     tableBody.appendChild(nouvelleLigne);

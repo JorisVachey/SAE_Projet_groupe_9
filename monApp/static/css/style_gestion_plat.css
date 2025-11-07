@@ -113,7 +113,7 @@ h1,h3,.trait-horizontal{
     border: solid 1px var(--orange);
     border-radius: 5px;
     display: none;
-    max-width: 20em;
+    max-width: 50em;
 
 }
 
@@ -125,7 +125,8 @@ h1,h3,.trait-horizontal{
 
 .champs{
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;   
+    width: 50em; 
 }
 .champs input, .champs select{
     margin-bottom: 1.5em;

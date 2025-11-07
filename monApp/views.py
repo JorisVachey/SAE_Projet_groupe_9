@@ -358,25 +358,26 @@ def gestion_plats():
             nom_plat = request.form.get('nomP')
             type_plat_id = request.form.get('idTP')
             prix_plat = request.form.get('prixP')
+            stock = request.form.get("stock")
+            desc= request.form.get("desc")
 
-            if not nom_plat or not prix_plat or not type_plat_id:
+            if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
                 return jsonify({'success': False, 'error': 'Champs manquants'}), 400
 
             try:
                 prix_decimal = float(prix_plat)
                 type_id_int = int(type_plat_id)
+                stock_int = int(stock)
             except ValueError:
                 return jsonify({'success': False, 'error': 'Format de prix ou ID invalide'}), 400
 
             nouveau_plat = Plat(
-                idP=1000,
                 nomP=nom_plat,
                 idTp=type_id_int,
                 prixP=prix_decimal,
-                stock=0,
-                stockInit=0,
+                stock=stock_int,
                 cheminImg="",
-                descriptionP=""
+                descriptionP=desc
             )
 
             db.session.add(nouveau_plat)
