@@ -132,6 +132,12 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 
+def nb_couvert_jour(date):
+    couverts_journalier = 0
+    for reservationA in Reservation.query.filter_by(dateR=date).all():
+        if reservationA.sur_place:
+            couverts_journalier += reservationA.nb_couverts
+    return couverts_journalier
 
 def get_or_create_panier(idUser):
     """créé ou recupere la panier en cour
@@ -182,6 +188,7 @@ def ajouter_plat(idP):
     else:
         item = ContenirP(idR=reservation.idR, idP=idP, quantiteP=1)
         db.session.add(item)
+    plat.stock -= 1
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
@@ -209,7 +216,9 @@ def ajouter_formule(idF):
     else:
         item = ContenirF(idR=reservation.idR, idF=idF, quantiteF=1)
         db.session.add(item)
-
+    for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock -= c.quantiteC * item.quantiteF
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
@@ -250,10 +259,12 @@ def modifier_quantite_plat(idP, action):
             #print('Pas assez de stock pour le plat')
             #print(nouvelle_quantite, plat.stock, plat.stockInit * variableChoixCom)
             return redirect(url_for("voir_panier"))
+        plat.stock -=1
         item.quantiteP = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteP -= 1
+        plat.stock += 1
         if item.quantiteP <= 0:
             db.session.delete(item)  # supprime le plat si la quantité est 0
 
@@ -297,10 +308,16 @@ def modifier_quantite_formule(idF, action):
             if qte_totale > plat.stock or qte_totale > plat.stockInit * variableChoixCom:
                 flash(f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'", "error")
                 return redirect(url_for("voir_panier"))
+            for c in formule.plats:
+                plat = Plat.query.get(c.idP)
+                plat.stock -= c.quantiteC * item.quantiteF
         item.quantiteF = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteF -= 1
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * item.quantiteF
         if item.quantiteF <= 0:
             db.session.delete(item)
 
@@ -312,7 +329,12 @@ def modifier_quantite_formule(idF, action):
 def modifier_nb_couvert(idR, action):
     if action == "ajouter":
         reservation = Reservation.query.get(idR)
-        reservation.nb_couverts += 1
+        if reservation.sur_place:
+            if not nb_couvert_jour(reservation.dateR)+1>12:
+                reservation.nb_couverts += 1
+        else:
+            reservation.nb_couverts += 1
+
 
     elif action == "diminuer":
         reservation = Reservation.query.get(idR)
@@ -322,6 +344,58 @@ def modifier_nb_couvert(idR, action):
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
+
+@app.route("/update_checkbox", methods=["POST"])
+def update_checkbox():
+    data = request.get_json()
+    idR = data.get("idR")
+    sur_place = data.get("sur_place")
+
+    resa = Reservation.query.filter_by(idR=idR, idUser=current_user.idUser).first()
+    if not resa:
+        return jsonify({"error": "Réservation introuvable"}), 404
+    for cp in ContenirP.query.filter_by(idR=idR).all():
+        plat = Plat.query.get(cp.idP)
+        plat.stock += cp.quantiteP
+        plat.stock -= 1
+        cp.quantiteP = 1
+
+    for cf in ContenirF.query.filter_by(idR=idR).all():
+        formule = Formule.query.get(cf.idF)
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * cf.quantiteF
+            plat.stock -= c.quantiteC
+        cf.quantiteF = 1
+    if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
+        resa.sur_place = sur_place
+        message = "Réservation mise à jour : sur place "
+        success = True
+    elif sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts > 12:
+        message = "Réservation mise à jour : sur place "
+        success = True
+        resa.nb_couverts = 12-nb_couvert_jour(resa.dateR)
+        resa.sur_place = sur_place
+    elif not sur_place:
+        resa.sur_place = False
+        message = "Réservation mise à jour : à emporter"
+        success = True
+    else:
+        resa.sur_place = False
+        message = "Impossible de réserver sur place : limite de 12 couverts atteinte."
+        success = False
+    
+    
+
+
+    db.session.commit()
+
+    return jsonify({
+        "success": success,
+        "message": message,
+        "sur_place": resa.sur_place
+    })
+
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
@@ -336,6 +410,28 @@ def valider_panier():
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
+
+@app.route("/panier/annuler", methods=["POST"])
+@login_required
+def supprimer_panier():
+    """supprime le panier
+
+    Returns:
+        _type_: _description_
+    """
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    for cp in ContenirP.query.filter_by(idR=panier.idR).all():
+        plat = Plat.query.get(cp.idP)
+        plat.stock += cp.quantiteP
+    for cf in ContenirF.query.filter_by(idR=panier.idR).all():
+        formule = Formule.query.get(cf.idF)
+        for c in formule.plats:
+            plat = Plat.query.get(c.idP)
+            plat.stock += c.quantiteC * cf.quantiteF
+    db.session.delete(panier)
+    db.session.commit()
+    flash("Réservation annulée !", "success")
+    return redirect(url_for("menu"))
 
 @login_required
 @app.route('/mesreservation/')

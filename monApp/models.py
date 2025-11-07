@@ -37,8 +37,8 @@ class Reservation(db.Model):
     sur_place = db.Column(db.Boolean)
     statut = db.Column(db.String(50))
 
-    formules = db.relationship("ContenirF", backref="reservation")
-    plats = db.relationship("ContenirP", backref="reservation")
+    formules = db.relationship("ContenirF", backref="reservation", cascade="all, delete-orphan")
+    plats = db.relationship("ContenirP", backref="reservation", cascade="all, delete-orphan")
     user = db.relationship("User", backref=db.backref("reservations"))
 
     def get_total(self):

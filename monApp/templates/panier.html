@@ -80,9 +80,9 @@
         <tbody>
             <tr>
                 {% if current_user.est_banni %}
-                <td><input type="checkbox" name="sur_place" value="1" checked disabled></td>
+                <td><input type="checkbox" id="checkbox-surplace" data-idr="{{ panier.idR }}" value="1" checked disabled></td>
                 {% else %}
-                <td><input type="checkbox" name="sur_place" value="1"></td>
+                <td><input type="checkbox" id="checkbox-surplace" data-idr="{{ panier.idR }}" value="1" {% if panier.sur_place %}checked{% endif %}></td>
                 {% endif %}
                 <td><form action="{{ url_for('modifier_nb_couvert', idR=panier.idR, action='ajouter') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-success btn-sm">+</button>
@@ -97,11 +97,15 @@
     <h3>Total du panier: {{panier.get_total()}} €</h3>
 
     <form action="{{ url_for('valider_panier') }}" method="post">
-        <button type="submit" class="btn btn-primary">Valider le panier</button>
+        <button type="submit" class="btn btn-primary" {% if panier.get_total() == 0 %} disabled {% endif %}>Valider le panier</button>
+    </form>
+    <form action="{{ url_for('supprimer_panier') }}" method="post">
+        <button type="submit" class="btn btn-primary">Supprimer le panier</button>
     </form>
 
 {% else %}
     <p>Votre panier est vide.</p>
 {% endif %}
+<script src="{{ url_for('static', filename='js/case_cocher.js') }}"></script>
 
 {% endblock %}
