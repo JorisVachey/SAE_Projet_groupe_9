@@ -20,6 +20,9 @@
             <a href="{{ url_for('index') }}">
                 <img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami">
             </a>
+            {% if current_user.is_authenticated %}
+                <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p>
+            {% endif %}
             <button id="btn_hamburger">
                 <img id="logo_hamburger" 
                     src="{{ url_for('static', filename='img/base/hamburger.png') }}" 
@@ -56,6 +59,34 @@
                 </ul>
             {% endif %}
         </nav>
+            {%block boutons_header%}
+            <ul class="menu" id="menu">
+                <li><button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button></li>       
+                <li><a href="{{ url_for('index') }}">Accueil</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('propos') }}">À Propos</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <div class="trait-horizontal"></div>
+                <li><a href="{{ url_for('nouveautes') }}">Nouveautés</a></li>
+                <div class="trait-horizontal"></div>
+                {% if current_user.is_authenticated %}
+
+                    <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
+                    <li  class="btn-conn"><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
+                    <li  class="btn-conn"><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
+                {% else %}
+                    <article>
+                        <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
+                        <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
+                    </article>
+
+                {% endif %}
+            </ul>
+            {%endblock%}
+        </nav>  
     </header>
     {% endblock %}
 

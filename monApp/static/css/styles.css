@@ -60,6 +60,13 @@ header article {
     align-items: center;
 }
 
+header .pseudo {
+    margin-left: 5em;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-style: italic;
+}
+
 header nav {
     display: flex;
     align-items: center;
@@ -152,6 +159,12 @@ footer article img {
         
     }
 
+    header .pseudo {
+        margin-left: 2em;
+        font-size: 1em;
+        font-style: italic;
+    }
+
     header>article {
         width: 100%;
         justify-content: space-between;
@@ -206,6 +219,9 @@ footer article img {
     .menu article {
         display: flex;
         gap: 0.5em;
+    }
+
+    header .btn-conn {
         margin-top: 0.7em;
     }
 

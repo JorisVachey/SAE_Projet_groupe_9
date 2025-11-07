@@ -128,3 +128,80 @@
     position: absolute;
     bottom: 0;
 }
+
+@media screen and (max-width: 600px) {
+    .outil_nav {
+        flex-direction: column;
+        margin: 2em 0 0 0;
+    }
+
+    .recherche_container {
+        margin: 0;
+        font-size: 0.8em;
+    }
+
+    .filtre {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.3em;
+        margin: 1.2em 0 0 0;
+        padding: 0;
+        overflow-x: auto;
+        width: 80%;
+    }
+
+    .filtre button {
+        margin-right: 0;
+        flex-grow: 1;
+        font-size: 0.8em;
+    }
+
+    .liste_aliment {
+        flex-direction: column;
+        padding: 0 1em;
+    }
+
+    .nav_type_plat {
+        flex-direction: row;
+        border-radius: 20px;
+        margin: 2em 0 1em 0;
+        width: 100%;
+        padding: 1em;
+        overflow-x: auto;
+        
+    }
+
+    .nav_type_plat button {
+        padding: 0 0.5em;
+        font-size: 0.8em;
+    }
+
+    .derouler {
+        overflow-y: hidden;
+        height: auto;
+        border: 0;
+        grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
+        margin: 0;
+        padding: 1em;
+        gap: 1em;
+        margin-bottom: 2em;
+    }
+
+    .derouler article {
+        margin: 0;
+        height: 21em;
+    }
+
+    .derouler img {
+        width: 4em;
+        height: auto;
+    }
+
+    .derouler h5 {
+        font-size: 1.2em;
+    }
+
+    .derouler p {
+        font-size: 0.8em;
+    }
+}

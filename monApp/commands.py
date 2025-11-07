@@ -121,8 +121,7 @@ def loaddb(file):
     for r in data.get("reservations", []):
         date_r = datetime.strptime(r["dateR"], "%Y-%m-%d").date()
         resa = Reservation(
-            idR=r["idR"],
-            numtelUser=r["numtelUser"],
+            idUser=r["idUser"],
             dateR=date_r,
             nb_couverts=r["nb_couverts"],
             sur_place=r["sur_place"],
