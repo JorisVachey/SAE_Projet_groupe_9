@@ -126,7 +126,8 @@
     margin: 0 3em 2em 3em;
 }
 
-.un_type_plat {
+.liste_plats a {
+    text-decoration: none;
     display: flex;
     flex-direction: row;
     flex-basis: 20%;
@@ -145,6 +146,8 @@
     object-fit: cover;
     width: 10em;
     height: 10em;
+    border-radius: 10px;
+    margin: 1em;
 }
 
 :root {
@@ -206,14 +209,15 @@
     box-shadow: 2px 2px 10px;
 }
 
-.un_type_plat {
+.liste_plats a {
     background-color: var(--header);
     border-radius: 0.7em;
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
+    color: black;
 }
 
-.un_type_plat:hover {
+.liste_plats a:hover {
     transform: scale(1.05);
 }
 
@@ -221,9 +225,10 @@
     color: var(--orange);
 }
 
-.plats_titre h3 {
+.plats_titre p {
     color: var(--text-gris);
 }
+
 
 :root {
     --header-height: 13dvh;
