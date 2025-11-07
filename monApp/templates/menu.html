@@ -28,6 +28,7 @@
             <article class="deux" data-id-tp="{{ plat.idTp }}">
                 <article class="info_plat">
                     <input type="hidden" class="type_plat" ></input>
+                    <input type="hidden" class="stock" value="{{ plat.stock }}"></input>
                     <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
                         <h5 class="nom">{{ plat.nomP }}</h5>
                     <p>{{ plat.descriptionP }}</p>

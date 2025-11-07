@@ -102,11 +102,12 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
     height: auto;
-    position: relative;     
+    max-height: 28em;
+    justify-content: space-between;
+    position: relative;
 }
 
 .derouler .deux:hover {
@@ -204,13 +205,14 @@
         grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
         margin: 0;
         padding: 1em;
-        gap: 1em;
+        gap: 1.5em;
         margin-bottom: 2em;
     }
 
-    .derouler article {
+    .derouler .deux {
         margin: 0;
-        height: 21em;
+        height: auto;
+        max-height: 35em;
     }
 
     .derouler img {
@@ -224,5 +226,9 @@
 
     .derouler p {
         font-size: 0.8em;
+    }
+
+    .btn_prix {
+        flex-direction: column;
     }
 }
