@@ -99,6 +99,9 @@
     <form action="{{ url_for('valider_panier') }}" method="post">
         <button type="submit" class="btn btn-primary">Valider le panier</button>
     </form>
+    <form action="{{ url_for('supprimer_panier') }}" method="post">
+        <button type="submit" class="btn btn-primary">Supprimer le panier</button>
+    </form>
 
 {% else %}
     <p>Votre panier est vide.</p>

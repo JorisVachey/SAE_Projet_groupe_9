@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(data => {
         console.log("Serveur:", data.message);
+        alert(data.message);
         location.reload();
+        if (!data.success) {
+            checkbox.checked = false;
+            checkbox.disabled = true;
+        }
       })
       .catch(err => {
         console.error("Erreur fetch:", err);

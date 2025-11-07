@@ -331,6 +331,9 @@ def modifier_nb_couvert(idR, action):
         if reservation.sur_place:
             if not nb_couvert_jour(reservation.dateR)+1>12:
                 reservation.nb_couverts += 1
+        else:
+            reservation.nb_couverts += 1
+
 
     elif action == "diminuer":
         reservation = Reservation.query.get(idR)
@@ -348,23 +351,47 @@ def update_checkbox():
     sur_place = data.get("sur_place")
 
     resa = Reservation.query.filter_by(idR=idR, idUser=current_user.idUser).first()
+    if not resa:
+        return jsonify({"error": "Réservation introuvable"}), 404
     for cp in ContenirP.query.filter_by(idR=idR).all():
         plat = Plat.query.get(cp.idP)
-        plat.stock+=cp.quantiteP-1
+        plat.stock += cp.quantiteP - 1
         cp.quantiteP = 1
+
     for cf in ContenirF.query.filter_by(idR=idR).all():
         formule = Formule.query.get(cf.idF)
         for c in formule.plats:
             plat = Plat.query.get(c.idP)
-            plat.stock+=c.quantiteC*cf.quantiteF-c.quantiteC
+            plat.stock += c.quantiteC * cf.quantiteF - c.quantiteC
         cf.quantiteF = 1
-
-    if sur_place and nb_couvert_jour(resa.dateR)+1<=12:
+    if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
         resa.sur_place = sur_place
+        message = "Réservation mise à jour : sur place "
+        success = True
+    elif sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts > 12:
+        message = "Réservation mise à jour : sur place "
+        success = True
+        resa.nb_couverts = 12-nb_couvert_jour(resa.dateR)
+        resa.sur_place = sur_place
+    elif not sur_place:
+        resa.sur_place = False
+        message = "Réservation mise à jour : à emporter"
+        success = True
     else:
         resa.sur_place = False
+        message = "Impossible de réserver sur place : limite de 12 couverts atteinte."
+        success = False
+    
+    
+
+
     db.session.commit()
-    return redirect(url_for("voir_panier"))
+
+    return jsonify({
+        "success": success,
+        "message": message,
+        "sur_place": resa.sur_place
+    })
 
 
 @app.route("/panier/valider", methods=["POST"])
@@ -380,6 +407,20 @@ def valider_panier():
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
+
+@app.route("/panier/annuler", methods=["POST"])
+@login_required
+def supprimer_panier():
+    """supprime le panier
+
+    Returns:
+        _type_: _description_
+    """
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    db.session.delete(panier)
+    db.session.commit()
+    flash("Réservation annulée !", "success")
+    return redirect(url_for("menu"))
 
 @login_required
 @app.route('/mesreservation/')
