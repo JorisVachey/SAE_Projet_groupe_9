@@ -123,10 +123,23 @@ h1,h3,.trait-horizontal{
 
 }
 
-.form_objets{
+.champs{
     display: flex;
     flex-direction: column;    
 }
-.form_objets input, .form_objets select{
-    margin-bottom: 0.5em;
+.champs input, .champs select{
+    margin-bottom: 1.5em;
+}
+
+.annuler{
+    background-color: var(--text-gris) ;
+    color: var(--tableau);
+    border-radius: 5px;
+}
+
+.boutons_form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }

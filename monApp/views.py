@@ -332,12 +332,64 @@ def mes_reservations() :
 def admin():
     return render_template("admin.html")
 
-@app.route('/admin/gestion_plats/')
+from flask import request, redirect, url_for, render_template, jsonify
+from .models import db, Plat, Type_plat
+
+@app.route('/admin/gestion_plats/', methods=['GET', 'POST'])
 @admin_required
 def gestion_plats():
-    plats= Plat.query.all()
-    types=Type_plat.query.all()
-    return render_template("gestion_plat.html", plats = plats,types=types)
+
+    if request.method == 'POST':
+        try:
+            nom_plat = request.form.get('nomP')
+            type_plat_id = request.form.get('idTP')
+            prix_plat = request.form.get('prixP')
+
+            if not nom_plat or not prix_plat or not type_plat_id:
+                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
+
+            try:
+                prix_decimal = float(prix_plat)
+                type_id_int = int(type_plat_id)
+            except ValueError:
+                return jsonify({'success': False, 'error': 'Format de prix ou ID invalide'}), 400
+
+            nouveau_plat = Plat(
+                idP=1000,
+                nomP=nom_plat,
+                idTp=type_id_int,
+                prixP=prix_decimal,
+                stock=0,
+                stockInit=0,
+                cheminImg="",
+                descriptionP=""
+            )
+
+            db.session.add(nouveau_plat)
+            db.session.commit()
+            
+            type_associe = Type_plat.query.get(type_id_int)
+            type_nom = type_associe.nomTp if type_associe else 'Inconnu'
+
+            return jsonify({
+                'success': True,
+                'plat': {
+                    'id': nouveau_plat.idP,
+                    'nomP': nouveau_plat.nomP,
+                    'prixP': nouveau_plat.prixP,
+                    'type_nom': type_nom,
+                    'stock': nouveau_plat.stock,
+                    'stockInit': nouveau_plat.stockInit
+                }
+            })
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'success': False, 'error': str(e)}), 500
+
+    plats = Plat.query.all()
+    types = Type_plat.query.all()
+    return render_template("gestion_plat.html", plats=plats, types=types)
 
 @app.route('/admin/gestion_formules/')
 @admin_required

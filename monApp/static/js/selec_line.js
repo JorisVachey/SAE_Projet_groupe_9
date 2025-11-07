@@ -2,13 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tableau = document.getElementById('tableau');
     const tableBody = document.getElementById('tableBody');
-    // Correspond à votre HTML id="btn_suppr"
     const btnSuppr = document.getElementById('btn_suppr');
-
-    if (!btnSuppr) {
-        console.error("Erreur: Bouton 'btn_suppr' introuvable !");
-        return;
-    }
 
     tableBody.addEventListener('click', (event) => {
         const ligneCliquee = event.target.closest('tr');
@@ -34,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`/supprimer-plat/${nomPlat}`, {
             method: 'DELETE' 
         })
+        .then(response => {
+            return response.json()})
         .then(data => {
             if (data.success) {
                 ligneSelectionnee.remove();
