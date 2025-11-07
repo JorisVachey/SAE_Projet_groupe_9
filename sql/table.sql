@@ -52,7 +52,6 @@
     );
 
     ALTER TABLE PLAT ADD FOREIGN KEY (idTp) REFERENCES TYPE_PLAT (idTp);
-
     create table COMPOSER (
         idF int,
         idP int,

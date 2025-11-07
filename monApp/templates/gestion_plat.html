@@ -1,4 +1,4 @@
-{%extends "base.html"%}
+{%extends "admin.html"%}
 {% block styles_additionnels %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestion_plat.css') }}">
 {% endblock %}
@@ -10,7 +10,7 @@
 <section class="corps"> 
     <article>
             <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
-            <button class="boutons_plat">Ajouter un plat</button>
+            <button class="boutons_plat" onclick="afficherForm()">Ajouter un plat</button>
             <button class="boutons_plat" id="btn_suppr">Supprimer le plat</button>
             <button class="boutons_plat" id="btn_prix">Modifier le prix</button>
             <button class="boutons_plat" id="btn_quantite">Modifier la quantité</button>
@@ -40,8 +40,26 @@
             </table>
     </article> 
 </section>
+<section id="pop-up-ajout">
+    <article class="form_objets">
+        <label for="nomP">Nom du Plat</label>
+        <input id="nomP" type="text" placeholder="Saisir nom du plat...">
+        <form method="POST" action="/traitement">
+        <label for="user_select">Choisissez un type de plat :</label>
+        <select class="select_t" name="type_nom" > 
+            <option>-- Veuillez choisir --</option>
+            {% for unType in types %}
+                <option value="{{ unType.id }}">{{ unType.nomTp }}</option>
+            {% endfor %}
+            </select>
+        <label for="prix">Prix du plat</label>
+        <input id="prix" type="decimal" placeholder="Saisir le prix...">
+        <button class="boutons_plat">Ajouter</button>
+    </article>
+</section>
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 <script src="{{url_for('static', filename='js/selec_line.js')}}"></script>
+<script src="{{url_for('static', filename='js/ajout_plat.js')}}"></script>
 {%endblock %}
 {%block footer%}
 {%endblock%}

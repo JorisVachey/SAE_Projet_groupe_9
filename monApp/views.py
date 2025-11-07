@@ -336,7 +336,8 @@ def admin():
 @admin_required
 def gestion_plats():
     plats= Plat.query.all()
-    return render_template("gestion_plat.html", plats = plats)
+    types=Type_plat.query.all()
+    return render_template("gestion_plat.html", plats = plats,types=types)
 
 @app.route('/admin/gestion_formules/')
 @admin_required

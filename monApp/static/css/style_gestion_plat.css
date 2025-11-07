@@ -102,3 +102,31 @@ h1,h3,.trait-horizontal{
   background-color:var(--selected);
   color: black;
 }
+
+
+#pop-up-ajout{
+    position: fixed;
+    top:15em;
+    right: 35em;
+    z-index:2;
+    background-color: var(--tableau);
+    border: solid 1px var(--orange);
+    border-radius: 5px;
+    display: none;
+    max-width: 20em;
+
+}
+
+#pop-up-ajout.open{
+    display: flex !important; 
+    padding: 10px;
+
+}
+
+.form_objets{
+    display: flex;
+    flex-direction: column;    
+}
+.form_objets input, .form_objets select{
+    margin-bottom: 0.5em;
+}
