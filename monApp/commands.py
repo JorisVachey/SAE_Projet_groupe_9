@@ -73,7 +73,6 @@ def loaddb(file):
     click.echo("Insertion des plats...")
     for p in data.get("plats", []):
         plat = Plat(
-            idP=p["idP"],
             nomP=p["nomP"],
             idTp=p["idTp"],
             prixP=p["prixP"],

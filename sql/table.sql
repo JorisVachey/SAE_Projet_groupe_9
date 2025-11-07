@@ -50,7 +50,7 @@ create table PLAT(
     cheminImg varchar(200),
     PRIMARY KEY (idP)
 );
-
+ALTER TABLE PLAT MODIFY idP INT NOT NULL AUTO_INCREMENT;
 ALTER TABLE PLAT ADD FOREIGN KEY (idTp) REFERENCES TYPE_PLAT (idTp);
 
 create table COMPOSER (

@@ -97,7 +97,7 @@ class Type_plat(db.Model):
 class Plat(db.Model):
     __tablename__ = "PLAT"
 
-    idP = db.Column(db.Integer, primary_key=True)
+    idP = db.Column(db.Integer, primary_key=True,autoincrement=True)
     nomP = db.Column(db.String(50))
     idTp = db.Column(db.Integer, db.ForeignKey("TYPE_PLAT.idTp"))
     prixP = db.Column(db.Numeric(10, 2))
@@ -109,8 +109,7 @@ class Plat(db.Model):
     formules = db.relationship("Composer", backref="plat")
     reservations = db.relationship("ContenirP", backref="plat")
 
-    def __init__(self, idP, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
-        self.idP = idP
+    def __init__(self, nomP, idTp, prixP, stock, stockInit,cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP
