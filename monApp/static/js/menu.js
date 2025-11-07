@@ -52,7 +52,7 @@ btnPlatChoisi.forEach(btn => {
 const btnTrierPrix = document.getElementById("triPrix");
 btnTrierPrix.addEventListener("click", () => {
     const container = document.querySelector(".derouler");
-    const lstArticles = Array.from(container.querySelectorAll("article"));
+    const lstArticles = Array.from(container.querySelectorAll(".deux"));
     lstArticles.sort((a, b) => {
         const prixA = parseFloat(a.querySelector(".prix").textContent);
         const prixB = parseFloat(b.querySelector(".prix").textContent);
@@ -67,7 +67,7 @@ const btnTrierNom = document.getElementById("triNom");
 btnTrierNom.addEventListener("click", () => {
     
     const container = document.querySelector(".derouler");
-    const lstArticles = Array.from(container.querySelectorAll("article"));
+    const lstArticles = Array.from(container.querySelectorAll(".deux"));
     lstArticles.sort((a, b) => {
         const nomA = a.querySelector(".nom").textContent;
         const nomB = b.querySelector(".nom").textContent;
