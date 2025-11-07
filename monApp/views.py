@@ -169,7 +169,7 @@ def voir_panier():
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=get_total_panier(panier.idR))
+    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=panier.get_total())
 
 
 @login_required
