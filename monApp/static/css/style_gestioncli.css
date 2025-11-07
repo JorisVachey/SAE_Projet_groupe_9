@@ -1,0 +1,94 @@
+main {
+    margin-top: 7em;
+    text-align: center;
+    color: var(--noir-blanc);
+}
+
+.gestion-client {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 80vh;
+    background-color: var(--tableau);
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 12px;
+}
+
+.gestion-client table {
+    border-collapse: collapse;
+    width: 95%;
+    margin-top: 20px;
+    background-color: var(--bg-base);
+    border: 3px solid var(--orange);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gestion-client button {
+    margin-top: 2em;
+    background-color: var(--btn);
+    border: 1px solid var(--orange);
+    color: var(--noir-blanc);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.gestion-client button:hover {
+    background-color: var(--orange);
+    color: var(--noir);
+}
+
+.gestion-client th,
+.gestion-client td {
+    border: 1px solid var(--orange);
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.gestion-client th {
+    background-color: var(--btn);
+    font-weight: bold;
+}
+
+.ligne-client {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ligne-client.selected {
+    background-color: #e0602da1;
+}
+
+h2 {
+    color: var(--noir-blanc);
+    margin-bottom: 0.5em;
+}
+
+h2 .titre {
+    font-size: 2.5em;
+}
+
+.trait-horizontal,
+.trait-horizontal2 {
+    margin: 0 auto 1.5em auto;
+    display: block;
+    background-color: var(--noir-blanc);
+    border-radius: 4px;
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+}
+
+.trait-horizontal2 {
+    height: 0.4em;
+    width: 7em;
+    background-color: var(--noir-blanc);
+    margin-top: 1em;
+}

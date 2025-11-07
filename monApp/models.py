@@ -26,6 +26,17 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return str(self.idUser)
 
+    def bannir(self):
+        self.est_banni = True
+        db.session.commit()
+
+    def debannir(self):
+        self.est_banni = False
+        db.session.commit()
+    
+    def get_nb_reservations_annulees(self):
+        return Reservation.query.filter_by(idUser=self.idUser, statut='annulée').count()
+
 
 class Reservation(db.Model):
     __tablename__ = "RESERVATION"

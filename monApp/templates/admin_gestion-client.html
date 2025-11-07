@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestioncli.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<h2>Gestion des <br><span class=titre>UTILISATEURS</span></h2>
+<div class="trait-horizontal"></div>
+<section class="gestion-client">
+    <div class="trait-horizontal2"></div>
+    <div>
+        <button id="btnBannir">Blacklister</button>
+        <button id="btnDebannir">Enlever de la blacklist</button>
+    </div>
+    <table>
+        <thead>
+            <th>Numéro de téléphone</th>
+            <th>Pseudonyme</th>
+            <th>Blacklisté</th>
+            <th>Nombre d'oublis</th>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr class="ligne-client" data-id="{{ client.idUser }}">
+                <td>{{ client.numtelUser }}</td>
+                <td>{{ client.pseudonyme }}</td>
+                <td>{% if client.est_banni %}Oui{% else %}Non{% endif %}</td>
+                <td>{{ client.get_nb_reservations_annulees() }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+<script src="{{ url_for('static', filename='js/gerer-cli.js') }}"></script>
+
+
+{% endblock %}
