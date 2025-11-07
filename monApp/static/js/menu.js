@@ -1,19 +1,42 @@
 typePlatChoisi = null;
+
+function StockEpuise(article) {
+    const stock = parseInt(article.querySelector(".stock").value, 10);
+    console.log(stock)
+    if (stock === 0) {
+        return true;
+    }
+}
+
+const articles = document.querySelectorAll(".deux");
+articles.forEach(article => {
+    if (StockEpuise(article)) {
+        article.style.opacity = "0.5";
+        article.style.pointerEvents = "none";
+        article.style.filter = "grayscale(100%)";
+    }
+});
+
 const btnPlatChoisi = document.querySelectorAll(".choix_type_plat");
 btnPlatChoisi.forEach(btn => {
     btn.addEventListener("click", () => {
         typePlatChoisi = parseInt(btn.dataset.id);
-        const articles = document.querySelectorAll(".derouler article");
+        const articles = document.querySelectorAll(".deux");
         articles.forEach(article => {
             const idPlat = parseInt(article.dataset.idTp);
             const estPlatChoisi = (idPlat === typePlatChoisi);
             let affichage;
             if (estPlatChoisi) {
-                affichage = "block";
+                affichage = "flex";
             } else {
                 affichage = "none";
             }
             article.style.display = affichage;
+            if (StockEpuise(article)) {
+                article.style.opacity = "0.5";
+                article.style.pointerEvents = "none";
+                article.style.filter = "grayscale(100%)";
+            }
         });
         btnPlatChoisi.forEach(b => {
             b.style.backgroundColor = "";
@@ -67,9 +90,14 @@ const btnToutPlat = document.getElementById("tout");
 const btnPlat = document.querySelectorAll(".choix_type_plat");
 btnToutPlat.addEventListener("click", () => {
     typePlatChoisi = null;
-    const articles = document.querySelectorAll(".derouler article");
+    const articles = document.querySelectorAll(".deux");
     articles.forEach(article => {
-        article.style.display = "block";
+        article.style.display = "flex";
+        if (StockEpuise(article)) {
+            article.style.opacity = "0.5";
+            article.style.pointerEvents = "none";
+            article.style.filter = "grayscale(100%)";
+        }
     });
     btnPlat.forEach(b => {
         b.style.backgroundColor = "";
@@ -80,18 +108,23 @@ btnToutPlat.addEventListener("click", () => {
 
 function effectuerRecherche() {
     let valRecherche = document.getElementById("recherche_bare").value.toLowerCase();
-    const articles = document.querySelectorAll(".derouler article");
+    const articles = document.querySelectorAll(".deux");
     articles.forEach(article => {
         const nomPlat = article.querySelector("h5").textContent.toLowerCase();
         const idTp = parseInt(article.dataset.idTp);
         let affichage;
         if ((typePlatChoisi === null || typePlatChoisi === idTp) &&
             nomPlat.includes(valRecherche)) {
-            affichage = "block";
+            affichage = "flex";
         } else {
             affichage = "none";
         }
         article.style.display = affichage;
+        if (StockEpuise(article)) {
+            article.style.opacity = "0.5";
+            article.style.pointerEvents = "none";
+            article.style.filter = "grayscale(100%)";
+        }
     })
 }
 

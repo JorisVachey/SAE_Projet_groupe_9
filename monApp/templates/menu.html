@@ -25,17 +25,27 @@
     </article>
     <section class="derouler">
         {% for plat in plats %}
-            <article data-id-tp="{{ plat.idTp }}">
-                <input type="hidden" class="type_plat" ></input>
-                <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
-                    <h5 class="nom">{{ plat.nomP }}</h5>
-                <p>{{ plat.descriptionP }}</p>
-                <p class="prix">{{ plat.prixP }} €</p>
-                {% if current_user.is_authenticated %}
-                <form action="{{ url_for('ajouter_plat', idP=plat.idP) }}" method="post" style="display:inline">
-                        <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
-                    </form>
-                {%endif%}
+            <article class="deux" data-id-tp="{{ plat.idTp }}">
+                <article class="info_plat">
+                    <input type="hidden" class="type_plat" ></input>
+                    <input type="hidden" class="stock" value="{{ plat.stock }}"></input>
+                    <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
+                        <h5 class="nom">{{ plat.nomP }}</h5>
+                    <p>{{ plat.descriptionP }}</p>
+                </article>
+                <article class="btn_prix">
+                    {% if current_user.is_authenticated %}
+                        <form action="{{ url_for('ajouter_plat', idP=plat.idP) }}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                        </form>
+                    {%else%}
+                        <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
+                            <input type="hidden" name="next" value="menu">
+                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                        </form>
+                    {%endif%}
+                    <p class="prix">{{ plat.prixP }} €</p>
+                </article>
             </article>
         {% endfor %}
     </section>

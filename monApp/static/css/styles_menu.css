@@ -95,21 +95,22 @@
     border-radius: 20px 0 0 20px;
 }
 
-.derouler article {
+.derouler .deux {
     background-color: var(--header);
     margin: 1.2em;
     padding: 1.2em;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
-    height: 25em;
-    position: relative;     
+    height: auto;
+    max-height: 28em;
+    justify-content: space-between;
+    position: relative;
 }
 
-.derouler article:hover {
+.derouler .deux:hover {
     transform: scale(1.05);
 }
 
@@ -124,9 +125,30 @@
     margin-top: 0.4em;
 }
 
-.derouler article .prix {
-    position: absolute;
-    bottom: 0;
+.derouler button {
+    background-color: var(--btn);
+    border-radius: 10px;
+    color: white;
+    border: 1px solid var(--ombre-noir-blanc);
+    padding: 0.2em 1.2em;
+}
+
+.derouler button:hover {
+    color: black;
+    background-color: var(--btn);
+    border-color: black;
+}
+
+.btn_prix {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn_prix p,
+.btn_prix form {
+    margin: 0;
 }
 
 @media screen and (max-width: 600px) {
@@ -183,13 +205,14 @@
         grid-template-columns: repeat(auto-fill, minmax(42%, 1fr));
         margin: 0;
         padding: 1em;
-        gap: 1em;
+        gap: 1.5em;
         margin-bottom: 2em;
     }
 
-    .derouler article {
+    .derouler .deux {
         margin: 0;
-        height: 21em;
+        height: auto;
+        max-height: 35em;
     }
 
     .derouler img {
@@ -203,5 +226,9 @@
 
     .derouler p {
         font-size: 0.8em;
+    }
+
+    .btn_prix {
+        flex-direction: column;
     }
 }
