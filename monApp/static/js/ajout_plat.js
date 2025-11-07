@@ -1,12 +1,12 @@
 function afficherForm() {
     const form = document.querySelector("#pop-up-ajout");
-    if (!form) return; // protège si l'élément n'existe pas
+    if (!form) return;
     form.classList.add("open");
 }
 
 function masquerForm() {
     const form = document.querySelector("#pop-up-ajout");
-    if (!form) return; // protège si l'élément n'existe pas
+    if (!form) return;
     form.classList.remove("open");
 }
 
@@ -15,25 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector("#form-ajout-plat");
     const tableBody = document.getElementById('tableBody');
 
-form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function(event) {
         
         event.preventDefault(); 
 
-        // --- DEBUT DE LA VALIDATION ---
         const nomP = form.querySelector('[name="nomP"]').value;
         const idTP = form.querySelector('[name="idTp"]').value;
         const prixP = form.querySelector('[name="prixP"]').value;
         const stock = form.querySelector('[name="stock"]').value;
         const desc = form.querySelector('[name="desc"]').value;
 
-        // Vérifie si un champ est vide
         if (!nomP || !idTP || !prixP || !stock || !desc) {
-            // Vous pouvez afficher une erreur plus claire à l'utilisateur ici
             console.error("Erreur : Tous les champs sont requis.");
             alert("Veuillez remplir tous les champs, y compris le type de plat.");
-            return; // Stoppe l'exécution
+            return;
         }
-        // --- FIN DE LA VALIDATION ---
 
         const formData = new FormData(form);
         const url = form.action;
@@ -43,6 +39,11 @@ form.addEventListener('submit', function(event) {
             body: formData
         })
         .then(response => {
+            if (!response.ok) {
+                 return response.json().then(errData => {
+                     throw new Error(errData.error || 'Erreur inconnue');
+                 });
+            }
             return response.json();
         })
         .then(data => {
@@ -51,12 +52,13 @@ form.addEventListener('submit', function(event) {
                 masquerForm();
                 form.reset();
             } else {
-                // Cette ligne affiche l'erreur "Champs manquants"
                 console.error("Erreur lors de l'ajout : " + (data.error));
+                alert("Erreur : " + data.error);
             }
         })
         .catch(error => {
             console.error('Erreur réseau ou fetch:', error);
+            alert("Erreur : " + error.message);
         });
     });
 });

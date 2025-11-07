@@ -366,6 +366,10 @@ def gestion_plats():
 
             if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
                 return jsonify({'success': False, 'error': 'Champs manquants'}), 400
+            
+            plat_existant = Plat.query.filter_by(nomP=nom_plat).first()
+            if plat_existant:
+                return jsonify({'success': False, 'error': 'Un plat avec ce nom existe déjà.'}), 400
 
             try:
                 prix_decimal = float(prix_plat)
