@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block styles_additionnels %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_commandes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_commandes.css') }}">
 {% endblock %}
 
 {% block main %}
@@ -22,7 +22,7 @@
                 <td>{{ commande.user.pseudonyme }}</td>
                 <td>{{ commande.user.numtelUser }}</td>
                 <td>{{ commande.idR }}</td>
-                <td> {{ prix_commande }} €</td>
+                <td> {{ commande.get_total() }} €</td>
                 <td>{{ commande.dateR }}</td>
             {% if commande.sur_place is true %}
                 <td>Oui</td>

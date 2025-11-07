@@ -152,20 +152,6 @@ def get_or_create_panier(idUser):
         db.session.commit()
     return panier
 
-@app.route("/reservation/<int:idR>/total")
-@login_required
-def get_total_panier(idR):
-    """permet de calculer le cout total de la commande a partir d'un idR
-    """
-    total =0
-    for cp in ContenirP.query.filter_by(idR=idR).all():
-        plat = Plat.query.get(cp.idP)
-        total += plat.prixP * cp.quantiteP
-    for cf in ContenirF.query.filter_by(idR=idR).all():
-        formule = Formule.query.get(cf.idF)
-        total += formule.prixF * cf.quantiteF
-    return total
-
 @login_required
 @app.route('/panier/')
 def voir_panier():
@@ -378,8 +364,7 @@ def gestion_cli():
 @admin_required
 def voir_comm():
     commandes = Reservation.query.all()
-    prix_commande = 0 # TODO requete pour calculer le prix de la commande le 0 est une valeur temp
-    return render_template("commandes.html", commandes=commandes,prix_commande = str(prix_commande))
+    return render_template("commandes.html", commandes=commandes)
 
 
 @app.route('/admin/gestion_compte/')
