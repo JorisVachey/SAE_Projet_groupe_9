@@ -77,7 +77,7 @@ class Formule(db.Model):
     nomF = db.Column(db.String(50))
     prixF = db.Column(db.Numeric(10, 2))
 
-    plats = db.relationship("Composer", backref="formule")
+    plats = db.relationship("Composer", backref="formule", cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
     def __init__(self, idF, nomF, prixF):

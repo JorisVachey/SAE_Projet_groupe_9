@@ -2,7 +2,7 @@ from hashlib import sha256
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
-from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
+from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule, Reservation, Composer
 from flask_mail import Mail,Message
 from datetime import datetime
 import os
@@ -509,10 +509,84 @@ def gestion_plats():
     types = Type_plat.query.all()
     return render_template("gestion_plat.html", plats=plats, types=types)
 
-@app.route('/admin/gestion_formules/')
+@app.route('/admin/gestion_formules/', methods=['GET', 'POST'])
 @admin_required
 def gestion_formules():
-    return "page de gestion des formules"
+    if request.method == 'POST':
+        try:
+            nom_formule = request.form.get('nomF')
+            prix_formule = request.form.get('prixF')
+            plats_ids = request.form.getlist('plats')
+
+            if not nom_formule or not prix_formule:
+                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
+            
+            if not plats_ids:
+                return jsonify({'success': False, 'error': 'Aucun plat sélectionné'}), 400
+
+            # Find max idF to simulate autoincrement
+            max_id = db.session.query(db.func.max(Formule.idF)).scalar()
+            new_id = (max_id or 0) + 1
+
+            nouvelle_formule = Formule(idF=new_id, nomF=nom_formule, prixF=float(prix_formule))
+            db.session.add(nouvelle_formule)
+            db.session.flush()
+
+            for pid in plats_ids:
+                composer = Composer(idF=nouvelle_formule.idF, idP=int(pid), quantiteC=1)
+                db.session.add(composer)
+            
+            db.session.commit()
+            return jsonify({'success': True})
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'success': False, 'error': str(e)}), 500
+
+    formules = Formule.query.all()
+    types = Type_plat.query.all()
+    plats = Plat.query.all()
+    return render_template("gestion_formules.html", formules=formules, types=types, plats=plats)
+
+@app.route('/admin/supprimer-formule/<int:id_formule>', methods=['DELETE'])
+@admin_required
+def supprimer_formule(id_formule):
+    try:
+        formule = Formule.query.get(id_formule)
+        if formule:
+            db.session.delete(formule)
+            db.session.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/modifier_prix_formule', methods=['POST'])
+@admin_required
+def modifier_prix_formule():
+    data = request.get_json()
+    id_formule = data.get('idF')
+    nouveau_prix = data.get('prixF')
+
+    if not id_formule or not nouveau_prix:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        formule = Formule.query.get(id_formule)
+        if not formule:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+
+        formule.prixF = float(nouveau_prix)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Prix invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/admin/gestion_cli/')
 @admin_required
