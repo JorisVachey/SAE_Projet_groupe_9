@@ -64,6 +64,15 @@ main {
     background-color: #e0602da1;
 }
 
+.ligne-com {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ligne-com.selected {
+    background-color: #e0602da1;
+}
+
 h2 {
     color: var(--noir-blanc);
     margin-bottom: 0.5em;

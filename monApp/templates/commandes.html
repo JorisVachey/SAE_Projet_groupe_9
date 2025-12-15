@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block styles_additionnels %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_commandes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestioncli.css') }}">
 {% endblock %}
 
 {% block main %}
-<section>
-    <h1>Commandes</h1>
+<h2>Gestion des <br><span class=titre>COMMANDES</span></h2>
+<div class="trait-horizontal"></div>
+<section class="gestion-client">
+    <div class="trait-horizontal2"></div>
+    <div>
+        <button id="btnBannir">VALIDER</button>
+        <button id="btnDebannir">REFUSER</button>
+    </div>
     <table>
         <thead>
             <th>Nom</th>
@@ -18,7 +24,7 @@
         </thead>
         <tbody>
             {% for commande in commandes %}
-            <tr>
+            <tr class="ligne-com" data-id="{{ commande.idR }}">
                 <td>{{ commande.user.pseudonyme }}</td>
                 <td>{{ commande.user.numtelUser }}</td>
                 <td>{{ commande.idR }}</td>
@@ -34,5 +40,5 @@
         </tbody>
     </table>
 </section>
-
+<script src="{{ url_for('static', filename='js/gerer_com.js') }}"></script>
 {% endblock %}
