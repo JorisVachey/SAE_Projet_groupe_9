@@ -16,6 +16,11 @@ function masquerForm() {
         details.forEach(detail => {
             detail.removeAttribute('open');
         });
+        const quantityInputs = form.querySelectorAll('.quantite-input');
+        quantityInputs.forEach(input => {
+            input.disabled = true;
+            input.value = 1;
+        });
     }
 }
 
@@ -45,6 +50,17 @@ function masquerFormPrix() {
     const form = document.querySelector("#pop-up-modif-prix");
     if (form) {
         form.classList.remove("open");
+    }
+}
+
+function toggleQuantity(checkbox) {
+    const container = checkbox.closest('.plat-selection');
+    const quantityInput = container.querySelector('.quantite-input');
+    if (quantityInput) {
+        quantityInput.disabled = !checkbox.checked;
+        if (!checkbox.checked) {
+            quantityInput.value = 1;
+        }
     }
 }
 

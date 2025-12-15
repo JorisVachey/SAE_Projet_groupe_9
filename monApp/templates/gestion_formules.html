@@ -31,7 +31,7 @@
                             <td>
                                 <ul>
                                 {% for comp in uneFormule.plats %}
-                                    <li>{{ comp.plat.nomP }}</li>
+                                    <li>{{ comp.plat.nomP }} x{{ comp.quantiteC }}</li>
                                 {% endfor %}
                                 </ul>
                             </td>
@@ -57,10 +57,13 @@
                     <div class="scroll-menu">
                         {% for unPlat in plats %}
                             {% if unPlat.idTp == unType.idTp %}
-                                <label>
-                                    <input type="checkbox" name="plats" value="{{ unPlat.idP }}">
-                                    {{ unPlat.nomP }}
-                                </label><br>
+                                <div class="plat-selection" style="display: flex; align-items: center; margin-bottom: 5px;">
+                                    <label style="flex-grow: 1;">
+                                        <input type="checkbox" name="plats" value="{{ unPlat.idP }}" onchange="toggleQuantity(this)">
+                                        {{ unPlat.nomP }}
+                                    </label>
+                                    <input type="number" name="quantite_{{ unPlat.idP }}" value="1" min="1" class="quantite-input" disabled style="width: 50px; margin-left: 10px;">
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </div>

@@ -524,6 +524,9 @@ def gestion_formules():
             if not plats_ids:
                 return jsonify({'success': False, 'error': 'Aucun plat sélectionné'}), 400
 
+            if Formule.query.filter_by(nomF=nom_formule).first():
+                return jsonify({'success': False, 'error': 'Une formule avec ce nom existe déjà'}), 400
+
             # Find max idF to simulate autoincrement
             max_id = db.session.query(db.func.max(Formule.idF)).scalar()
             new_id = (max_id or 0) + 1
@@ -533,7 +536,8 @@ def gestion_formules():
             db.session.flush()
 
             for pid in plats_ids:
-                composer = Composer(idF=nouvelle_formule.idF, idP=int(pid), quantiteC=1)
+                quantite = request.form.get(f'quantite_{pid}', 1)
+                composer = Composer(idF=nouvelle_formule.idF, idP=int(pid), quantiteC=int(quantite))
                 db.session.add(composer)
             
             db.session.commit()
