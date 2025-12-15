@@ -135,6 +135,7 @@ class Plat(db.Model):
     
     def new_prix(self, new_prix):
         self.prixP=new_prix
+        
     def new_quantite(self, quantite):
         self.stock=quantite
 
