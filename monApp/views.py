@@ -433,7 +433,7 @@ def preparer_panier(idR, action):
 
     db.session.commit()
     flash("La commande a etais traité avec succès !", "success")
-    return redirect(url_for("menu"))
+    return redirect(url_for("voir_comm"))
 
 @app.route("/panier/annuler", methods=["POST"])
 @login_required
@@ -447,7 +447,7 @@ def supprimer_panier():
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
-    return redirect(url_for("voir_comm"))
+    return redirect(url_for("menu"))
 
 @login_required
 @app.route('/mesreservation/')

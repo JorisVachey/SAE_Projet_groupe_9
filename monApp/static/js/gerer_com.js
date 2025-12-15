@@ -11,20 +11,28 @@ rows.forEach(row => {
   });
 });
 
-// Bouton valider
-document.getElementById("btnBannir").addEventListener("click", () => {
+/**
+ * Fonction pour créer et soumettre un formulaire POST dynamiquement.
+ * @param {string} action La route Flask à appeler (ex: valider, supprimer).
+ */
+function submitAdminAction(action) {
     if (!selectedUserId) {
         alert("Veuillez sélectionner un client dans le tableau !");
         return;
     }
-    window.location.href = `/admin/preparer_panier/${selectedUserId}/valider`;
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/admin/preparer_panier/${selectedUserId}/${action}`;
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Bouton valider
+document.getElementById("btnBannir").addEventListener("click", () => {
+    submitAdminAction('valider');
 });
 
 // Bouton refuser
 document.getElementById("btnDebannir").addEventListener("click", () => {
-    if (!selectedUserId) {
-        alert("Veuillez sélectionner un client dans le tableau !");
-        return;
-    }
-    window.location.href = `/admin/preparer_panier/${selectedUserId}/supprimer`;
+    submitAdminAction('supprimer');
 });
