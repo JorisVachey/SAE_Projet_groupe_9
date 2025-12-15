@@ -13,7 +13,7 @@
             <button class="boutons_plat" onclick="afficherForm()">Ajouter un plat</button>
             <button class="boutons_plat" id="btn_suppr">Supprimer le plat</button>
             <button class="boutons_plat" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
-            <button class="boutons_plat" id="btn_quantite">Modifier la quantité</button>
+            <button class="boutons_plat" id="btn_quantite" onclick="modif_quantite()">Modifier la quantité</button>
     </article>   
     <article class="table-container">
         <table id="tableau">
@@ -28,7 +28,7 @@
                 </thead>
                 <tbody id="tableBody">
                     {% for unPlat in plats %}
-                        <tr data-nom-plat="{{ unPlat.nomP }}" data-id-plat="{{ unPlat.idP }}" data-prix-plat="{{ unPlat.prixP }}">
+                        <tr data-nom-plat="{{ unPlat.nomP }}" data-id-plat="{{ unPlat.idP }}" data-prix-plat="{{ unPlat.prixP }}" data-stock-plat="{{ unPlat.stockInit }}">
                             <td>{{ unPlat.nomP }}</td>
                             <td>{{ unPlat.type.nomTp }}</td>
                             <td>{{ unPlat.prixP }}€</td>
@@ -77,10 +77,25 @@
         </div>
     </form>
 </section>
+<section id="pop-up-modif-quantite">
+    <form method="POST" class="champs" id="form-modif-quantite">
+        <h3>Modifier la quantité</h3>
+        <input type="hidden" id="modif-qte-id-plat" name="idP">
+        <label for="modif-qte-nomP">Nom du Plat</label>
+        <input id="modif-qte-nomP" type="text" name="nomP" readonly>
+        <label for="modif-quantite">Nouvelle Quantité</label>
+        <input id="modif-quantite" type="number" name="stock" placeholder="Saisir la nouvelle quantité..." required>
+        <div class="boutons_form">
+            <button type="button" class="annuler" onclick="masquerFormQuantite()">Annuler</button>
+            <button type="submit" class="boutons_plat">Valider</button>
+        </div>
+    </form>
+</section>
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 <script src="{{url_for('static', filename='js/selec_line.js')}}"></script>
 <script src="{{url_for('static', filename='js/ajout_plat.js')}}"></script>
 <script src="{{url_for('static', filename='js/modif_prix.js')}}"></script>
+<script src="{{url_for('static', filename='js/modif_stock.js')}}"></script>
 {%endblock %}
 {%block footer%}
 {%endblock%}

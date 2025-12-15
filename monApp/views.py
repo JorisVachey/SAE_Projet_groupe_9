@@ -646,6 +646,36 @@ def modifier_prix_plat():
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/modifier_quantite_plat', methods=['POST'])
+@admin_required
+def admin_modifier_quantite_plat():
+    data = request.get_json()
+    id_plat = data.get('idP')
+    nouvelle_quantite = data.get('stock')
+
+    if not id_plat or not nouvelle_quantite:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        # On met à jour le stock initial et le stock courant
+        # Si on veut juste changer le stock initial (capacité totale) :
+        plat.stockInit = int(nouvelle_quantite)
+        # Si on veut réinitialiser le stock courant à la nouvelle capacité :
+        plat.stock = int(nouvelle_quantite)
+        
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Quantité invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
     
 if __name__== "__main__" :
     app.run()
