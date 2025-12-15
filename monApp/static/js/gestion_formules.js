@@ -5,9 +5,18 @@ function afficherForm() {
 }
 
 function masquerForm() {
-    const form = document.querySelector("#pop-up-ajout");
-    if (!form) return;
-    form.classList.remove("open");
+    const popup = document.querySelector("#pop-up-ajout");
+    if (!popup) return;
+    popup.classList.remove("open");
+
+    const form = document.getElementById('form-ajout-formule');
+    if (form) {
+        form.reset();
+        const details = form.querySelectorAll('details');
+        details.forEach(detail => {
+            detail.removeAttribute('open');
+        });
+    }
 }
 
 function modif_prix() {
@@ -114,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    masquerForm();
                     window.location.reload();
                 } else {
                     alert("Erreur lors de l'ajout : " + data.error);
