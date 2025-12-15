@@ -9,8 +9,6 @@ function modif_quantite() {
 
     const idPlat = ligneSelectionnee.dataset.idPlat;
     const nomPlat = ligneSelectionnee.dataset.nomPlat;
-    // On utilise stockInit comme valeur de référence pour la "Quantité"
-    const stockPlat = ligneSelectionnee.dataset.stockPlat; 
 
     document.getElementById('modif-qte-id-plat').value = idPlat;
     document.getElementById('modif-qte-nomP').value = nomPlat;
