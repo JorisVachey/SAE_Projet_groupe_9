@@ -182,13 +182,18 @@ def ajouter_plat(idP):
     if not plat:
         flash("Ce plat n’existe pas.", "error")
         return redirect(url_for("menu"))
+    
     item = ContenirP.query.filter_by(idR=reservation.idR, idP=idP).first()
+    qte_actuelle = item.quantiteP if item else 0
+    if qte_actuelle + 1 > plat.stock:
+        flash(f"Plus de stock disponible pour {plat.nomP}", "error")
+        return redirect(url_for("menu"))
+
     if item:
         item.quantiteP += 1
     else:
         item = ContenirP(idR=reservation.idR, idP=idP, quantiteP=1)
         db.session.add(item)
-    plat.stock -= 1
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
@@ -198,27 +203,28 @@ def ajouter_plat(idP):
 @app.route("/ajouter_formule/<int:idF>", methods=["POST"])
 def ajouter_formule(idF):
     """ajoute une formule depuis le menu, créé la panier si besoin
-
-    Args:
-        idF (_type_): _description_
-
-    Returns:
-        _type_: _description_
     """
     reservation = get_or_create_panier(current_user.idUser)
     formule = Formule.query.get(idF)
     if not formule:
         flash("Cette formule n’existe pas.", "error")
         return redirect(url_for("menu"))
+    
     item = ContenirF.query.filter_by(idR=reservation.idR, idF=idF).first()
+    qte_formule_future = (item.quantiteF + 1) if item else 1
+    
+    for c in formule.plats:
+        plat = Plat.query.get(c.idP)
+        if plat.stock < c.quantiteC * qte_formule_future:
+            flash(f"Pas assez de stock pour le plat {plat.nomP} dans cette formule.", "error")
+            return redirect(url_for("menu"))
+
     if item:
         item.quantiteF += 1
     else:
         item = ContenirF(idR=reservation.idR, idF=idF, quantiteF=1)
         db.session.add(item)
-    for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            plat.stock -= c.quantiteC * item.quantiteF
+
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
@@ -227,13 +233,6 @@ def ajouter_formule(idF):
 @app.route("/modifier_quantite_plat/<int:idP>/<action>", methods=["POST"])
 def modifier_quantite_plat(idP, action):
     """commande pour interagir avec les bouton + et - du panier
-
-    Args:
-        idP (_type_): _description_
-        action (_type_): _description_
-
-    Returns:
-        _type_: _description_
     """
     reservation = Reservation.query.filter_by(
         idUser=current_user.idUser, statut="en attente"
@@ -254,19 +253,15 @@ def modifier_quantite_plat(idP, action):
 
     if action == "ajouter":
         nouvelle_quantite = item.quantiteP + 1
-        if nouvelle_quantite > plat.stock+item.quantiteP or nouvelle_quantite > plat.stockInit * variableChoixCom:
+        if nouvelle_quantite > plat.stock or nouvelle_quantite > plat.stockInit * variableChoixCom:
             flash(f"Pas assez de stock pour '{plat.nomP}'", "error")
-            #print('Pas assez de stock pour le plat')
-            #print(nouvelle_quantite, plat.stock, plat.stockInit * variableChoixCom)
             return redirect(url_for("voir_panier"))
-        plat.stock -=1
         item.quantiteP = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteP -= 1
-        plat.stock += 1
         if item.quantiteP <= 0:
-            db.session.delete(item)  # supprime le plat si la quantité est 0
+            db.session.delete(item)
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
@@ -275,13 +270,6 @@ def modifier_quantite_plat(idP, action):
 @app.route("/modifier_quantite_formule/<int:idF>/<action>", methods=["POST"])
 def modifier_quantite_formule(idF, action):
     """commande pour interagir avec les bouton + et - du panier
-
-    Args:
-        idP (_type_): _description_
-        action (_type_): _description_
-
-    Returns:
-        _type_: _description_
     """
     reservation = Reservation.query.filter_by(
         idUser=current_user.idUser, statut="en attente"
@@ -304,20 +292,14 @@ def modifier_quantite_formule(idF, action):
         nouvelle_quantite = item.quantiteF + 1
         for c in formule.plats:
             plat = Plat.query.get(c.idP)
-            qte_totale = (item.quantiteF + 1) * c.quantiteC
+            qte_totale = nouvelle_quantite * c.quantiteC
             if qte_totale > plat.stock or qte_totale > plat.stockInit * variableChoixCom:
                 flash(f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'", "error")
                 return redirect(url_for("voir_panier"))
-            for c in formule.plats:
-                plat = Plat.query.get(c.idP)
-                plat.stock -= c.quantiteC * item.quantiteF
         item.quantiteF = nouvelle_quantite
 
     elif action == "diminuer":
         item.quantiteF -= 1
-        for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            plat.stock += c.quantiteC * item.quantiteF
         if item.quantiteF <= 0:
             db.session.delete(item)
 
@@ -347,6 +329,9 @@ def modifier_nb_couvert(idR, action):
 
 @app.route("/update_checkbox", methods=["POST"])
 def update_checkbox():
+    """Change le statut sur place/emporter et réinitialise les quantités à 1
+    pour éviter les conflits de limites, SANS toucher au stock.
+    """
     data = request.get_json()
     idR = data.get("idR")
     sur_place = data.get("sur_place")
@@ -354,53 +339,51 @@ def update_checkbox():
     resa = Reservation.query.filter_by(idR=idR, idUser=current_user.idUser).first()
     if not resa:
         return jsonify({"error": "Réservation introuvable"}), 404
+
     for cp in ContenirP.query.filter_by(idR=idR).all():
-        plat = Plat.query.get(cp.idP)
-        plat.stock += cp.quantiteP
-        plat.stock -= 1
         cp.quantiteP = 1
 
     for cf in ContenirF.query.filter_by(idR=idR).all():
-        formule = Formule.query.get(cf.idF)
-        for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            plat.stock += c.quantiteC * cf.quantiteF
-            plat.stock -= c.quantiteC
         cf.quantiteF = 1
-    if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
-        resa.sur_place = sur_place
-        message = "Réservation mise à jour : sur place "
-        success = True
-    elif sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts > 12:
-        message = "Réservation mise à jour : sur place "
-        success = True
-        resa.nb_couverts = 12-nb_couvert_jour(resa.dateR)
-        resa.sur_place = sur_place
-    elif not sur_place:
+    success = False
+    message = ""
+
+    if sur_place:
+        places_prises = nb_couvert_jour(resa.dateR)
+        places_restantes = 12 - places_prises
+        if places_prises + resa.nb_couverts <= 12:
+            resa.sur_place = True
+            message = "Réservation mise à jour : sur place"
+            success = True
+        elif places_restantes > 0:
+            resa.nb_couverts = places_restantes
+            resa.sur_place = True
+            message = f"Réservation ajustée à {places_restantes} couverts (capacité max atteinte)."
+            success = True
+        else:
+            resa.sur_place = False
+            message = "Impossible de réserver sur place : complet (limite de 12 couverts)."
+            success = False
+
+    else:
         resa.sur_place = False
         message = "Réservation mise à jour : à emporter"
         success = True
-    else:
-        resa.sur_place = False
-        message = "Impossible de réserver sur place : limite de 12 couverts atteinte."
-        success = False
-    
-    
-
 
     db.session.commit()
 
     return jsonify({
         "success": success,
         "message": message,
-        "sur_place": resa.sur_place
+        "sur_place": resa.sur_place,
+        "nb_couverts": resa.nb_couverts
     })
 
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
 def valider_panier():
-    """modifie le stock et change le status de la reservation
+    """change le status de la reservation ,quand un utilisateur a fini de construire son panier
 
     Returns:
         _type_: _description_
@@ -411,6 +394,45 @@ def valider_panier():
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
 
+@login_required
+@app.route("/admin/preparer_panier", methods=["POST"])
+def preparer_panier():
+    """ -> quand l'admin prend en compte une commande 
+    Valide le panier et décrémente les stocks 
+     a modifier dans la vue de l'admin
+    """
+    reservation = Reservation.query.filter_by(
+        idUser=current_user.idUser, statut="en attente"
+    ).first()
+    
+    if not reservation:
+        flash("Aucune réservation à valider.", "error")
+        return redirect(url_for("menu"))
+
+    contenu_p = ContenirP.query.filter_by(idR=reservation.idR).all()
+    contenu_f = ContenirF.query.filter_by(idR=reservation.idR).all()
+    besoins_stock = {}  #on regroupe les plats uniques et les formules
+    for item in contenu_p:
+        besoins_stock[item.idP] = besoins_stock.get(item.idP, 0) + item.quantiteP
+    for item in contenu_f:
+        formule = Formule.query.get(item.idF)
+        for c in formule.plats:
+            qte_necessaire = c.quantiteC * item.quantiteF
+            besoins_stock[c.idP] = besoins_stock.get(c.idP, 0) + qte_necessaire
+    for idP, quantite_totale in besoins_stock.items():
+        plat = Plat.query.get(idP)
+        if plat.stock < quantite_totale:
+            flash(f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.", "error")
+            return redirect(url_for("voir_panier"))
+    for idP, quantite_totale in besoins_stock.items():
+        plat = Plat.query.get(idP)
+        plat.stock -= quantite_totale
+
+    reservation.statut = "validée"
+    db.session.commit()
+    flash("Votre commande a été validée avec succès !", "success")
+    return redirect(url_for("menu"))
+
 @app.route("/panier/annuler", methods=["POST"])
 @login_required
 def supprimer_panier():
@@ -420,14 +442,6 @@ def supprimer_panier():
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
-    for cp in ContenirP.query.filter_by(idR=panier.idR).all():
-        plat = Plat.query.get(cp.idP)
-        plat.stock += cp.quantiteP
-    for cf in ContenirF.query.filter_by(idR=panier.idR).all():
-        formule = Formule.query.get(cf.idF)
-        for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            plat.stock += c.quantiteC * cf.quantiteF
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
