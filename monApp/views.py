@@ -621,6 +621,31 @@ def supprimer_plat(nom_plat):
         db.session.rollback()
         print(f"Erreur lors de la suppression : {e}") 
         return jsonify({'success': False, 'error': 'Erreur interne du serveur.'}), 500
+
+@app.route('/admin/modifier_prix_plat', methods=['POST'])
+@admin_required
+def modifier_prix_plat():
+    data = request.get_json()
+    id_plat = data.get('idP')
+    nouveau_prix = data.get('prixP')
+
+    if not id_plat or not nouveau_prix:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        plat.prixP = float(nouveau_prix)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Prix invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
     
 if __name__== "__main__" :
     app.run()

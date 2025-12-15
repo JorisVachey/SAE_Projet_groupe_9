@@ -104,7 +104,7 @@ h1,h3,.trait-horizontal{
 }
 
 
-#pop-up-ajout{
+#pop-up-ajout, #pop-up-modif-prix{
     position: fixed;
     top:15em;
     right: 35em;
@@ -117,7 +117,7 @@ h1,h3,.trait-horizontal{
 
 }
 
-#pop-up-ajout.open{
+#pop-up-ajout.open, #pop-up-modif-prix.open{
     display: flex !important; 
     padding: 10px;
 
