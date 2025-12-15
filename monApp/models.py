@@ -132,6 +132,11 @@ class Plat(db.Model):
 
     def __repr__(self):
         return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
+    
+    def new_prix(self, new_prix):
+        self.prixP=new_prix
+    def new_quantite(self, quantite):
+        self.stock=quantite
 
 
 class Restriction(db.Model):
