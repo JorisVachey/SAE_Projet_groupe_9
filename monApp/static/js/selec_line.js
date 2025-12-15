@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Veuillez sélectionner un plat à supprimer.");
             return;
         }
+        if (!confirm("Êtes-vous sûr de vouloir supprimer ce plat ?")) {
+            return;
+        }
         const nomPlat = ligneSelectionnee.dataset.nomPlat; 
 
         fetch(`/supprimer-plat/${nomPlat}`, {
