@@ -59,6 +59,23 @@ class Reservation(db.Model):
         for cf in self.formules:
             total += cf.quantiteF * cf.formule.prixF
         return total
+    
+    def getbesoin(self):
+        """
+        Retourne un dictionnaire {ObjetPlat: quantite_totale}
+        Regroupe les ingrédients des formules et les plats seuls.
+        """
+        besoins_stock = {}
+        for cp in self.plats:
+            besoins_stock[cp.plat] = besoins_stock.get(cp.plat, 0) + cp.quantiteP
+        for cf in self.formules:
+            formule = cf.formule
+            for c in formule.plats:
+                plat_obj = c.plat
+                qte_necessaire = c.quantiteC * cf.quantiteF
+                besoins_stock[plat_obj] = besoins_stock.get(plat_obj, 0) + qte_necessaire
+        
+        return besoins_stock
 
     def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
         self.idUser = idUser
@@ -77,7 +94,7 @@ class Formule(db.Model):
     nomF = db.Column(db.String(50))
     prixF = db.Column(db.Numeric(10, 2))
 
-    plats = db.relationship("Composer", backref="formule")
+    plats = db.relationship("Composer", backref="formule", cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
     def __init__(self, idF, nomF, prixF):
@@ -132,6 +149,12 @@ class Plat(db.Model):
 
     def __repr__(self):
         return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
+    
+    def new_prix(self, new_prix):
+        self.prixP=new_prix
+        
+    def new_quantite(self, quantite):
+        self.stock=quantite
 
 
 class Restriction(db.Model):

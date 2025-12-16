@@ -2,7 +2,7 @@ from hashlib import sha256
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
-from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
+from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule, Reservation, Composer
 from flask_mail import Mail,Message
 from datetime import datetime
 import os
@@ -39,6 +39,11 @@ def propos() :
 def menu():
     lesTypeDePlats = Type_plat.query.all()
     lesPlats = Plat.query.all()
+    lesFormules = Formule.query.all()
+
+    for formule in lesFormules:
+        formule.details_plats = db.session.query(Plat, Composer.quantiteC).join(Composer, Plat.idP == Composer.idP).filter(Composer.idF == formule.idF).all()
+
     for plat in lesPlats:
         if plat.cheminImg:
             chemin_complet = os.path.join(app.root_path, 'static', plat.cheminImg)
@@ -47,7 +52,7 @@ def menu():
         else:
             plat.cheminImg = 'img/base/image_defaut.png'
     
-    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats)
+    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats, formules=lesFormules)
     
 
 @app.route('/contact/',methods = ["GET","POST"])
@@ -148,14 +153,14 @@ def get_or_create_panier(idUser):
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=idUser, statut="en attente").first()
+    panier = Reservation.query.filter_by(idUser=idUser, statut="EN ATTENTE").first()
     if not panier:
         panier = Reservation(
             idUser=idUser,
             dateR=datetime.now(),
             nb_couverts=1,
             sur_place=False,
-            statut="en attente"
+            statut="EN ATTENTE"
         )
         db.session.add(panier)
         print(datetime.now())
@@ -379,6 +384,22 @@ def update_checkbox():
         "nb_couverts": resa.nb_couverts
     })
 
+@login_required
+@app.route("/admin/update_statut_preparation", methods=["POST"])
+def update_statut_preparation():
+    """
+    Passe le statut de la commande à 'EN PREPARATION'
+    dès qu'une case est cochée.
+    """
+    data = request.get_json()
+    idR = data.get("idR")
+
+    reservation = Reservation.query.get(idR)
+    if not reservation:
+        return jsonify({"success": False, "error": "Commande introuvable"}), 404
+    reservation.statut = "EN PRÉPARATION"
+    db.session.commit()
+    return jsonify({"success": True, "statut": reservation.statut})
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
@@ -388,27 +409,21 @@ def valider_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
-    panier.statut = "confirmée"
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
+    panier.statut = "CONFIRMÉE"
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
 
-@login_required
-@app.route("/admin/preparer_panier", methods=["POST"])
-def preparer_panier():
-    """ -> quand l'admin prend en compte une commande 
-    Valide le panier et décrémente les stocks 
-     a modifier dans la vue de l'admin
-    """
-    reservation = Reservation.query.filter_by(
-        idUser=current_user.idUser, statut="en attente"
-    ).first()
-    
-    if not reservation:
-        flash("Aucune réservation à valider.", "error")
-        return redirect(url_for("menu"))
+def getbesoin(reservation):
+    """renvoi la liste des plats d'une reservation, avec leur nombre
 
+    Args:
+        reservation (Reservation): _description_
+
+    Returns:
+        dict: _description_
+    """
     contenu_p = ContenirP.query.filter_by(idR=reservation.idR).all()
     contenu_f = ContenirF.query.filter_by(idR=reservation.idR).all()
     besoins_stock = {}  #on regroupe les plats uniques et les formules
@@ -419,19 +434,39 @@ def preparer_panier():
         for c in formule.plats:
             qte_necessaire = c.quantiteC * item.quantiteF
             besoins_stock[c.idP] = besoins_stock.get(c.idP, 0) + qte_necessaire
-    for idP, quantite_totale in besoins_stock.items():
-        plat = Plat.query.get(idP)
-        if plat.stock < quantite_totale:
-            flash(f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.", "error")
-            return redirect(url_for("voir_panier"))
-    for idP, quantite_totale in besoins_stock.items():
-        plat = Plat.query.get(idP)
-        plat.stock -= quantite_totale
+    return besoins_stock
 
-    reservation.statut = "validée"
+@app.route("/admin/preparer_panier/<int:idR>/<action>", methods=["POST"])
+@login_required
+def preparer_panier(idR, action):
+    """ -> quand l'admin prend en compte une commande 
+    Valide le panier et décrémente les stocks 
+    ou refuse et chage l'attribut
+    """
+    reservation = Reservation.query.get(idR)
+    
+    if not reservation:
+        flash("Aucune réservation à traiter.", "error")
+        return redirect(url_for("menu"))
+    if action == "valider":
+        besoins_stock = getbesoin(reservation)
+        for idP, quantite_totale in besoins_stock.items():
+            plat = Plat.query.get(idP)
+            if plat.stock < quantite_totale:
+                flash(f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.", "error")
+                return redirect(url_for("voir_panier"))
+        for idP, quantite_totale in besoins_stock.items():
+            plat = Plat.query.get(idP)
+            plat.stock -= quantite_totale
+
+        reservation.statut = "VENIR CHERCHER"
+
+    elif action == "supprimer":
+        reservation.statut = "REFUSÉ"
+
     db.session.commit()
-    flash("Votre commande a été validée avec succès !", "success")
-    return redirect(url_for("menu"))
+    flash("La commande a etais traité avec succès !", "success")
+    return redirect(url_for("voir_comm"))
 
 @app.route("/panier/annuler", methods=["POST"])
 @login_required
@@ -441,7 +476,7 @@ def supprimer_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
@@ -523,10 +558,88 @@ def gestion_plats():
     types = Type_plat.query.all()
     return render_template("gestion_plat.html", plats=plats, types=types)
 
-@app.route('/admin/gestion_formules/')
+@app.route('/admin/gestion_formules/', methods=['GET', 'POST'])
 @admin_required
 def gestion_formules():
-    return "page de gestion des formules"
+    if request.method == 'POST':
+        try:
+            nom_formule = request.form.get('nomF')
+            prix_formule = request.form.get('prixF')
+            plats_ids = request.form.getlist('plats')
+
+            if not nom_formule or not prix_formule:
+                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
+            
+            if not plats_ids:
+                return jsonify({'success': False, 'error': 'Aucun plat sélectionné'}), 400
+
+            if Formule.query.filter_by(nomF=nom_formule).first():
+                return jsonify({'success': False, 'error': 'Une formule avec ce nom existe déjà'}), 400
+
+            # Find max idF to simulate autoincrement
+            max_id = db.session.query(db.func.max(Formule.idF)).scalar()
+            new_id = (max_id or 0) + 1
+
+            nouvelle_formule = Formule(idF=new_id, nomF=nom_formule, prixF=float(prix_formule))
+            db.session.add(nouvelle_formule)
+            db.session.flush()
+
+            for pid in plats_ids:
+                quantite = request.form.get(f'quantite_{pid}', 1)
+                composer = Composer(idF=nouvelle_formule.idF, idP=int(pid), quantiteC=int(quantite))
+                db.session.add(composer)
+            
+            db.session.commit()
+            return jsonify({'success': True})
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'success': False, 'error': str(e)}), 500
+
+    formules = Formule.query.all()
+    types = Type_plat.query.all()
+    plats = Plat.query.all()
+    return render_template("gestion_formules.html", formules=formules, types=types, plats=plats)
+
+@app.route('/admin/supprimer-formule/<int:id_formule>', methods=['DELETE'])
+@admin_required
+def supprimer_formule(id_formule):
+    try:
+        formule = Formule.query.get(id_formule)
+        if formule:
+            db.session.delete(formule)
+            db.session.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/modifier_prix_formule', methods=['POST'])
+@admin_required
+def modifier_prix_formule():
+    data = request.get_json()
+    id_formule = data.get('idF')
+    nouveau_prix = data.get('prixF')
+
+    if not id_formule or not nouveau_prix:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        formule = Formule.query.get(id_formule)
+        if not formule:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+
+        formule.prixF = float(nouveau_prix)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Prix invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/admin/gestion_cli/')
 @admin_required
@@ -551,7 +664,7 @@ def debannir_cli(client_id):
 @app.route('/admin/voir_comm/')
 @admin_required
 def voir_comm():
-    commandes = Reservation.query.all()
+    commandes = Reservation.query.filter(Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
     return render_template("commandes.html", commandes=commandes)
 
 
@@ -635,6 +748,61 @@ def supprimer_plat(nom_plat):
         db.session.rollback()
         print(f"Erreur lors de la suppression : {e}") 
         return jsonify({'success': False, 'error': 'Erreur interne du serveur.'}), 500
+
+@app.route('/admin/modifier_prix_plat', methods=['POST'])
+@admin_required
+def modifier_prix_plat():
+    data = request.get_json()
+    id_plat = data.get('idP')
+    nouveau_prix = data.get('prixP')
+
+    if not id_plat or not nouveau_prix:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        plat.prixP = float(nouveau_prix)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Prix invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/modifier_quantite_plat', methods=['POST'])
+@admin_required
+def admin_modifier_quantite_plat():
+    data = request.get_json()
+    id_plat = data.get('idP')
+    nouvelle_quantite = data.get('stock')
+
+    if not id_plat or not nouvelle_quantite:
+        return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+    try:
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        # On met à jour le stock initial et le stock courant
+        # Si on veut juste changer le stock initial (capacité totale) :
+        plat.stockInit = int(nouvelle_quantite)
+        # Si on veut réinitialiser le stock courant à la nouvelle capacité :
+        plat.stock = int(nouvelle_quantite)
+        
+        db.session.commit()
+        return jsonify({'success': True}), 200
+
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Quantité invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
     
 if __name__== "__main__" :
     app.run()
