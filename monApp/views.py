@@ -39,6 +39,11 @@ def propos() :
 def menu():
     lesTypeDePlats = Type_plat.query.all()
     lesPlats = Plat.query.all()
+    lesFormules = Formule.query.all()
+
+    for formule in lesFormules:
+        formule.details_plats = db.session.query(Plat, Composer.quantiteC).join(Composer, Plat.idP == Composer.idP).filter(Composer.idF == formule.idF).all()
+
     for plat in lesPlats:
         if plat.cheminImg:
             chemin_complet = os.path.join(app.root_path, 'static', plat.cheminImg)
@@ -47,7 +52,7 @@ def menu():
         else:
             plat.cheminImg = 'img/base/image_defaut.png'
     
-    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats)
+    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats, formules=lesFormules)
     
 
 @app.route('/contact/',methods = ["GET","POST"])
