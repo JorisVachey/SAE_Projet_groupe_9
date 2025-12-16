@@ -2,7 +2,7 @@ from hashlib import sha256
 from .app import app, db, mail
 from flask import render_template, redirect, url_for,request,flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
-from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation
+from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule,Reservation, Composer
 from flask_mail import Mail,Message
 from datetime import datetime
 import os
@@ -39,6 +39,11 @@ def propos() :
 def menu():
     lesTypeDePlats = Type_plat.query.all()
     lesPlats = Plat.query.all()
+    lesFormules = Formule.query.all()
+
+    for formule in lesFormules:
+        formule.details_plats = db.session.query(Plat, Composer.quantiteC).join(Composer, Plat.idP == Composer.idP).filter(Composer.idF == formule.idF).all()
+
     for plat in lesPlats:
         if plat.cheminImg:
             chemin_complet = os.path.join(app.root_path, 'static', plat.cheminImg)
@@ -47,7 +52,7 @@ def menu():
         else:
             plat.cheminImg = 'img/base/image_defaut.png'
     
-    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats)
+    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats, formules=lesFormules)
     
 
 @app.route('/contact/',methods = ["GET","POST"])
