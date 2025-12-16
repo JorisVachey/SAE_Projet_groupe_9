@@ -27,7 +27,18 @@
             <tr class="ligne-com" data-id="{{ commande.idR }}">
                 <td>{{ commande.user.pseudonyme }}</td>
                 <td>{{ commande.user.numtelUser }}</td>
-                <td>{{ commande.idR }}</td>
+                <td>
+                    <ul class="liste-plats">
+                        {% for plat, quantite in commande.getbesoin().items() %}
+                            <li>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" class="plat-checkbox">
+                                    <span><span class="qte">{{ quantite }}x</span> {{ plat.nomP }}</span>
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td> {{ commande.get_total() }} €</td>
                 <td>{{ commande.dateR }}</td>
             {% if commande.sur_place is true %}
@@ -41,4 +52,6 @@
     </table>
 </section>
 <script src="{{ url_for('static', filename='js/gerer_com.js') }}"></script>
+<script src="{{ url_for('static', filename='js/case_cocher.js') }}"></script>
+
 {% endblock %}

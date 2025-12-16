@@ -148,14 +148,14 @@ def get_or_create_panier(idUser):
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=idUser, statut="en attente").first()
+    panier = Reservation.query.filter_by(idUser=idUser, statut="EN ATTENTE").first()
     if not panier:
         panier = Reservation(
             idUser=idUser,
             dateR=datetime.now(),
             nb_couverts=1,
             sur_place=False,
-            statut="en attente"
+            statut="EN ATTENTE"
         )
         db.session.add(panier)
         print(datetime.now())
@@ -379,6 +379,22 @@ def update_checkbox():
         "nb_couverts": resa.nb_couverts
     })
 
+@login_required
+@app.route("/admin/update_statut_preparation", methods=["POST"])
+def update_statut_preparation():
+    """
+    Passe le statut de la commande à 'EN PREPARATION'
+    dès qu'une case est cochée.
+    """
+    data = request.get_json()
+    idR = data.get("idR")
+
+    reservation = Reservation.query.get(idR)
+    if not reservation:
+        return jsonify({"success": False, "error": "Commande introuvable"}), 404
+    reservation.statut = "EN PRÉPARATION"
+    db.session.commit()
+    return jsonify({"success": True, "statut": reservation.statut})
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
@@ -388,11 +404,32 @@ def valider_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
-    panier.statut = "confirmée"
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
+    panier.statut = "CONFIRMÉE"
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
+
+def getbesoin(reservation):
+    """renvoi la liste des plats d'une reservation, avec leur nombre
+
+    Args:
+        reservation (Reservation): _description_
+
+    Returns:
+        dict: _description_
+    """
+    contenu_p = ContenirP.query.filter_by(idR=reservation.idR).all()
+    contenu_f = ContenirF.query.filter_by(idR=reservation.idR).all()
+    besoins_stock = {}  #on regroupe les plats uniques et les formules
+    for item in contenu_p:
+        besoins_stock[item.idP] = besoins_stock.get(item.idP, 0) + item.quantiteP
+    for item in contenu_f:
+        formule = Formule.query.get(item.idF)
+        for c in formule.plats:
+            qte_necessaire = c.quantiteC * item.quantiteF
+            besoins_stock[c.idP] = besoins_stock.get(c.idP, 0) + qte_necessaire
+    return besoins_stock
 
 @app.route("/admin/preparer_panier/<int:idR>/<action>", methods=["POST"])
 @login_required
@@ -407,16 +444,7 @@ def preparer_panier(idR, action):
         flash("Aucune réservation à traiter.", "error")
         return redirect(url_for("menu"))
     if action == "valider":
-        contenu_p = ContenirP.query.filter_by(idR=reservation.idR).all()
-        contenu_f = ContenirF.query.filter_by(idR=reservation.idR).all()
-        besoins_stock = {}  #on regroupe les plats uniques et les formules
-        for item in contenu_p:
-            besoins_stock[item.idP] = besoins_stock.get(item.idP, 0) + item.quantiteP
-        for item in contenu_f:
-            formule = Formule.query.get(item.idF)
-            for c in formule.plats:
-                qte_necessaire = c.quantiteC * item.quantiteF
-                besoins_stock[c.idP] = besoins_stock.get(c.idP, 0) + qte_necessaire
+        besoins_stock = getbesoin(reservation)
         for idP, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(idP)
             if plat.stock < quantite_totale:
@@ -426,7 +454,7 @@ def preparer_panier(idR, action):
             plat = Plat.query.get(idP)
             plat.stock -= quantite_totale
 
-        reservation.statut = "VENIR la chercher"
+        reservation.statut = "VENIR CHERCHER"
 
     elif action == "supprimer":
         reservation.statut = "REFUSÉ"
@@ -443,7 +471,7 @@ def supprimer_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="en attente").first()
+    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
@@ -553,7 +581,7 @@ def debannir_cli(client_id):
 @app.route('/admin/voir_comm/')
 @admin_required
 def voir_comm():
-    commandes = Reservation.query.filter_by(statut="confirmée").all()
+    commandes = Reservation.query.filter(Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
     return render_template("commandes.html", commandes=commandes)
 
 

@@ -36,3 +36,38 @@ document.getElementById("btnBannir").addEventListener("click", () => {
 document.getElementById("btnDebannir").addEventListener("click", () => {
     submitAdminAction('supprimer');
 });
+
+document.querySelectorAll('.plat-checkbox').forEach(box => {
+    box.addEventListener('change', (e) => {
+        // 1. Récupérer l'ID de la commande via la ligne du tableau (tr)
+        const row = e.target.closest('tr');
+        const idR = row.dataset.id;
+
+        // 2. Si la case est cochée, on envoie la requête
+        if (e.target.checked) {
+            fetch("/admin/update_statut_preparation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ idR: idR })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(`Commande ${idR} passée EN PREPARATION`);
+                    
+                    // (Optionnel) Ajout d'un effet visuel pour dire "C'est en cours"
+                    // Par exemple, on met une bordure orange à la ligne
+                    row.style.borderLeft = "5px solid orange";
+                }
+            })
+            .catch(error => console.error("Erreur:", error));
+        }
+    });
+
+    // Empêcher la sélection de la ligne quand on clique sur la checkbox
+    box.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+});
