@@ -28,6 +28,7 @@
         idF int,
         nomF varchar(50),
         prixF decimal(10,2),
+        cheminImg varchar(200),
         PRIMARY KEY (idF)
     );
 

@@ -518,59 +518,69 @@ contenir_R:
   - idP: 32
     nomA: "sans porc"
 
+
 formules:
   - idF: 1
     nomF: "Menu Déjeuner"
     prixF: 19.90
+    cheminImg: "img/imgF/dejeuner.png"
   - idF: 2
     nomF: "Menu Dîner"
     prixF: 29.90
+    cheminImg: "img/imgF/diner.png"
   - idF: 3
     nomF: "Menu Enfant"
     prixF: 12.50
+    cheminImg: "img/imgF/enfant.png"
   - idF: 4
     nomF: "Menu Asiatique"
     prixF: 24.90
+    cheminImg: "img/imgF/asiatique.png"
   - idF: 5
     nomF: "Menu Végétarien"
     prixF: 21.00
+    cheminImg: "img/imgF/vegetarien.png"
+
 
 composer:
   - idF: 1
-    idP: 5
+    idP: 20
     quantiteC: 1
   - idF: 1
-    idP: 1
-    quantiteC: 1
-  - idF: 1
-    idP: 3
+    idP: 2  
     quantiteC: 1
   - idF: 2
-    idP: 4
+    idP: 3 
     quantiteC: 1
   - idF: 2
-    idP: 2
+    idP: 9  
     quantiteC: 1
   - idF: 2
-    idP: 6
+    idP: 32 
     quantiteC: 1
   - idF: 3
-    idP: 5
+    idP: 28 
     quantiteC: 1
   - idF: 3
-    idP: 9
+    idP: 16 
     quantiteC: 1
   - idF: 4
+    idP: 4 
+    quantiteC: 1
+  - idF: 4
+    idP: 5
+    quantiteC: 1
+  - idF: 4
+    idP: 8  
+    quantiteC: 1
+  - idF: 5
+    idP: 11 
+    quantiteC: 1
+  - idF: 5
+    idP: 27  
+    quantiteC: 1
+  - idF: 5
     idP: 7
-    quantiteC: 1
-  - idF: 4
-    idP: 8
-    quantiteC: 1
-  - idF: 5
-    idP: 5
-    quantiteC: 1
-  - idF: 5
-    idP: 11
     quantiteC: 1
 
 reservations:
