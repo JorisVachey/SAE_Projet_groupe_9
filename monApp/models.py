@@ -59,6 +59,23 @@ class Reservation(db.Model):
         for cf in self.formules:
             total += cf.quantiteF * cf.formule.prixF
         return total
+    
+    def getbesoin(self):
+        """
+        Retourne un dictionnaire {ObjetPlat: quantite_totale}
+        Regroupe les ingrédients des formules et les plats seuls.
+        """
+        besoins_stock = {}
+        for cp in self.plats:
+            besoins_stock[cp.plat] = besoins_stock.get(cp.plat, 0) + cp.quantiteP
+        for cf in self.formules:
+            formule = cf.formule
+            for c in formule.plats:
+                plat_obj = c.plat
+                qte_necessaire = c.quantiteC * cf.quantiteF
+                besoins_stock[plat_obj] = besoins_stock.get(plat_obj, 0) + qte_necessaire
+        
+        return besoins_stock
 
     def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
         self.idUser = idUser
