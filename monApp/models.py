@@ -77,7 +77,7 @@ class Formule(db.Model):
     nomF = db.Column(db.String(50))
     prixF = db.Column(db.Numeric(10, 2))
 
-    plats = db.relationship("Composer", backref="formule")
+    plats = db.relationship("Composer", backref="formule", cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
     def __init__(self, idF, nomF, prixF):
@@ -132,6 +132,12 @@ class Plat(db.Model):
 
     def __repr__(self):
         return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
+    
+    def new_prix(self, new_prix):
+        self.prixP=new_prix
+        
+    def new_quantite(self, quantite):
+        self.stock=quantite
 
 
 class Restriction(db.Model):
