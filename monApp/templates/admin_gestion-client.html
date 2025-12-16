@@ -8,27 +8,50 @@
 
 <h2>Gestion des <br><span class=titre>UTILISATEURS</span></h2>
 <div class="trait-horizontal"></div>
+<div class="trait-horizontal2"></div>
 <section class="gestion-client">
-    <div class="trait-horizontal2"></div>
-    <div>
-        <button id="btnBannir">Blacklister</button>
-        <button id="btnDebannir">Enlever de la blacklist</button>
-    </div>
     <table>
+        <div class="intituler">
+            <h3>Utilisateur</h3>
+            <button id="btnBannir">Blacklister</button>
+        </div>
+                <div class="intituler">
+            <h3>Utilisateur Blacklister</h3>
+            <button id="btnDebannir">Enlever de la blacklist</button>
+        </div>
         <thead>
             <th>Numéro de téléphone</th>
             <th>Pseudonyme</th>
-            <th>Blacklisté</th>
             <th>Nombre d'oublis</th>
         </thead>
         <tbody>
             {% for client in clients %}
-            <tr class="ligne-client" data-id="{{ client.idUser }}">
-                <td>{{ client.numtelUser }}</td>
-                <td>{{ client.pseudonyme }}</td>
-                <td>{% if client.est_banni %}Oui{% else %}Non{% endif %}</td>
-                <td>{{ client.get_nb_reservations_annulees() }}</td>
-            </tr>
+                {% if not client.est_banni %}
+                <tr class="ligne-client" data-id="{{ client.idUser }}">
+                    <td>{{ client.numtelUser }}</td>
+                    <td>{{ client.pseudonyme }}</td>
+                    <td>{{ client.get_nb_reservations_annulees() }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <table>
+
+        <thead>
+            <th>Numéro de téléphone</th>
+            <th>Pseudonyme</th>
+            <th>Nombre d'oublis</th>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                {% if client.est_banni %}
+                <tr class="ligne-client" data-id="{{ client.idUser }}">
+                    <td>{{ client.numtelUser }}</td>
+                    <td>{{ client.pseudonyme }}</td>
+                    <td>{{ client.get_nb_reservations_annulees() }}</td>
+                </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

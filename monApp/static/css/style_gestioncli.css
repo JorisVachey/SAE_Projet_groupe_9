@@ -6,7 +6,8 @@ main {
 
 .gestion-client {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     min-height: 80vh;
@@ -18,17 +19,25 @@ main {
 
 .gestion-client table {
     border-collapse: collapse;
-    width: 95%;
+    flex-basis: 40%;    
+    flex-grow: 1;
     margin-top: 20px;
     background-color: var(--bg-base);
-    border: 3px solid var(--orange);
+    border: 1px solid var(--orange);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     border-radius: 12px;
     overflow: hidden;
+    margin: 0 0.5em 1em;
+    
+}
+.intituler{
+    flex-basis: 40%;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 .gestion-client button {
-    margin-top: 2em;
+    margin: 0.5em 0 0.5em;
     background-color: var(--btn);
     border: 1px solid var(--orange);
     color: var(--noir-blanc);
@@ -36,6 +45,7 @@ main {
     padding: 8px 16px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+
 }
 
 .gestion-client button:hover {
