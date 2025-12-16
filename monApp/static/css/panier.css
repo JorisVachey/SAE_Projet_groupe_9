@@ -12,3 +12,35 @@ td{
 main{
     margin:1em;
 }
+
+.btn-primary {
+    background-color: var(--btn);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #8fa37a;
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.bouton_valide_sup{
+    margin-right: 1em;
+}
+
+.espace{
+    display: flex;
+    justify-content: right;
+}

@@ -60,6 +60,13 @@ class Reservation(db.Model):
             total += cf.quantiteF * cf.formule.prixF
         return total
     
+    def ifFormuleVide(self):
+        return len(self.formules) == 0
+    
+    def ifPlatVide(self):
+        return len(self.plats) == 0
+
+
     def getbesoin(self):
         """
         Retourne un dictionnaire {ObjetPlat: quantite_totale}
