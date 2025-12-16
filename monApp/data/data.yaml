@@ -81,405 +81,312 @@ users:
 
 
 type_plats:
-  - idTp: 2
+  - idTp: 1
     nomTp: "Plats chauds"
     descriptionTp: Venez savourer nos différents plats chauds, des nems, aux soupes en passant par notre poisson, riz ou bien nos différentes viandes.
     cheminImg: "img/img_type_plat/image2.png"
-  - idTp: 3
+  - idTp: 2
     nomTp: "Plats froids"
     descriptionTp: "Idéaux pour un déjeuner léger ou un dîner rapide, découvrez notre sélection de salades fraîches, de crudités croquantes et de rouleaux de printemps."
     cheminImg: "img/img_type_plat/image3.png"
-  - idTp: 4
+  - idTp: 3
     nomTp: "Sushis"
     descriptionTp: "Un voyage au Japon avec nos sushis préparés minute : makis, nigiris et sashimis aux saveurs délicates de saumon, thon et autres trésors de la mer."
     cheminImg: "img/img_type_plat/image4.png"
-  - idTp: 5
+  - idTp: 4
     nomTp: "Dessert"
     descriptionTp: "Terminez votre repas sur une note gourmande avec nos desserts maison : de l'exotique perles de coco aux classiques mochis et fruits frais de saison."
     cheminImg: "img/img_type_plat/image5.png"
-  - idTp: 6
-    nomTp: "Plats sur commande"
-    descriptionTp: "Pour vos événements ou repas de groupe, composez votre propre menu ! Commandez à l'avance nos spécialités et plateaux, préparés selon vos envies."
-    cheminImg: "img/img_type_plat/image6.png"
+
 
 plats:
   - idP: 1
-    nomP: "Pizza Margherita"
-    idTp: 2
-    prixP: 12.50
-    stock: 50
-    stockInit: 50
-    descriptionP: "Pizza classique avec tomate, mozzarella et basilic."
+    nomP: "Nems au Poulet"
+    idTp: 1
+    prixP: 5.50
+    stock: 100
+    stockInit: 100
+    descriptionP: "Croustillants nems dorés au poulet, servis avec sauce nuoc-mâm."
     cheminImg: "img/imgP/image1.png"
 
   - idP: 2
-    nomP: "Lasagnes Bolognaises"
-    idTp: 2
-    prixP: 14.00
+    nomP: "Bœuf aux Oignons"
+    idTp: 1
+    prixP: 12.50
     stock: 40
     stockInit: 40
-    descriptionP: "Pâtes fraîches, viande de bœuf et sauce tomate."
+    descriptionP: "Sauté de bœuf tendre aux oignons blancs et sauce soja onctueuse."
     cheminImg: "img/imgP/image2.png"
 
   - idP: 3
-    nomP: "Tiramisu"
-    idTp: 5
+    nomP: "Rouleaux de Printemps"
+    idTp: 2
     prixP: 6.00
-    stock: 30
-    stockInit: 30
-    descriptionP: "Dessert italien au café et mascarpone."
+    stock: 60
+    stockInit: 60
+    descriptionP: "Rouleaux frais aux crevettes, menthe, vermicelles de riz et crudités."
     cheminImg: "img/imgP/image3.png"
 
   - idP: 4
-    nomP: "Soupe Pho"
+    nomP: "Salade de Chou Chinois"
     idTp: 2
-    prixP: 8.50
-    stock: 25
-    stockInit: 25
-    descriptionP: "Soupe vietnamienne parfumée au bœuf."
+    prixP: 4.50
+    stock: 50
+    stockInit: 50
+    descriptionP: "Salade croquante de chou blanc mariné au vinaigre de riz doux."
     cheminImg: "img/imgP/image4.png"
 
   - idP: 5
-    nomP: "Salade César"
+    nomP: "Plateau Nigiri Saumon"
     idTp: 3
-    prixP: 9.00
-    stock: 20
-    stockInit: 20
-    descriptionP: "Poulet grillé, parmesan, croûtons et sauce césar."
+    prixP: 14.00
+    stock: 30
+    stockInit: 30
+    descriptionP: "Tranches de saumon frais sur un lit de riz vinaigré."
     cheminImg: "img/imgP/image5.png"
 
   - idP: 6
-    nomP: "Cheesecake"
-    idTp: 5
-    prixP: 5.50
-    stock: 25
-    stockInit: 25
-    descriptionP: "Gâteau crémeux au fromage frais et coulis de fruits rouges."
+    nomP: "Makis Thon Avocat"
+    idTp: 3
+    prixP: 8.50
+    stock: 45
+    stockInit: 45
+    descriptionP: "Rouleaux d'algues nori garnis de thon rouge et avocat fondant."
     cheminImg: "img/imgP/image6.png"
 
   - idP: 7
-    nomP: "Curry Thaï"
-    idTp: 2
-    prixP: 15.90
-    stock: 30
-    stockInit: 30
-    descriptionP: "Poulet au lait de coco et curry rouge."
+    nomP: "Perles de Coco"
+    idTp: 4
+    prixP: 4.00
+    stock: 80
+    stockInit: 80
+    descriptionP: "Boules de riz gluant à la vapeur, cœur soja et enrobage coco."
     cheminImg: "img/imgP/image7.png"
 
   - idP: 8
-    nomP: "Sushi Maki Mix"
+    nomP: "Mochi Glacé Thé Vert"
     idTp: 4
-    prixP: 17.00
-    stock: 35
-    stockInit: 35
-    descriptionP: "Assortiment de makis, nigiris et sashimis frais."
+    prixP: 5.00
+    stock: 70
+    stockInit: 70
+    descriptionP: "Douceur japonaise à la pâte de riz fourrée à la glace thé vert."
     cheminImg: "img/imgP/image8.png"
 
   - idP: 9
-    nomP: "Brownie chocolat"
-    idTp: 5
-    prixP: 4.50
-    stock: 30
-    stockInit: 30
-    descriptionP: "Fondant au chocolat noir et noix de pécan."
+    nomP: "Canard Laqué"
+    idTp: 1
+    prixP: 14.90
+    stock: 25
+    stockInit: 25
+    descriptionP: "Tranches de canard rôti aux épices, peau croustillante et chair tendre."
     cheminImg: "img/imgP/image9.png"
 
   - idP: 10
-    nomP: "Rouleaux de printemps"
-    idTp: 3
-    prixP: 7.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Frais et légers, garnis de crevettes et légumes croquants."
-    cheminImg: "img/imgP/image11.png"
+    nomP: "Raviolis Crevettes (Ha Kao)"
+    idTp: 1
+    prixP: 6.50
+    stock: 90
+    stockInit: 90
+    descriptionP: "Bouchées vapeur translucides à la crevette et pousses de bambou."
+    cheminImg: "img/imgP/image10.png"
 
   - idP: 11
-    nomP: "Maki Saumon"
-    idTp: 4
-    prixP: 12.50
-    stock: 28
-    stockInit: 35
-    descriptionP: "Maki au saumon frais et riz vinaigré."
-    cheminImg: "img/imgP/image12.png"
-
-  - idP: 12
-    nomP: "Pâtes Carbonara"
-    idTp: 2
-    prixP: 11.50
-    stock: 30
-    stockInit: 35
-    descriptionP: "Pâtes à la sauce crémeuse, lardons et parmesan."
-    cheminImg: "img/imgP/image13.png"
-
-  - idP: 13
-    nomP: "Salade Grecque"
-    idTp: 3
-    prixP: 8.50
-    stock: 18
-    stockInit: 20
-    descriptionP: "Tomates, concombre, feta, olives et oignons rouges."
-    cheminImg: "img/imgP/image14.png"
-
-  - idP: 14
-    nomP: "Mochi Vanille"
-    idTp: 5
-    prixP: 3.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Dessert japonais moelleux à la vanille."
-    cheminImg: "img/imgP/image15.png"
-
-  - idP: 15
-    nomP: "Brochette Poulet"
-    idTp: 2
-    prixP: 9.50
-    stock: 30
-    stockInit: 35
-    descriptionP: "Poulet mariné et grillé, servi avec sauce barbecue."
-    cheminImg: "img/imgP/image16.png"
-
-  - idP: 16
-    nomP: "Sushi Nigiri Thon"
-    idTp: 4
-    prixP: 14.00
-    stock: 20
-    stockInit: 25
-    descriptionP: "Nigiri frais au thon rouge."
-    cheminImg: "img/imgP/image17.png"
-
-  - idP: 17
-    nomP: "Soupe Miso"
-    idTp: 2
-    prixP: 5.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Soupe japonaise à base de miso et algues."
-    cheminImg: "img/imgP/image19.png"
-
-  - idP: 18
-    nomP: "Salade Niçoise"
-    idTp: 3
-    prixP: 9.50
-    stock: 18
-    stockInit: 20
-    descriptionP: "Thon, œuf, olives, haricots verts et pommes de terre."
-    cheminImg: "img/imgP/image20.png"
-
-  - idP: 19
-    nomP: "Maki Avocat"
-    idTp: 4
-    prixP: 11.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Maki végétarien avec avocat frais et riz vinaigré."
-    cheminImg: "img/imgP/image21.png"
-
-  - idP: 20
-    nomP: "Pizza Quattro Formaggi"
-    idTp: 2
-    prixP: 13.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Pizza généreuse avec 4 fromages fondants."
-    cheminImg: "img/imgP/image22.png"
-
-  - idP: 21
-    nomP: "Gyozas Poulet"
-    idTp: 2
-    prixP: 8.00
-    stock: 28
-    stockInit: 30
-    descriptionP: "Raviolis japonais fourrés au poulet et légumes."
-    cheminImg: "img/imgP/image24.png"
-
-  - idP: 22
-    nomP: "Salade Thaï"
-    idTp: 3
-    prixP: 9.00
-    stock: 18
-    stockInit: 20
-    descriptionP: "Salade épicée aux crevettes, carottes et menthe."
-    cheminImg: "img/imgP/image25.png"
-
-  - idP: 23
-    nomP: "Maki Concombre"
-    idTp: 4
-    prixP: 10.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Maki frais au concombre et riz vinaigré."
-    cheminImg: "img/imgP/image26.png"
-
-  - idP: 24
-    nomP: "Crêpe Nutella"
-    idTp: 5
-    prixP: 4.00
-    stock: 30
-    stockInit: 35
-    descriptionP: "Crêpe moelleuse garnie de Nutella."
-    cheminImg: "img/imgP/image27.png"
-
-  - idP: 25
-    nomP: "Poulet Rôti"
-    idTp: 2
-    prixP: 14.00
-    stock: 20
-    stockInit: 25
-    descriptionP: "Poulet rôti au four avec herbes de Provence."
-    cheminImg: "img/imgP/image28.png"
-
-  - idP: 26
-    nomP: "Sushi Saumon Avocat"
-    idTp: 4
-    prixP: 15.00
-    stock: 22
-    stockInit: 25
-    descriptionP: "Assortiment de nigiris et makis saumon-avocat."
-    cheminImg: "img/imgP/image29.png"
-
-  - idP: 27
-    nomP: "Brownie Caramel"
-    idTp: 5
-    prixP: 4.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Brownie au chocolat noir avec coulis caramel."
-    cheminImg: "img/imgP/image31.png"
-
-  - idP: 28
-    nomP: "Soupe Tom Yum"
-    idTp: 2
-    prixP: 9.50
-    stock: 22
-    stockInit: 25
-    descriptionP: "Soupe thaïe épicée aux crevettes et citronnelle."
-    cheminImg: "img/imgP/image33.png"
-
-  - idP: 29
-    nomP: "Salade Quinoa"
-    idTp: 3
-    prixP: 9.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Quinoa, légumes croquants, graines et vinaigrette légère."
-    cheminImg: "img/imgP/image34.png"
-
-  - idP: 30
-    nomP: "Maki Crevette"
-    idTp: 4
-    prixP: 13.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Maki frais garni de crevettes et riz vinaigré."
-    cheminImg: "img/imgP/image35.png"
-
-  - idP: 31
-    nomP: "Panna Cotta"
-    idTp: 5
-    prixP: 5.00
-    stock: 20
-    stockInit: 25
-    descriptionP: "Dessert italien crémeux avec coulis de fruits rouges."
-    cheminImg: "img/imgP/image36.png"
-
-  - idP: 32
-    nomP: "Côte de porc"
-    idTp: 2
-    prixP: 15.50
-    stock: 18
-    stockInit: 20
-    descriptionP: "Côte de porc grillée avec sauce moutarde."
-    cheminImg: "img/imgP/image37.png"
-
-  - idP: 33
-    nomP: "Salade Avocat Poulet"
-    idTp: 3
-    prixP: 10.50
-    stock: 18
-    stockInit: 20
-    descriptionP: "Salade complète avec avocat, poulet et légumes frais."
-    cheminImg: "img/imgP/image38.png"
-
-  - idP: 34
-    nomP: "Tarte aux Pommes"
-    idTp: 5
-    prixP: 4.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Tarte maison avec pommes fraîches et pâte croustillante."
-    cheminImg: "img/imgP/image40.png"
-
-  - idP: 35
-    nomP: "Gyozas Légumes"
+    nomP: "Salade de Papaye Verte"
     idTp: 2
     prixP: 7.50
-    stock: 25
-    stockInit: 30
-    descriptionP: "Raviolis japonais végétariens."
-    cheminImg: "img/imgP/image42.png"
+    stock: 35
+    stockInit: 35
+    descriptionP: "Salade croquante et pimentée, assaisonnée au citron vert et cacahuètes."
+    cheminImg: "img/imgP/image11.png"
 
-  - idP: 36
-    nomP: "Maki Thon Avocat"
-    idTp: 4
-    prixP: 14.00
-    stock: 20
-    stockInit: 25
-    descriptionP: "Maki frais au thon et avocat."
-    cheminImg: "img/imgP/image43.png"
-
-  - idP: 37
-    nomP: "Salade Poulet Fromage"
-    idTp: 3
-    prixP: 10.00
-    stock: 18
-    stockInit: 20
-    descriptionP: "Salade composée de poulet grillé, légumes et fromage."
-    cheminImg: "img/imgP/image44.png"
-
-  - idP: 38
-    nomP: "Crème Brûlée"
-    idTp: 5
-    prixP: 5.50
-    stock: 22
-    stockInit: 25
-    descriptionP: "Dessert classique à la vanille et caramel croquant."
-    cheminImg: "img/imgP/image45.png"
-
-  - idP: 39
-    nomP: "Poulet Ramen"
+  - idP: 12
+    nomP: "Bo Bun Bœuf"
     idTp: 2
-    prixP: 12.50
-    stock: 20
-    stockInit: 25
-    descriptionP: "Soupe ramen avec poulet, œuf et légumes."
-    cheminImg: "img/imgP/image47.png"
+    prixP: 13.50
+    stock: 40
+    stockInit: 40
+    descriptionP: "Salade composée de vermicelles de riz, bœuf sauté, nems et herbes fraîches."
+    cheminImg: "img/imgP/image12.png"
 
-  - idP: 40
-    nomP: "Sushi Mix Deluxe"
+  - idP: 13
+    nomP: "California Rolls Saumon"
+    idTp: 3
+    prixP: 9.00
+    stock: 55
+    stockInit: 55
+    descriptionP: "Rouleaux inversés au saumon, avocat et parsemés de graines de sésame."
+    cheminImg: "img/imgP/image13.png"
+
+  - idP: 14
+    nomP: "Sashimi Thon"
+    idTp: 3
+    prixP: 16.00
+    stock: 20
+    stockInit: 20
+    descriptionP: "Tranches fines de thon rouge frais de qualité supérieure."
+    cheminImg: "img/imgP/image14.png"
+
+  - idP: 15
+    nomP: "Nougat Chinois"
     idTp: 4
-    prixP: 19.50
-    stock: 25
+    prixP: 3.50
+    stock: 120
+    stockInit: 120
+    descriptionP: "Confiseries croquantes au sésame et aux cacahuètes."
+    cheminImg: "img/imgP/image15.png"
+
+  - idP: 16
+    nomP: "Nems au Chocolat"
+    idTp: 4
+    prixP: 5.50
+    stock: 45
+    stockInit: 45
+    descriptionP: "Version sucrée du nem, croustillant et fourré au chocolat fondant."
+    cheminImg: "img/imgP/image16.png"
+
+  - idP: 17
+    nomP: "Poulet Impérial (Kung Pao)"
+    idTp: 1
+    prixP: 13.50
+    stock: 45
+    stockInit: 45
+    descriptionP: "Dés de poulet sautés aux cacahuètes, poivrons et piments séchés, sauce aigre-douce."
+    cheminImg: "img/imgP/image17.png"
+
+  - idP: 18
+    nomP: "Crevettes au Sel et Poivre"
+    idTp: 1
+    prixP: 15.00
+    stock: 30
     stockInit: 30
-    descriptionP: "Assortiment premium de sushis frais."
-    cheminImg: "img/imgP/image48.png"
+    descriptionP: "Crevettes entières frites, assaisonnées d'un mélange de sel, poivre du Sichuan et ail."
+    cheminImg: "img/imgP/image18.png"
 
-  - idP: 41
-    nomP: "Brownie Pistache"
-    idTp: 5
-    prixP: 5.00
+  - idP: 19
+    nomP: "Mapo Tofu"
+    idTp: 1
+    prixP: 11.00
+    stock: 35
+    stockInit: 35
+    descriptionP: "Tofu tendre mijoté dans une sauce pimentée à la viande hachée et poivre de Sichuan."
+    cheminImg: "img/imgP/image19.png"
+
+  - idP: 20
+    nomP: "Raviolis Grillés (Gyoza Chinois)"
+    idTp: 1
+    prixP: 7.50
+    stock: 85
+    stockInit: 85
+    descriptionP: "Raviolis pékinois à la viande de porc et ciboule, grillés à la poêle."
+    cheminImg: "img/imgP/image20.png"
+
+  - idP: 21
+    nomP: "Salade de Méduse et Concombre"
+    idTp: 2
+    prixP: 9.50
     stock: 20
-    stockInit: 25
-    descriptionP: "Brownie chocolat noir aux éclats de pistache."
-    cheminImg: "img/imgP/image49.png"
+    stockInit: 20
+    descriptionP: "Entrée froide traditionnelle croquante à l'huile de sésame et ail pilé."
+    cheminImg: "img/imgP/image21.png"
 
-  - idP: 42
-    nomP: "Plateau Sur Commande"
-    idTp: 6
-    prixP: 50.00
-    stock: 10
-    stockInit: 10
-    descriptionP: "Plateau complet pour événements, sur demande."
-    cheminImg: "img/imgP/image50.png"
+  - idP: 22
+    nomP: "Oreilles de Porc en Salade"
+    idTp: 2
+    prixP: 8.50
+    stock: 25
+    stockInit: 25
+    descriptionP: "Fines lamelles d'oreilles de porc marinées au piment et au vinaigre noir."
+    cheminImg: "img/imgP/image22.png"
+
+  - idP: 23
+    nomP: "Litchis au Sirop"
+    idTp: 4
+    prixP: 4.50
+    stock: 100
+    stockInit: 100
+    descriptionP: "Fruits exotiques frais et parfumés servis dans leur jus léger."
+    cheminImg: "img/imgP/image23.png"
+
+  - idP: 24
+    nomP: "Tangyuan (Boules de riz gluant)"
+    idTp: 4
+    prixP: 6.00
+    stock: 50
+    stockInit: 50
+    descriptionP: "Boulettes de riz gluant pochées, fourrées à la pâte de sésame noir."
+    cheminImg: "img/imgP/image24.png"
+
+  - idP: 25
+    nomP: "Travers de Porc au Sel et Poivre"
+    idTp: 1
+    prixP: 13.90
+    stock: 40
+    stockInit: 40
+    descriptionP: "Petites côtes de porc frites avec ail, piment et poivre du Sichuan."
+    cheminImg: "img/imgP/image25.png"
+
+  - idP: 26
+    nomP: "Marmite de Poisson Façon Szechuan"
+    idTp: 1
+    prixP: 16.50
+    stock: 15
+    stockInit: 15
+    descriptionP: "Filets de poisson blanc pochés dans un bouillon très pimenté et parfumé."
+    cheminImg: "img/imgP/image26.png"
+
+  - idP: 27
+    nomP: "Aubergines Chinoises Braisées"
+    idTp: 1
+    prixP: 10.50
+    stock: 35
+    stockInit: 35
+    descriptionP: "Aubergines fondantes cuites avec une sauce à l'ail et au vinaigre noir."
+    cheminImg: "img/imgP/image27.png"
+
+  - idP: 28
+    nomP: "Riz Sauté Cantonnais"
+    idTp: 1
+    prixP: 8.50
+    stock: 100
+    stockInit: 100
+    descriptionP: "Riz sauté traditionnel avec petits pois, dés de jambon et omelette."
+    cheminImg: "img/imgP/image28.png"
+
+  - idP: 29
+    nomP: "Salade de Tofu et Œufs de Cent Ans"
+    idTp: 2
+    prixP: 9.00
+    stock: 15
+    stockInit: 15
+    descriptionP: "Dés de tofu frais accompagnés d'œufs de cent ans et sauce soja légère."
+    cheminImg: "img/imgP/image29.png"
+
+  - idP: 30
+    nomP: "Poulet à la Vapeur et Gingembre"
+    idTp: 2
+    prixP: 11.00
+    stock: 25
+    stockInit: 25
+    descriptionP: "Poulet froid mariné servi avec une sauce huile de sésame, ail et gingembre."
+    cheminImg: "img/imgP/image30.png"
+
+  - idP: 31
+    nomP: "Gâteau de Lune (Mooncake)"
+    idTp: 4
+    prixP: 6.50
+    stock: 60
+    stockInit: 60
+    descriptionP: "Pâtisserie traditionnelle fourrée à la pâte de haricot rouge ou graines de lotus."
+    cheminImg: "img/imgP/image31.png"
+
+  - idP: 32
+    nomP: "Beignets de Banane"
+    idTp: 4
+    prixP: 5.50
+    stock: 50
+    stockInit: 50
+    descriptionP: "Bananes frites en beignets croustillants, nappées de miel et sésame."
+    cheminImg: "img/imgP/image32.png"
 
 
 restrictions:
@@ -492,72 +399,79 @@ restrictions:
   - nomA: "sans porc"
   - nomA: "aucune"
 
+
 contenir_R:
-  - idP: 1
-    nomA: "végétarien"
   - idP: 1
     nomA: "sans porc"
   - idP: 2
-    nomA: "aucune"
-  - idP: 3
-    nomA: "végétarien"
+    nomA: "sans porc"
   - idP: 3
     nomA: "sans gluten"
+  - idP: 3
+    nomA: "sans porc"
+  - idP: 4
+    nomA: "végétarien"
+  - idP: 4
+    nomA: "vegan"
   - idP: 4
     nomA: "sans gluten"
   - idP: 5
-    nomA: "aucune"
-  - idP: 6
-    nomA: "végétarien"
-  - idP: 6
-    nomA: "sans gluten"
-  - idP: 7
-    nomA: "sans gluten"
-  - idP: 7
     nomA: "sans porc"
-  - idP: 8
+  - idP: 5
     nomA: "sans gluten"
-  - idP: 8
-    nomA: "sans lactose"
-  - idP: 9
+  - idP: 6
+    nomA: "sans porc"
+  - idP: 6
+    nomA: "sans gluten"
+  - idP: 7
     nomA: "végétarien"
-  - idP: 9
-    nomA: "sans arachide"
-  - idP: 10
+  - idP: 7
+    nomA: "vegan"
+  - idP: 7
     nomA: "sans gluten"
+  - idP: 8
+    nomA: "végétarien"
+  - idP: 8
+    nomA: "sans gluten"
+  - idP: 9
+    nomA: "sans porc"
   - idP: 10
     nomA: "sans porc"
   - idP: 11
+    nomA: "végétarien"
+  - idP: 11
     nomA: "sans gluten"
   - idP: 12
-    nomA: "aucune"
-  - idP: 13
-    nomA: "végétarien"
+    nomA: "sans porc"
   - idP: 13
     nomA: "sans porc"
   - idP: 14
+    nomA: "sans porc"
+  - idP: 14
+    nomA: "sans gluten"
+  - idP: 15
     nomA: "végétarien"
+  - idP: 15
+    nomA: "vegan"
   - idP: 15
     nomA: "sans gluten"
   - idP: 16
-    nomA: "sans gluten"
+    nomA: "végétarien"
+  - idP: 16
+    nomA: "sans porc"
   - idP: 17
-    nomA: "vegan"
-  - idP: 17
-    nomA: "sans gluten"
-  - idP: 18
-    nomA: "sans gluten"
+    nomA: "sans porc"
   - idP: 18
     nomA: "sans porc"
-  - idP: 19
-    nomA: "végétarien"
+  - idP: 18
+    nomA: "sans gluten"
   - idP: 19
     nomA: "sans gluten"
   - idP: 20
-    nomA: "végétarien"
+    nomA: "aucune"
   - idP: 21
     nomA: "sans porc"
-  - idP: 22
+  - idP: 21
     nomA: "sans gluten"
   - idP: 22
     nomA: "sans lactose"
@@ -565,61 +479,44 @@ contenir_R:
     nomA: "végétarien"
   - idP: 23
     nomA: "vegan"
+  - idP: 23
+    nomA: "sans gluten"
   - idP: 24
     nomA: "végétarien"
+  - idP: 24
+    nomA: "vegan"
+  - idP: 24
+    nomA: "sans gluten"
   - idP: 25
     nomA: "sans gluten"
+  - idP: 26
+    nomA: "sans porc"
   - idP: 26
     nomA: "sans gluten"
   - idP: 27
     nomA: "végétarien"
   - idP: 27
+    nomA: "vegan"
+  - idP: 27
     nomA: "sans arachide"
   - idP: 28
     nomA: "sans gluten"
-  - idP: 28
+  - idP: 29
+    nomA: "végétarien"
+  - idP: 29
     nomA: "sans porc"
-  - idP: 29
-    nomA: "vegan"
-  - idP: 29
-    nomA: "sans gluten"
+  - idP: 30
+    nomA: "sans porc"
   - idP: 30
     nomA: "sans gluten"
   - idP: 31
     nomA: "végétarien"
+  - idP: 31
+    nomA: "sans porc"
   - idP: 32
-    nomA: "sans gluten"
-  - idP: 33
-    nomA: "sans gluten"
-  - idP: 34
     nomA: "végétarien"
-  - idP: 34
-    nomA: "sans arachide"
-  - idP: 35
-    nomA: "végétarien"
-  - idP: 35
-    nomA: "vegan"
-  - idP: 36
-    nomA: "sans gluten"
-  - idP: 37
-    nomA: "aucune"
-  - idP: 38
-    nomA: "végétarien"
-  - idP: 38
-    nomA: "sans gluten"
-  - idP: 39
-    nomA: "sans gluten"
-  - idP: 40
-    nomA: "sans gluten"
-  - idP: 40
-    nomA: "sans lactose"
-  - idP: 41
-    nomA: "végétarien"
-  - idP: 41
-    nomA: "sans gluten"
-  - idP: 42
-    nomA: "aucune"
-
+  - idP: 32
+    nomA: "sans porc"
 
 formules:
   - idF: 1
