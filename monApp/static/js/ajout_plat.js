@@ -8,6 +8,13 @@ function masquerForm() {
     const form = document.querySelector("#pop-up-ajout");
     if (!form) return;
     form.classList.remove("open");
+    const fileInput = document.getElementById('image-ajout');
+    if (fileInput) fileInput.value = '';
+    const preview = document.getElementById('preview-ajout');
+    if (preview) {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,8 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 ajouterPlatALaListe(data.plat, tableBody);
-                masquerForm();
+
                 form.reset();
+                const fileInput = document.getElementById('image-ajout');
+                if (fileInput) fileInput.value = '';
+                const preview = document.getElementById('preview-ajout');
+                if (preview) {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+                masquerForm();
             } else {
                 console.error("Erreur lors de l'ajout : " + (data.error));
                 alert("Erreur : " + data.error);

@@ -6,6 +6,9 @@ from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, Con
 from flask_mail import Mail,Message
 from datetime import datetime
 import os
+import time
+import re
+from werkzeug.utils import secure_filename
 from functools import wraps
 
 
@@ -22,6 +25,36 @@ def admin_required(f):
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
+
+
+
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+
+def allowed_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+def _slugify(text: str) -> str:
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9\-_. ]+", "", text)
+    text = re.sub(r"[\s]+", "_", text)
+    return text or "image"
+
+def save_image(file_storage, base_name: str) -> str:
+    """Save uploaded image into static/img/imgP and return relative path like 'img/imgP/xxx.jpg'"""
+    if not file_storage or not allowed_file(file_storage.filename):
+        return ""
+
+    upload_dir = os.path.join(app.static_folder, "img", "imgP")
+    os.makedirs(upload_dir, exist_ok=True)
+
+    filename = secure_filename(file_storage.filename)
+    _, ext = os.path.splitext(filename)
+    unique = int(time.time())
+    safe_base = _slugify(base_name)
+    final_name = f"{safe_base}_{unique}{ext.lower()}"
+    abs_path = os.path.join(upload_dir, final_name)
+    file_storage.save(abs_path)
+    return f"img/imgP/{final_name}"
 
 
 @app.route('/')
@@ -459,6 +492,7 @@ def gestion_plats():
             prix_plat = request.form.get('prixP')
             stock = request.form.get("stock")
             desc= request.form.get("desc")
+            image_file = request.files.get('image')
 
             if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
                 return jsonify({'success': False, 'error': 'Champs manquants'}), 400
@@ -484,6 +518,15 @@ def gestion_plats():
             )
 
             db.session.add(nouveau_plat)
+            db.session.flush()
+
+            nouveau_plat.stockInit = stock_int
+
+            if image_file and allowed_file(image_file.filename):
+                rel_path = save_image(image_file, nom_plat or f"plat_{nouveau_plat.idP or ''}")
+                if rel_path:
+                    nouveau_plat.cheminImg = rel_path
+
             db.session.commit()
             
             type_associe = Type_plat.query.get(type_id_int)
@@ -527,7 +570,6 @@ def gestion_formules():
             if Formule.query.filter_by(nomF=nom_formule).first():
                 return jsonify({'success': False, 'error': 'Une formule avec ce nom existe déjà'}), 400
 
-            # Find max idF to simulate autoincrement
             max_id = db.session.query(db.func.max(Formule.idF)).scalar()
             new_id = (max_id or 0) + 1
 
@@ -646,7 +688,6 @@ def modifier_numtel():
 
     utilisateur_existant = User.query.filter_by(numtelUser=nouveau_numtel).first()
 
-    # Vérifie si le numéro de téléphone est déjà utilisé
     if utilisateur_existant and utilisateur_existant.idUser != current_user.idUser:
         flash("Ce numéro de téléphone est déjà utilisé.", "danger")
         return redirect(url_for('gestion_compte'))
@@ -667,13 +708,13 @@ def modifier_mdp():
     ancien_mdp = request.form.get('ancien_mdp')
     nouveau_mdp = request.form.get('nouveau_mdp')
 
-    # Vérification de l'ancien mot de passe
+
     hash_ancien = sha256(ancien_mdp.encode('utf-8')).hexdigest()
     if current_user.mdp != hash_ancien:
         flash("L'ancien mot de passe est incorrect.", "danger")
         return redirect(url_for('gestion_compte'))
 
-    # Hachage du nouveau mot de passe
+
     hash_nouveau = sha256(nouveau_mdp.encode('utf-8')).hexdigest()
     current_user.mdp = hash_nouveau
     db.session.commit()
@@ -751,6 +792,34 @@ def admin_modifier_quantite_plat():
 
     except ValueError:
         return jsonify({'success': False, 'error': 'Quantité invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
+@app.route('/admin/modifier_image_plat', methods=['POST'])
+@admin_required
+def modifier_image_plat():
+    try:
+        id_plat = request.form.get('idP')
+        image_file = request.files.get('image')
+
+        if not id_plat or not image_file:
+            return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        if not allowed_file(image_file.filename):
+            return jsonify({'success': False, 'error': 'Format d\'image non autorisé'}), 400
+
+        rel_path = save_image(image_file, plat.nomP or f"plat_{plat.idP}")
+        if not rel_path:
+            return jsonify({'success': False, 'error': 'Échec de l\'enregistrement de l\'image'}), 500
+
+        plat.cheminImg = rel_path
+        db.session.commit()
+        return jsonify({'success': True, 'cheminImg': rel_path}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
