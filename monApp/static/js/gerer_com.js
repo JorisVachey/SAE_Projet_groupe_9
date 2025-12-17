@@ -11,10 +11,7 @@ rows.forEach(row => {
   });
 });
 
-/**
- * Fonction pour créer et soumettre un formulaire POST dynamiquement.
- * @param {string} action La route Flask à appeler (ex: valider, supprimer).
- */
+
 function submitAdminAction(action) {
     if (!selectedUserId) {
         alert("Veuillez sélectionner un client dans le tableau !");
@@ -39,11 +36,8 @@ document.getElementById("btnDebannir").addEventListener("click", () => {
 
 document.querySelectorAll('.plat-checkbox').forEach(box => {
     box.addEventListener('change', (e) => {
-        // 1. Récupérer l'ID de la commande via la ligne du tableau (tr)
         const row = e.target.closest('tr');
         const idR = row.dataset.id;
-
-        // 2. Si la case est cochée, on envoie la requête
         if (e.target.checked) {
             fetch("/admin/update_statut_preparation", {
                 method: "POST",
@@ -56,17 +50,12 @@ document.querySelectorAll('.plat-checkbox').forEach(box => {
             .then(data => {
                 if (data.success) {
                     console.log(`Commande ${idR} passée EN PREPARATION`);
-                    
-                    // (Optionnel) Ajout d'un effet visuel pour dire "C'est en cours"
-                    // Par exemple, on met une bordure orange à la ligne
                     row.style.borderLeft = "5px solid orange";
                 }
             })
             .catch(error => console.error("Erreur:", error));
         }
     });
-
-    // Empêcher la sélection de la ligne quand on clique sur la checkbox
     box.addEventListener('click', (e) => {
         e.stopPropagation();
     });

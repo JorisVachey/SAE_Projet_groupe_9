@@ -12,7 +12,7 @@ function modif_quantite() {
 
     document.getElementById('modif-qte-id-plat').value = idPlat;
     document.getElementById('modif-qte-nomP').value = nomPlat;
-    document.getElementById('modif-quantite').value = ""; 
+    document.getElementById('modif-quantite').value = "";
 
     const form = document.querySelector("#pop-up-modif-quantite");
     if (form) {
@@ -29,7 +29,6 @@ function masquerFormQuantite() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('form-modif-quantite');
-    
     if (form) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();

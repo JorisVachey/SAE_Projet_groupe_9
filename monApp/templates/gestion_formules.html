@@ -7,13 +7,13 @@
 <h3>GESTION DES</h3>
 <h1>FORMULES</h1>
 <div class="trait-horizontal"></div>
-<section class="corps"> 
+<section class="corps">
     <article>
             <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher une formule...">
             <button class="boutons_plat" onclick="afficherForm()">Ajouter une formule</button>
             <button class="boutons_plat" id="btn_suppr">Supprimer la formule</button>
             <button class="boutons_plat" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
-    </article>   
+    </article>
     <article class="table-container">
         <table id="tableau">
                 <thead>
@@ -39,16 +39,16 @@
                     {% endfor %}
                 </tbody>
             </table>
-    </article> 
+    </article>
 </section>
 <section id="pop-up-ajout">
     <form method="POST" class="champs" id="form-ajout-formule">
         <label for="nomF">Nom de la Formule</label>
         <input id="nomF" type="text" name="nomF" placeholder="Saisir nom de la formule..." required>
-        
+
         <label for="prixF">Prix de la Formule</label>
         <input id="prixF" type="number" step="0.01" name="prixF" placeholder="Saisir le prix..." required>
-        
+
         <label>Composition :</label>
         <div class="composition-container">
             {% for unType in types %}

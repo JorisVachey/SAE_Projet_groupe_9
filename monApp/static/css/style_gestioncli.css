@@ -19,7 +19,7 @@ main {
 
 .gestion-client table {
     border-collapse: collapse;
-    flex-basis: 40%;    
+    flex-basis: 40%;
     flex-grow: 1;
     margin-top: 20px;
     background-color: var(--bg-base);
@@ -28,7 +28,6 @@ main {
     border-radius: 12px;
     overflow: hidden;
     margin: 0 0.5em 1em;
-    
 }
 .intituler{
     flex-basis: 40%;

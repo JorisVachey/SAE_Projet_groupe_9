@@ -46,7 +46,7 @@
 .liste_aliment {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; 
+    align-items: flex-start;
 }
 
 .nav_type_plat {
@@ -190,7 +190,6 @@
         width: 100%;
         padding: 1em;
         overflow-x: auto;
-        
     }
 
     .nav_type_plat button {

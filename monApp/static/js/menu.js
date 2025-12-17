@@ -6,9 +6,9 @@ function StockEpuise(article) {
     if (!stockInput) {
         return false;
     }
-    
+
     const stock = parseInt(stockInput.value, 10);
-    
+
     if (stock === 0) {
         return true;
     }
@@ -37,11 +37,10 @@ btnPlatChoisi.forEach(btn => {
         const articles = document.querySelectorAll(".deux");
         articles.forEach(article => {
             const idPlat = article.dataset.idTp;
-            
             let estPlatChoisi;
-            
+
             if (typePlatChoisi === "formules") {
-                estPlatChoisi = article.classList.contains("formule_article"); 
+                estPlatChoisi = article.classList.contains("formule_article");
             } else {
                 let identifiantTexte = idPlat;
                 let identifiantNombre = parseInt(identifiantTexte, 10);
@@ -77,7 +76,7 @@ btnTrierPrix.addEventListener("click", () => {
     const container = document.querySelector(".derouler");
     const lstArticles = Array.from(container.querySelectorAll(".deux"));
     lstArticles.sort((a, b) => {
-        const prixA = parseFloat(a.querySelector(".prix").textContent); 
+        const prixA = parseFloat(a.querySelector(".prix").textContent);
         const prixB = parseFloat(b.querySelector(".prix").textContent);
         return prixA - prixB;
     });
@@ -88,7 +87,6 @@ btnTrierPrix.addEventListener("click", () => {
 
 const btnTrierNom = document.getElementById("triNom");
 btnTrierNom.addEventListener("click", () => {
-    
     const container = document.querySelector(".derouler");
     const lstArticles = Array.from(container.querySelectorAll(".deux"));
     lstArticles.sort((a, b) => {
@@ -134,9 +132,7 @@ function effectuerRecherche() {
     articles.forEach(article => {
         const nomPlat = article.querySelector("h5").textContent.toLowerCase();
         const idTp = article.dataset.idTp;
-        
         let estSelectionne = true;
-        
         if (typePlatChoisi !== null) {
             if (typePlatChoisi === "formules") {
                 estSelectionne = article.classList.contains("formule_article");
@@ -144,14 +140,12 @@ function effectuerRecherche() {
                 estSelectionne = (parseInt(idTp, 10) === typePlatChoisi);
             }
         }
-        
         let affichage;
         if (estSelectionne && nomPlat.includes(valRecherche)) {
             affichage = "flex";
         } else {
             affichage = "none";
         }
-        
         article.style.display = affichage;
         if (StockEpuise(article)) {
             article.style.opacity = "0.5";
@@ -183,5 +177,5 @@ inputRecherche.addEventListener("input", () => {
 });
 
 inputRecherche.addEventListener("blur", () => {
-    inputRecherche.value = ""; 
+    inputRecherche.value = "";
 });

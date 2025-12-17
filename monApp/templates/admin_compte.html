@@ -7,8 +7,6 @@
 {% block main %}
 <main class="compte">
   <h2>Mon compte</h2>
-
-  <!-- Messages flash -->
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <section class="messages">
@@ -22,7 +20,6 @@
   <input type="checkbox" id="toggle-modif" hidden>
 
   <section class="carte">
-    <!-- Infos user -->
     <section class="vue-info">
       <p><strong>Pseudonyme :</strong> <span>{{ user.pseudonyme }}</span></p>
       <p><strong>Numéro de téléphone :</strong> <span>{{ user.numtelUser }}</span></p>
@@ -30,8 +27,6 @@
 
       <label for="toggle-modif" class="btn">Modifier mon compte</label>
     </section>
-
-    <!-- Formulaires de modification -->
     <section class="vue-formulaires">
       <section>
         <h3>Modifier le pseudonyme</h3>
@@ -44,7 +39,7 @@
       <section>
         <h3>Modifier le numéro de téléphone</h3>
         <form method="POST" action="{{ url_for('modifier_numtel') }}">
-          <input type="text" name="numtel" maxlength="10" pattern="\d{10}" placeholder="Nouveau numéro" required> <!--pattern="\d{10}" = 10 chiffres consécutifs-->
+          <input type="text" name="numtel" maxlength="10" pattern="\d{10}" placeholder="Nouveau numéro" required>
           <button class="btn-type1" type="submit">Mettre à jour</button>
         </form>
       </section>
