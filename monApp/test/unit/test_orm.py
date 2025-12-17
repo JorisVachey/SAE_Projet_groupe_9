@@ -59,3 +59,30 @@ def test_cascade_delete_reservation(session):
     # Vérification que les entrées liées ont disparu
     assert session.query(ContenirP).filter_by(idR=res_id).first() is None
     assert session.query(ContenirF).filter_by(idR=res_id).first() is None
+
+def test_reservation_getbesoin(session):
+    """Vérifie que getbesoin calcule correctement les quantités totales de plats."""
+    # 1. Setup : Création d'un plat et d'une formule qui contient ce même plat
+    tp = Type_plat(idTp=3, nomTp="Test", descriptionTp="...", cheminImg="...")
+    p_sushi = Plat(nomP="Sushi Maison", idTp=3, prixP=10, stock=20, cheminImg="...", descriptionP="...")
+    session.add_all([tp, p_sushi])
+    session.commit()
+
+    f_duo = Formule(idF=2, nomF="Menu Duo", prixF=18)
+    session.add(f_duo)
+    
+    comp = Composer(idF=f_duo.idF, idP=p_sushi.idP, quantiteC=2)
+    session.add(comp)
+    session.commit()
+
+    res = Reservation(idUser=1, dateR=None, nb_couverts=3, sur_place=True, statut='validée')
+    session.add(res)
+    session.commit()
+
+    cp = ContenirP(idR=res.idR, idP=p_sushi.idP, quantiteP=1)
+    cf = ContenirF(idR=res.idR, idF=f_duo.idF, quantiteF=1)  
+    session.add_all([cp, cf])
+    session.commit()
+
+    besoins = res.getbesoin()
+    assert besoins[p_sushi] == 3
