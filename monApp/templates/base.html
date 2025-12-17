@@ -21,7 +21,7 @@
                 <img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami">
             </a>
             {% if current_user.is_authenticated %}
-                <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p>
+                <!-- <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p> -->
             {% endif %}
             <button id="btn_hamburger">
                 <img id="logo_hamburger"
@@ -52,17 +52,32 @@
                     <a href="{{ url_for('nouveautes') }}">Nouveautés</a>
                     {% if current_user.is_authenticated %}
 
-                    <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
                     <li  class="btn-conn"><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
                     <li  class="btn-conn"><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
+                    <li><a href="" id="profil"><img src="{{url_for ('static', filename='img/accueil/profil.png')}}" alt="image profil"></a></li>
                 {% else %}
                     <article>
                         <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
                         <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
                     </article>
 
-                {% endif %}
-
+                {% endif %} 
+                <section class="profil">
+                    <div class="profil_div">
+                        <img src="{{url_for ('static', filename='img/accueil/profil.png')}}" alt="image profil">
+                    </div>
+                    <div>
+                        {% if current_user.is_authenticated %}
+                            <p>Pseudo : {{ current_user.pseudonyme }}</p>
+                            <p>Téléphone : {{ current_user.numtelUser }}</p>
+                            <p>Points de fidélités : {{ current_user.pts_fidelite }}</p>
+                            <p>Banni : {{ current_user.est_banni }}</p>
+                            <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
+                        {% else %}
+                            <p>Utilisateur non connecté</p>
+                        {% endif %}
+                    </div>
+                </section>
                 </ul>
             {% endif %}
         </nav>
@@ -99,5 +114,18 @@
     </footer>
     {%endblock%}
     <script src="{{ url_for('static', filename='js/bnt_theme.js') }}"></script>
+    <script>
+        const aProfil = document.getElementById('profil');
+        const profil = document.querySelector('.profil');
+
+        aProfil.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (profil.style.display === 'none' || profil.style.display === '') {
+                profil.style.display = 'block';
+            } else {
+                profil.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

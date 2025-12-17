@@ -105,7 +105,7 @@
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
     height: auto;
-    max-height: 28em;
+    max-height: 30em;
     justify-content: space-between;
     position: relative;
 }

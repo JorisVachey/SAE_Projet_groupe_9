@@ -104,7 +104,12 @@ def loaddb(file):
 
     click.echo("Insertion des formules...")
     for f in data.get("formules", []):
-        form = Formule(idF=f["idF"], nomF=f["nomF"], prixF=f["prixF"])
+        form = Formule(
+            idF=f["idF"],
+            nomF=f["nomF"],
+            prixF=f["prixF"],
+            cheminImg=f["cheminImg"]
+        )
         db.session.add(form)
 
     db.session.commit(

@@ -232,7 +232,7 @@ def ajouter_plat(id_p):
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
-    return redirect(url_for("voir_panier"))
+    return redirect(url_for("menu"))
 
 
 @login_required
@@ -265,7 +265,7 @@ def ajouter_formule(id_f):
 
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
-    return redirect(url_for("voir_panier"))
+    return redirect(url_for("menu"))
 
 
 @login_required
