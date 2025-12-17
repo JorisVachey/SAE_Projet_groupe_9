@@ -100,14 +100,16 @@ class Formule(db.Model):
     idF = db.Column(db.Integer, primary_key=True)
     nomF = db.Column(db.String(50))
     prixF = db.Column(db.Numeric(10, 2))
+    cheminImg = db.Column(db.String(100))
 
     plats = db.relationship("Composer", backref="formule", cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
-    def __init__(self, idF, nomF, prixF):
+    def __init__(self, idF, nomF, prixF, cheminImg):
         self.idF = idF
         self.nomF = nomF
         self.prixF = prixF
+        self.cheminImg = cheminImg
 
     def __repr__(self):
         return f"<Formule(id={self.idF}, nom={self.nomF}, prix={self.prixF})>"
