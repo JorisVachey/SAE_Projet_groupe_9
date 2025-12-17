@@ -21,7 +21,7 @@
                 <img src="{{ url_for('static', filename='img/base/logo_oumami.png') }}" alt="logo Oumami">
             </a>
             {% if current_user.is_authenticated %}
-                <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p>
+                <!-- <p class="pseudo">Connecté en tant que {{ current_user.pseudonyme }}</p> -->
             {% endif %}
             <button id="btn_hamburger">
                 <img id="logo_hamburger" 

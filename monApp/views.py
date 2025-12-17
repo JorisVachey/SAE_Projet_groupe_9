@@ -202,7 +202,7 @@ def ajouter_plat(idP):
 
     db.session.commit()
     flash(f"{plat.nomP} ajoutée au panier !", "success")
-    return redirect(url_for("voir_panier"))
+    return redirect(url_for("menu"))
 
 @login_required
 @app.route("/ajouter_formule/<int:idF>", methods=["POST"])
@@ -232,7 +232,7 @@ def ajouter_formule(idF):
 
     db.session.commit()
     flash(f"{formule.nomF} ajoutée au panier !", "success")
-    return redirect(url_for("voir_panier"))
+    return redirect(url_for("menu"))
 
 @login_required
 @app.route("/modifier_quantite_plat/<int:idP>/<action>", methods=["POST"])
