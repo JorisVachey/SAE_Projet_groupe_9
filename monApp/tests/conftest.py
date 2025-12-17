@@ -39,9 +39,10 @@ def testapp():
             numtelUser="0102030405",
             pseudonyme="testuser",
             mdp=m.hexdigest(),
-            est_admin=True
+            est_admin=False
         )
-        db.session.add(user)
+        admin = User(numtelUser="0600000000", pseudonyme="admin", mdp="hash...", est_admin=True)
+        db.session.add_all([user,admin])
         
         db.session.commit()
         
