@@ -1,6 +1,7 @@
 from .app import db
 from flask_login import UserMixin
 
+
 class User(db.Model, UserMixin):
     __tablename__ = "USER"
 
@@ -12,7 +13,13 @@ class User(db.Model, UserMixin):
     pts_fidelite = db.Column(db.Integer, default=0)
     est_admin = db.Column(db.Boolean, default=False)
 
-    def __init__(self, numtelUser, pseudonyme, mdp, est_banni=False, pts_fidelite=0, est_admin=False):
+    def __init__(self,
+                 numtelUser,
+                 pseudonyme,
+                 mdp,
+                 est_banni=False,
+                 pts_fidelite=0,
+                 est_admin=False):
         self.numtelUser = numtelUser
         self.pseudonyme = pseudonyme
         self.mdp = mdp
@@ -33,9 +40,10 @@ class User(db.Model, UserMixin):
     def debannir(self):
         self.est_banni = False
         db.session.commit()
-    
+
     def get_nb_reservations_annulees(self):
-        return Reservation.query.filter_by(idUser=self.idUser, statut='annulée').count()
+        return Reservation.query.filter_by(idUser=self.idUser,
+                                           statut='annulée').count()
 
 
 class Reservation(db.Model):
@@ -48,8 +56,12 @@ class Reservation(db.Model):
     sur_place = db.Column(db.Boolean)
     statut = db.Column(db.String(50))
 
-    formules = db.relationship("ContenirF", backref="reservation", cascade="all, delete-orphan")
-    plats = db.relationship("ContenirP", backref="reservation", cascade="all, delete-orphan")
+    formules = db.relationship("ContenirF",
+                               backref="reservation",
+                               cascade="all, delete-orphan")
+    plats = db.relationship("ContenirP",
+                            backref="reservation",
+                            cascade="all, delete-orphan")
     user = db.relationship("User", backref=db.backref("reservations"))
 
     def get_total(self):
@@ -59,13 +71,12 @@ class Reservation(db.Model):
         for cf in self.formules:
             total += cf.quantiteF * cf.formule.prixF
         return total
-    
+
     def ifFormuleVide(self):
         return len(self.formules) == 0
-    
+
     def ifPlatVide(self):
         return len(self.plats) == 0
-
 
     def getbesoin(self):
         """
@@ -74,14 +85,16 @@ class Reservation(db.Model):
         """
         besoins_stock = {}
         for cp in self.plats:
-            besoins_stock[cp.plat] = besoins_stock.get(cp.plat, 0) + cp.quantiteP
+            besoins_stock[cp.plat] = besoins_stock.get(cp.plat,
+                                                       0) + cp.quantiteP
         for cf in self.formules:
             formule = cf.formule
             for c in formule.plats:
                 plat_obj = c.plat
                 qte_necessaire = c.quantiteC * cf.quantiteF
-                besoins_stock[plat_obj] = besoins_stock.get(plat_obj, 0) + qte_necessaire
-        
+                besoins_stock[plat_obj] = besoins_stock.get(plat_obj,
+                                                            0) + qte_necessaire
+
         return besoins_stock
 
     def __init__(self, idUser, dateR, nb_couverts, sur_place, statut):
@@ -94,6 +107,7 @@ class Reservation(db.Model):
     def __repr__(self):
         return f"<Reservation(id={self.idR}, user={self.numtelUser}, date={self.dateR})>"
 
+
 class Formule(db.Model):
     __tablename__ = "FORMULE"
 
@@ -101,7 +115,9 @@ class Formule(db.Model):
     nomF = db.Column(db.String(50))
     prixF = db.Column(db.Numeric(10, 2))
 
-    plats = db.relationship("Composer", backref="formule", cascade="all, delete-orphan")
+    plats = db.relationship("Composer",
+                            backref="formule",
+                            cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
     def __init__(self, idF, nomF, prixF):
@@ -111,6 +127,7 @@ class Formule(db.Model):
 
     def __repr__(self):
         return f"<Formule(id={self.idF}, nom={self.nomF}, prix={self.prixF})>"
+
 
 class Type_plat(db.Model):
     __tablename__ = "TYPE_PLAT"
@@ -129,10 +146,11 @@ class Type_plat(db.Model):
     def __repr__(self):
         return f"<type plat(id={self.idTp}, nom={self.nomTp}>"
 
+
 class Plat(db.Model):
     __tablename__ = "PLAT"
 
-    idP = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    idP = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nomP = db.Column(db.String(50))
     idTp = db.Column(db.Integer, db.ForeignKey("TYPE_PLAT.idTp"))
     prixP = db.Column(db.Numeric(10, 2))
@@ -141,12 +159,16 @@ class Plat(db.Model):
     cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
-    compositions = db.relationship('Composer',backref='plat', cascade='all, delete-orphan', passive_deletes=True)
-    reservations = db.relationship("ContenirP", backref="plat", passive_deletes=True)
+    compositions = db.relationship('Composer',
+                                   backref='plat',
+                                   cascade='all, delete-orphan',
+                                   passive_deletes=True)
+    reservations = db.relationship("ContenirP",
+                                   backref="plat",
+                                   passive_deletes=True)
     type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
-
-    def __init__(self, nomP, idTp, prixP, stock,cheminImg, descriptionP):
+    def __init__(self, nomP, idTp, prixP, stock, cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP
@@ -156,12 +178,12 @@ class Plat(db.Model):
 
     def __repr__(self):
         return f"<Plat(id={self.idP}, nom={self.nomP}, type id={self.idTp}, prix={self.prixP})>"
-    
+
     def new_prix(self, new_prix):
-        self.prixP=new_prix
-        
+        self.prixP = new_prix
+
     def new_quantite(self, quantite):
-        self.stock=quantite
+        self.stock = quantite
 
 
 class Restriction(db.Model):
@@ -180,9 +202,13 @@ class Restriction(db.Model):
 
 class ContenirR(db.Model):
     __tablename__ = "CONTENIR_R"
-    
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete="CASCADE"), primary_key=True)
-    nomA = db.Column(db.String(50), db.ForeignKey("RESTRICTION.nomA"), primary_key=True)
+
+    idP = db.Column(db.Integer,
+                    db.ForeignKey("PLAT.idP", ondelete="CASCADE"),
+                    primary_key=True)
+    nomA = db.Column(db.String(50),
+                     db.ForeignKey("RESTRICTION.nomA"),
+                     primary_key=True)
 
     def __init__(self, idP, nomA):
         self.idP = idP
@@ -196,7 +222,9 @@ class Composer(db.Model):
     __tablename__ = "COMPOSER"
 
     idF = db.Column(db.Integer, db.ForeignKey("FORMULE.idF"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey('PLAT.idP', ondelete='CASCADE'),primary_key=True)
+    idP = db.Column(db.Integer,
+                    db.ForeignKey('PLAT.idP', ondelete='CASCADE'),
+                    primary_key=True)
     quantiteC = db.Column(db.Integer)
 
     def __init__(self, idF, idP, quantiteC):
@@ -211,7 +239,9 @@ class Composer(db.Model):
 class ContenirF(db.Model):
     __tablename__ = "CONTENIR_F"
 
-    idR = db.Column(db.Integer, db.ForeignKey("RESERVATION.idR"), primary_key=True)
+    idR = db.Column(db.Integer,
+                    db.ForeignKey("RESERVATION.idR"),
+                    primary_key=True)
     idF = db.Column(db.Integer, db.ForeignKey("FORMULE.idF"), primary_key=True)
     quantiteF = db.Column(db.Integer)
 
@@ -227,8 +257,12 @@ class ContenirF(db.Model):
 class ContenirP(db.Model):
     __tablename__ = "CONTENIR_P"
 
-    idR = db.Column(db.Integer, db.ForeignKey("RESERVATION.idR"), primary_key=True)
-    idP = db.Column(db.Integer, db.ForeignKey("PLAT.idP", ondelete='CASCADE'), primary_key=True)
+    idR = db.Column(db.Integer,
+                    db.ForeignKey("RESERVATION.idR"),
+                    primary_key=True)
+    idP = db.Column(db.Integer,
+                    db.ForeignKey("PLAT.idP", ondelete='CASCADE'),
+                    primary_key=True)
     quantiteP = db.Column(db.Integer)
 
     def __init__(self, idR, idP, quantiteP):

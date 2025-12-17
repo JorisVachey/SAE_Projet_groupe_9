@@ -1,39 +1,44 @@
 from hashlib import sha256
 from .app import app, db, mail
-from flask import render_template, redirect, url_for,request,flash, abort, jsonify
+from flask import render_template, redirect, url_for, request, flash, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, ContenirF, Formule, Reservation, Composer
-from flask_mail import Mail,Message
+from flask_mail import Mail, Message
 from datetime import datetime
 import os
 from functools import wraps
 
 
 def admin_required(f):
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # Vérifie si le user est connecté
         print(current_user)
         if not current_user.is_authenticated:
-            flash("Veuillez vous connecter pour accéder à cette page.", "warning")
+            flash("Veuillez vous connecter pour accéder à cette page.",
+                  "warning")
             return redirect(url_for('connection'))
         # Vérifie si l user est l'admin
         if not current_user.est_admin:
             return redirect(url_for('index'))
         return f(*args, **kwargs)
+
     return decorated_function
 
 
 @app.route('/')
 @app.route('/index/')
-def index() :
+def index():
     lesTypeDePlats = Type_plat.query.all()
     return render_template("index.html", TypeDePlats=lesTypeDePlats)
 
+
 @app.route('/propos/')
 @app.route('/propos')
-def propos() :
+def propos():
     return render_template("apropos.html")
+
 
 @app.route('/menu/')
 def menu():
@@ -42,30 +47,38 @@ def menu():
     lesFormules = Formule.query.all()
 
     for formule in lesFormules:
-        formule.details_plats = db.session.query(Plat, Composer.quantiteC).join(Composer, Plat.idP == Composer.idP).filter(Composer.idF == formule.idF).all()
+        formule.details_plats = db.session.query(Plat, Composer.quantiteC).join(
+            Composer,
+            Plat.idP == Composer.idP).filter(Composer.idF == formule.idF).all()
 
     for plat in lesPlats:
         if plat.cheminImg:
-            chemin_complet = os.path.join(app.root_path, 'static', plat.cheminImg)
+            chemin_complet = os.path.join(app.root_path, 'static',
+                                          plat.cheminImg)
             if not os.path.isfile(chemin_complet):
                 plat.cheminImg = 'img/base/image_defaut.png'
         else:
             plat.cheminImg = 'img/base/image_defaut.png'
-    
-    return render_template('menu.html', plats=lesPlats, TypeDePlats=lesTypeDePlats, formules=lesFormules)
-    
 
-@app.route('/contact/',methods = ["GET","POST"])
-def contact() :
+    return render_template('menu.html',
+                           plats=lesPlats,
+                           TypeDePlats=lesTypeDePlats,
+                           formules=lesFormules)
+
+
+@app.route('/contact/', methods=["GET", "POST"])
+def contact():
     if request.method == "POST":
         email = request.form["email"]
         message = request.form["message"]
         msg = Message(
             subject=f"Nouveau message de {email or 'anonyme'}",
-            sender=app.config["MAIL_DEFAULT_SENDER"], # fonctionne car on s'envoie le mail a nous meme pas besion de verif l'adresse de l'auteur
-            recipients=[app.config["MAIL_USERNAME"]],  # adresse qui reçoit les messages
+            sender=app.config[
+                "MAIL_DEFAULT_SENDER"],  # fonctionne car on s'envoie le mail a nous meme pas besion de verif l'adresse de l'auteur
+            recipients=[app.config["MAIL_USERNAME"]
+                       ],  # adresse qui reçoit les messages
             body=f"Email: {email}\n\nMessage:\n{message}")
-        
+
         if email:
             msg.reply_to = email
         try:
@@ -78,11 +91,12 @@ def contact() :
             traceback.print_exc()
             flash(f"Erreur lors de l'envoi : {e}", "danger")
         if email:
-             msg_confirmation = Message(
+            msg_confirmation = Message(
                 subject="Confirmation : votre message a été envoyé",
-                sender=app.config["MAIL_USERNAME"], 
+                sender=app.config["MAIL_USERNAME"],
                 recipients=[email],
-                body="Merci ! Nous avons bien reçu votre message envoyer sur notre site."
+                body=
+                "Merci ! Nous avons bien reçu votre message envoyer sur notre site."
             )
         try:
             mail.send(msg_confirmation)
@@ -95,11 +109,12 @@ def contact() :
 
 
 @app.route('/nouveautes/')
-def nouveautes() :
+def nouveautes():
     return render_template("nouveautes.html")
 
-@app.route('/connection/', methods=("GET","POST"))
-def connection() :
+
+@app.route('/connection/', methods=("GET", "POST"))
+def connection():
     from .forms import LoginForm
     connection_form = LoginForm()
     unUser = None
@@ -115,16 +130,21 @@ def connection() :
                     return redirect(url_for(next_page))
                 else:
                     return redirect(url_for('index'))
-    return render_template("connection.html", form=connection_form, next_page=next_page)
+    return render_template("connection.html",
+                           form=connection_form,
+                           next_page=next_page)
+
 
 @app.route('/deconnection/')
-def deconnection() :
+def deconnection():
     logout_user()
     return redirect(url_for('index'))
 
 
-
-@app.route('/inscription/', methods=("GET","POST",))
+@app.route('/inscription/', methods=(
+    "GET",
+    "POST",
+))
 def inscription():
     from .forms import RegisterForm
     inscription_form = RegisterForm()
@@ -137,12 +157,14 @@ def inscription():
             return redirect(url_for('connection'))
     return render_template("inscription.html", form=inscription_form)
 
+
 def nb_couvert_jour(date):
     couverts_journalier = 0
     for reservationA in Reservation.query.filter_by(dateR=date).all():
         if reservationA.sur_place:
             couverts_journalier += reservationA.nb_couverts
     return couverts_journalier
+
 
 def get_or_create_panier(idUser):
     """créé ou recupere la panier en cour
@@ -153,19 +175,19 @@ def get_or_create_panier(idUser):
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=idUser, statut="EN ATTENTE").first()
+    panier = Reservation.query.filter_by(idUser=idUser,
+                                         statut="EN ATTENTE").first()
     if not panier:
-        panier = Reservation(
-            idUser=idUser,
-            dateR=datetime.now(),
-            nb_couverts=1,
-            sur_place=False,
-            statut="EN ATTENTE"
-        )
+        panier = Reservation(idUser=idUser,
+                             dateR=datetime.now(),
+                             nb_couverts=1,
+                             sur_place=False,
+                             statut="EN ATTENTE")
         db.session.add(panier)
         print(datetime.now())
         db.session.commit()
     return panier
+
 
 @login_required
 @app.route('/panier/')
@@ -174,7 +196,12 @@ def voir_panier():
     panier = get_or_create_panier(idU)
     plats = ContenirP.query.filter_by(idR=panier.idR).all()
     formules = ContenirF.query.filter_by(idR=panier.idR).all()
-    return render_template("panier.html",user=current_user, panier=panier, plats=plats, formules=formules, prix_total=panier.get_total())
+    return render_template("panier.html",
+                           user=current_user,
+                           panier=panier,
+                           plats=plats,
+                           formules=formules,
+                           prix_total=panier.get_total())
 
 
 @login_required
@@ -187,7 +214,7 @@ def ajouter_plat(idP):
     if not plat:
         flash("Ce plat n’existe pas.", "error")
         return redirect(url_for("menu"))
-    
+
     item = ContenirP.query.filter_by(idR=reservation.idR, idP=idP).first()
     qte_actuelle = item.quantiteP if item else 0
     if qte_actuelle + 1 > plat.stock:
@@ -204,6 +231,7 @@ def ajouter_plat(idP):
     flash(f"{plat.nomP} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
 
+
 @login_required
 @app.route("/ajouter_formule/<int:idF>", methods=["POST"])
 def ajouter_formule(idF):
@@ -214,14 +242,16 @@ def ajouter_formule(idF):
     if not formule:
         flash("Cette formule n’existe pas.", "error")
         return redirect(url_for("menu"))
-    
+
     item = ContenirF.query.filter_by(idR=reservation.idR, idF=idF).first()
     qte_formule_future = (item.quantiteF + 1) if item else 1
-    
+
     for c in formule.plats:
         plat = Plat.query.get(c.idP)
         if plat.stock < c.quantiteC * qte_formule_future:
-            flash(f"Pas assez de stock pour le plat {plat.nomP} dans cette formule.", "error")
+            flash(
+                f"Pas assez de stock pour le plat {plat.nomP} dans cette formule.",
+                "error")
             return redirect(url_for("menu"))
 
     if item:
@@ -234,14 +264,14 @@ def ajouter_formule(idF):
     flash(f"{formule.nomF} ajoutée au panier !", "success")
     return redirect(url_for("voir_panier"))
 
+
 @login_required
 @app.route("/modifier_quantite_plat/<int:idP>/<action>", methods=["POST"])
 def modifier_quantite_plat(idP, action):
     """commande pour interagir avec les bouton + et - du panier
     """
-    reservation = Reservation.query.filter_by(
-        idUser=current_user.idUser, statut="en attente"
-    ).first()
+    reservation = Reservation.query.filter_by(idUser=current_user.idUser,
+                                              statut="en attente").first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
         return redirect(url_for("voir_panier"))
@@ -253,8 +283,8 @@ def modifier_quantite_plat(idP, action):
 
     plat = Plat.query.get(idP)
     variableChoixCom = 1
-    if not reservation.sur_place :
-        variableChoixCom= 0.8
+    if not reservation.sur_place:
+        variableChoixCom = 0.8
 
     if action == "ajouter":
         nouvelle_quantite = item.quantiteP + 1
@@ -271,14 +301,14 @@ def modifier_quantite_plat(idP, action):
     db.session.commit()
     return redirect(url_for("voir_panier"))
 
+
 @login_required
 @app.route("/modifier_quantite_formule/<int:idF>/<action>", methods=["POST"])
 def modifier_quantite_formule(idF, action):
     """commande pour interagir avec les bouton + et - du panier
     """
-    reservation = Reservation.query.filter_by(
-        idUser=current_user.idUser, statut="en attente"
-    ).first()
+    reservation = Reservation.query.filter_by(idUser=current_user.idUser,
+                                              statut="en attente").first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
         return redirect(url_for("voir_panier"))
@@ -290,8 +320,8 @@ def modifier_quantite_formule(idF, action):
 
     formule = Formule.query.get(idF)
     variableChoixCom = 1
-    if not reservation.sur_place :
-        variableChoixCom= 0.8
+    if not reservation.sur_place:
+        variableChoixCom = 0.8
 
     if action == "ajouter":
         nouvelle_quantite = item.quantiteF + 1
@@ -299,7 +329,9 @@ def modifier_quantite_formule(idF, action):
             plat = Plat.query.get(c.idP)
             qte_totale = nouvelle_quantite * c.quantiteC
             if qte_totale > plat.stock or qte_totale > plat.stockInit * variableChoixCom:
-                flash(f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'", "error")
+                flash(
+                    f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'",
+                    "error")
                 return redirect(url_for("voir_panier"))
         item.quantiteF = nouvelle_quantite
 
@@ -311,26 +343,26 @@ def modifier_quantite_formule(idF, action):
     db.session.commit()
     return redirect(url_for("voir_panier"))
 
+
 @app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
 @login_required
 def modifier_nb_couvert(idR, action):
     if action == "ajouter":
         reservation = Reservation.query.get(idR)
         if reservation.sur_place:
-            if not nb_couvert_jour(reservation.dateR)+1>12:
+            if not nb_couvert_jour(reservation.dateR) + 1 > 12:
                 reservation.nb_couverts += 1
         else:
             reservation.nb_couverts += 1
-
 
     elif action == "diminuer":
         reservation = Reservation.query.get(idR)
         if reservation.nb_couverts > 1:
             reservation.nb_couverts -= 1
 
-
     db.session.commit()
     return redirect(url_for("voir_panier"))
+
 
 @app.route("/update_checkbox", methods=["POST"])
 def update_checkbox():
@@ -341,7 +373,8 @@ def update_checkbox():
     idR = data.get("idR")
     sur_place = data.get("sur_place")
 
-    resa = Reservation.query.filter_by(idR=idR, idUser=current_user.idUser).first()
+    resa = Reservation.query.filter_by(idR=idR,
+                                       idUser=current_user.idUser).first()
     if not resa:
         return jsonify({"error": "Réservation introuvable"}), 404
 
@@ -384,6 +417,7 @@ def update_checkbox():
         "nb_couverts": resa.nb_couverts
     })
 
+
 @login_required
 @app.route("/admin/update_statut_preparation", methods=["POST"])
 def update_statut_preparation():
@@ -401,6 +435,7 @@ def update_statut_preparation():
     db.session.commit()
     return jsonify({"success": True, "statut": reservation.statut})
 
+
 @app.route("/panier/valider", methods=["POST"])
 @login_required
 def valider_panier():
@@ -409,11 +444,13 @@ def valider_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
+    panier = Reservation.query.filter_by(idUser=current_user.idUser,
+                                         statut="EN ATTENTE").first()
     panier.statut = "CONFIRMÉE"
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
+
 
 def getbesoin(reservation):
     """renvoi la liste des plats d'une reservation, avec leur nombre
@@ -428,13 +465,15 @@ def getbesoin(reservation):
     contenu_f = ContenirF.query.filter_by(idR=reservation.idR).all()
     besoins_stock = {}  #on regroupe les plats uniques et les formules
     for item in contenu_p:
-        besoins_stock[item.idP] = besoins_stock.get(item.idP, 0) + item.quantiteP
+        besoins_stock[item.idP] = besoins_stock.get(item.idP,
+                                                    0) + item.quantiteP
     for item in contenu_f:
         formule = Formule.query.get(item.idF)
         for c in formule.plats:
             qte_necessaire = c.quantiteC * item.quantiteF
             besoins_stock[c.idP] = besoins_stock.get(c.idP, 0) + qte_necessaire
     return besoins_stock
+
 
 @app.route("/admin/preparer_panier/<int:idR>/<action>", methods=["POST"])
 @login_required
@@ -444,7 +483,7 @@ def preparer_panier(idR, action):
     ou refuse et chage l'attribut
     """
     reservation = Reservation.query.get(idR)
-    
+
     if not reservation:
         flash("Aucune réservation à traiter.", "error")
         return redirect(url_for("menu"))
@@ -453,7 +492,9 @@ def preparer_panier(idR, action):
         for idP, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(idP)
             if plat.stock < quantite_totale:
-                flash(f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.", "error")
+                flash(
+                    f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
+                    "error")
                 return redirect(url_for("voir_panier"))
         for idP, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(idP)
@@ -468,6 +509,7 @@ def preparer_panier(idR, action):
     flash("La commande a etais traité avec succès !", "success")
     return redirect(url_for("voir_comm"))
 
+
 @app.route("/panier/annuler", methods=["POST"])
 @login_required
 def supprimer_panier():
@@ -476,17 +518,22 @@ def supprimer_panier():
     Returns:
         _type_: _description_
     """
-    panier = Reservation.query.filter_by(idUser=current_user.idUser, statut="EN ATTENTE").first()
+    panier = Reservation.query.filter_by(idUser=current_user.idUser,
+                                         statut="EN ATTENTE").first()
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
     return redirect(url_for("menu"))
 
+
 @login_required
 @app.route('/mesreservation/')
-def mes_reservations() :
-    reservations = Reservation.query.filter_by(idUser=current_user.idUser).order_by(Reservation.dateR.desc()).all()
-    return render_template("reservation.html", user=current_user, reservations=reservations)
+def mes_reservations():
+    reservations = Reservation.query.filter_by(
+        idUser=current_user.idUser).order_by(Reservation.dateR.desc()).all()
+    return render_template("reservation.html",
+                           user=current_user,
+                           reservations=reservations)
 
 
 @app.route('/admin/')
@@ -494,8 +541,10 @@ def mes_reservations() :
 def admin():
     return render_template("admin.html")
 
+
 from flask import request, redirect, url_for, render_template, jsonify
 from .models import db, Plat, Type_plat
+
 
 @app.route('/admin/gestion_plats/', methods=['GET', 'POST'])
 @admin_required
@@ -507,34 +556,41 @@ def gestion_plats():
             type_plat_id = request.form.get('idTp')
             prix_plat = request.form.get('prixP')
             stock = request.form.get("stock")
-            desc= request.form.get("desc")
+            desc = request.form.get("desc")
 
             if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
-                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
-            
+                return jsonify({
+                    'success': False,
+                    'error': 'Champs manquants'
+                }), 400
+
             plat_existant = Plat.query.filter_by(nomP=nom_plat).first()
             if plat_existant:
-                return jsonify({'success': False, 'error': 'Un plat avec ce nom existe déjà.'}), 400
+                return jsonify({
+                    'success': False,
+                    'error': 'Un plat avec ce nom existe déjà.'
+                }), 400
 
             try:
                 prix_decimal = float(prix_plat)
                 type_id_int = int(type_plat_id)
                 stock_int = int(stock)
             except ValueError:
-                return jsonify({'success': False, 'error': 'Format de prix ou ID invalide'}), 400
+                return jsonify({
+                    'success': False,
+                    'error': 'Format de prix ou ID invalide'
+                }), 400
 
-            nouveau_plat = Plat(
-                nomP=nom_plat,
-                idTp=type_id_int,
-                prixP=prix_decimal,
-                stock=stock_int,
-                cheminImg="",
-                descriptionP=desc
-            )
+            nouveau_plat = Plat(nomP=nom_plat,
+                                idTp=type_id_int,
+                                prixP=prix_decimal,
+                                stock=stock_int,
+                                cheminImg="",
+                                descriptionP=desc)
 
             db.session.add(nouveau_plat)
             db.session.commit()
-            
+
             type_associe = Type_plat.query.get(type_id_int)
             type_nom = type_associe.nomTp if type_associe else 'Inconnu'
 
@@ -558,6 +614,7 @@ def gestion_plats():
     types = Type_plat.query.all()
     return render_template("gestion_plat.html", plats=plats, types=types)
 
+
 @app.route('/admin/gestion_formules/', methods=['GET', 'POST'])
 @admin_required
 def gestion_formules():
@@ -568,27 +625,40 @@ def gestion_formules():
             plats_ids = request.form.getlist('plats')
 
             if not nom_formule or not prix_formule:
-                return jsonify({'success': False, 'error': 'Champs manquants'}), 400
-            
+                return jsonify({
+                    'success': False,
+                    'error': 'Champs manquants'
+                }), 400
+
             if not plats_ids:
-                return jsonify({'success': False, 'error': 'Aucun plat sélectionné'}), 400
+                return jsonify({
+                    'success': False,
+                    'error': 'Aucun plat sélectionné'
+                }), 400
 
             if Formule.query.filter_by(nomF=nom_formule).first():
-                return jsonify({'success': False, 'error': 'Une formule avec ce nom existe déjà'}), 400
+                return jsonify({
+                    'success': False,
+                    'error': 'Une formule avec ce nom existe déjà'
+                }), 400
 
             # Find max idF to simulate autoincrement
             max_id = db.session.query(db.func.max(Formule.idF)).scalar()
             new_id = (max_id or 0) + 1
 
-            nouvelle_formule = Formule(idF=new_id, nomF=nom_formule, prixF=float(prix_formule))
+            nouvelle_formule = Formule(idF=new_id,
+                                       nomF=nom_formule,
+                                       prixF=float(prix_formule))
             db.session.add(nouvelle_formule)
             db.session.flush()
 
             for pid in plats_ids:
                 quantite = request.form.get(f'quantite_{pid}', 1)
-                composer = Composer(idF=nouvelle_formule.idF, idP=int(pid), quantiteC=int(quantite))
+                composer = Composer(idF=nouvelle_formule.idF,
+                                    idP=int(pid),
+                                    quantiteC=int(quantite))
                 db.session.add(composer)
-            
+
             db.session.commit()
             return jsonify({'success': True})
 
@@ -599,7 +669,11 @@ def gestion_formules():
     formules = Formule.query.all()
     types = Type_plat.query.all()
     plats = Plat.query.all()
-    return render_template("gestion_formules.html", formules=formules, types=types, plats=plats)
+    return render_template("gestion_formules.html",
+                           formules=formules,
+                           types=types,
+                           plats=plats)
+
 
 @app.route('/admin/supprimer-formule/<int:id_formule>', methods=['DELETE'])
 @admin_required
@@ -611,10 +685,14 @@ def supprimer_formule(id_formule):
             db.session.commit()
             return jsonify({'success': True})
         else:
-            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+            return jsonify({
+                'success': False,
+                'error': 'Formule introuvable'
+            }), 404
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
+
 
 @app.route('/admin/modifier_prix_formule', methods=['POST'])
 @admin_required
@@ -629,7 +707,10 @@ def modifier_prix_formule():
     try:
         formule = Formule.query.get(id_formule)
         if not formule:
-            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+            return jsonify({
+                'success': False,
+                'error': 'Formule introuvable'
+            }), 404
 
         formule.prixF = float(nouveau_prix)
         db.session.commit()
@@ -641,11 +722,13 @@ def modifier_prix_formule():
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
 
+
 @app.route('/admin/gestion_cli/')
 @admin_required
 def gestion_cli():
     clients = User.query.filter_by(est_admin=False).all()
     return render_template("admin_gestion-client.html", clients=clients)
+
 
 @app.route('/admin/bannir-cli/<int:client_id>')
 @admin_required
@@ -653,7 +736,8 @@ def bannir_cli(client_id):
     client = User.query.filter_by(idUser=client_id).first()
     client.bannir()
     return redirect(url_for('gestion_cli'))
-    
+
+
 @app.route('/admin/debannir-cli/<int:client_id>')
 @admin_required
 def debannir_cli(client_id):
@@ -661,17 +745,23 @@ def debannir_cli(client_id):
     client.debannir()
     return redirect(url_for('gestion_cli'))
 
+
 @app.route('/admin/voir_comm/')
 @admin_required
 def voir_comm():
-    commandes = Reservation.query.filter(Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
+    commandes = Reservation.query.filter(
+        Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
     return render_template("commandes.html", commandes=commandes)
 
 
-@app.route('/admin/gestion_compte/', methods=("GET","POST",))
+@app.route('/admin/gestion_compte/', methods=(
+    "GET",
+    "POST",
+))
 @admin_required
 def gestion_compte():
     return render_template("admin_compte.html", user=current_user)
+
 
 @app.route('/admin/modifier_pseudo', methods=['POST'])
 @admin_required
@@ -683,6 +773,7 @@ def modifier_pseudo():
         flash('Pseudonyme mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
 
+
 @app.route('/admin/modifier_numtel', methods=['POST'])
 @admin_required
 def modifier_numtel():
@@ -693,7 +784,8 @@ def modifier_numtel():
         flash("Veuillez entrer un numéro de téléphone.", "warning")
         return redirect(url_for('gestion_compte'))
 
-    utilisateur_existant = User.query.filter_by(numtelUser=nouveau_numtel).first()
+    utilisateur_existant = User.query.filter_by(
+        numtelUser=nouveau_numtel).first()
 
     # Vérifie si le numéro de téléphone est déjà utilisé
     if utilisateur_existant and utilisateur_existant.idUser != current_user.idUser:
@@ -706,9 +798,11 @@ def modifier_numtel():
         flash("Numéro de téléphone mis à jour avec succès.", "success")
     except IntegrityError:
         db.session.rollback()
-        flash("Erreur : ce numéro existe déjà ou la mise à jour a échoué.", "danger")
+        flash("Erreur : ce numéro existe déjà ou la mise à jour a échoué.",
+              "danger")
 
     return redirect(url_for('gestion_compte'))
+
 
 @app.route('/admin/modifier_mdp', methods=['POST'])
 @admin_required
@@ -730,24 +824,29 @@ def modifier_mdp():
     flash('Mot de passe mis à jour avec succès.', 'success')
     return redirect(url_for('gestion_compte'))
 
+
 @app.route('/supprimer-plat/<string:nom_plat>', methods=['DELETE'])
 @admin_required
-def supprimer_plat(nom_plat): 
+def supprimer_plat(nom_plat):
     try:
         plat_a_supprimer = Plat.query.filter_by(nomP=nom_plat).first()
 
         if plat_a_supprimer:
             db.session.delete(plat_a_supprimer)
             db.session.commit()
-            
+
             return jsonify({'success': True}), 200
         else:
             return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
 
     except Exception as e:
         db.session.rollback()
-        print(f"Erreur lors de la suppression : {e}") 
-        return jsonify({'success': False, 'error': 'Erreur interne du serveur.'}), 500
+        print(f"Erreur lors de la suppression : {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Erreur interne du serveur.'
+        }), 500
+
 
 @app.route('/admin/modifier_prix_plat', methods=['POST'])
 @admin_required
@@ -774,6 +873,7 @@ def modifier_prix_plat():
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
 
+
 @app.route('/admin/modifier_quantite_plat', methods=['POST'])
 @admin_required
 def admin_modifier_quantite_plat():
@@ -794,7 +894,7 @@ def admin_modifier_quantite_plat():
         plat.stockInit = int(nouvelle_quantite)
         # Si on veut réinitialiser le stock courant à la nouvelle capacité :
         plat.stock = int(nouvelle_quantite)
-        
+
         db.session.commit()
         return jsonify({'success': True}), 200
 
@@ -803,6 +903,7 @@ def admin_modifier_quantite_plat():
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
-    
-if __name__== "__main__" :
+
+
+if __name__ == "__main__":
     app.run()
