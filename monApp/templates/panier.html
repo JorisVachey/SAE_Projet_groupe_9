@@ -28,10 +28,10 @@
                 <td>{{ cp.plat.prixP }} €</td>
                 <td>{{ cp.quantiteP * cp.plat.prixP }} €</td>
                 <td>
-                    <form action="{{ url_for('modifier_quantite_plat', idP=cp.idP, action='diminuer') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_quantite_plat', id_p=cp.idP, action='diminuer') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-danger btn-sm">-</button>
                     </form>
-                    <form action="{{ url_for('modifier_quantite_plat', idP=cp.idP, action='ajouter') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_quantite_plat', id_p=cp.idP, action='ajouter') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-success btn-sm">+</button>
                     </form>
                 </td>
@@ -60,10 +60,10 @@
                 <td>{{ cf.formule.prixF }} €</td>
                 <td>{{ cf.quantiteF * cf.formule.prixF }} €</td>
                 <td>
-                    <form action="{{ url_for('modifier_quantite_formule', idF=cf.idF, action='diminuer') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_quantite_formule', id_f=cf.idF, action='diminuer') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-danger btn-sm">-</button>
                     </form>
-                    <form action="{{ url_for('modifier_quantite_formule', idF=cf.idF, action='ajouter') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_quantite_formule', id_f=cf.idF, action='ajouter') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-success btn-sm">+</button>
                     </form>
                 </td>
@@ -88,11 +88,11 @@
                 <td><input type="checkbox" id="checkbox-surplace" data-idr="{{ panier.idR }}" value="1" {% if panier.sur_place %}checked{% endif %}></td>
                 {% endif %}
                 <td>
-                    <form action="{{ url_for('modifier_nb_couvert', idR=panier.idR, action='diminuer') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_nb_couvert', id_r=panier.idR, action='diminuer') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-danger btn-sm">-</button>
                     </form>
                     {{panier.nb_couverts}}
-                    <form action="{{ url_for('modifier_nb_couvert', idR=panier.idR, action='ajouter') }}" method="post" style="display:inline">
+                    <form action="{{ url_for('modifier_nb_couvert', id_r=panier.idR, action='ajouter') }}" method="post" style="display:inline">
                         <button type="submit" class="btn btn-success btn-sm">+</button>
                     </form>
                     </td>

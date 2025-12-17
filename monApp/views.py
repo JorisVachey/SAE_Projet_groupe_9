@@ -208,7 +208,7 @@ def voir_panier():
 
 
 @login_required
-@app.route("/ajouter_plat/<int:idP>", methods=["POST"])
+@app.route("/ajouter_plat/<int:id_p>", methods=["POST"])
 def ajouter_plat(id_p):
     """ajoute un plat depuis le menu, créé un panier si il n'y en a pas
     """
@@ -218,7 +218,7 @@ def ajouter_plat(id_p):
         flash("Ce plat n’existe pas.", "error")
         return redirect(url_for("menu"))
 
-    item = ContenirP.query.filter_by(idR=reservation.idR, idP=idP).first()
+    item = ContenirP.query.filter_by(idR=reservation.idR, idP=id_p).first()
     qte_actuelle = item.quantiteP if item else 0
     if qte_actuelle + 1 > plat.stock:
         flash(f"Plus de stock disponible pour {plat.nomP}", "error")
@@ -227,7 +227,7 @@ def ajouter_plat(id_p):
     if item:
         item.quantiteP += 1
     else:
-        item = ContenirP(idR=reservation.idR, idP=idP, quantiteP=1)
+        item = ContenirP(idR=reservation.idR, idP=id_p, quantiteP=1)
         db.session.add(item)
 
     db.session.commit()
@@ -236,7 +236,7 @@ def ajouter_plat(id_p):
 
 
 @login_required
-@app.route("/ajouter_formule/<int:idF>", methods=["POST"])
+@app.route("/ajouter_formule/<int:id_f>", methods=["POST"])
 def ajouter_formule(id_f):
     """ajoute une formule depuis le menu, créé la panier si besoin
     """
@@ -260,7 +260,7 @@ def ajouter_formule(id_f):
     if item:
         item.quantiteF += 1
     else:
-        item = ContenirF(idR=reservation.idR, idF=idF, quantiteF=1)
+        item = ContenirF(idR=reservation.idR, idF=id_f, quantiteF=1)
         db.session.add(item)
 
     db.session.commit()
@@ -269,7 +269,7 @@ def ajouter_formule(id_f):
 
 
 @login_required
-@app.route("/modifier_quantite_plat/<int:idP>/<action>", methods=["POST"])
+@app.route("/modifier_quantite_plat/<int:id_p>/<action>", methods=["POST"])
 def modifier_quantite_plat(id_p, action):
     """commande pour interagir avec les bouton + et - du panier
     """
@@ -306,7 +306,7 @@ def modifier_quantite_plat(id_p, action):
 
 
 @login_required
-@app.route("/modifier_quantite_formule/<int:idF>/<action>", methods=["POST"])
+@app.route("/modifier_quantite_formule/<int:id_f>/<action>", methods=["POST"])
 def modifier_quantite_formule(id_f, action):
     """commande pour interagir avec les bouton + et - du panier
     """
@@ -347,7 +347,7 @@ def modifier_quantite_formule(id_f, action):
     return redirect(url_for("voir_panier"))
 
 
-@app.route("/modifier_nb_couvert/<int:idR>/<action>", methods=["POST"])
+@app.route("/modifier_nb_couvert/<int:id_r>/<action>", methods=["POST"])
 @login_required
 def modifier_nb_couvert(id_r, action):
     if action == "ajouter":
@@ -478,7 +478,7 @@ def getbesoin(reservation):
     return besoins_stock
 
 
-@app.route("/admin/preparer_panier/<int:idR>/<action>", methods=["POST"])
+@app.route("/admin/preparer_panier/<int:id_r>/<action>", methods=["POST"])
 @login_required
 def preparer_panier(id_r, action):
     """ -> quand l'admin prend en compte une commande 
