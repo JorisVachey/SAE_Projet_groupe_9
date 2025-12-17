@@ -3,6 +3,15 @@ from flask_login import UserMixin
 
 
 class User(db.Model, UserMixin):
+    """ class sqlAlchemy pour User
+
+    Args:
+        db (_type_): _description_
+        UserMixin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "USER"
 
     idUser = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -43,10 +52,18 @@ class User(db.Model, UserMixin):
 
     def get_nb_reservations_annulees(self):
         return Reservation.query.filter_by(idUser=self.idUser,
-                                           statut='annulée').count()
+                                           statut="annulée").count()
 
 
 class Reservation(db.Model):
+    """class sqlAlchemy pour Reservation
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "RESERVATION"
 
     idR = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -109,6 +126,14 @@ class Reservation(db.Model):
 
 
 class Formule(db.Model):
+    """class sqlAlchemy pour Formule
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "FORMULE"
 
     idF = db.Column(db.Integer, primary_key=True)
@@ -130,6 +155,14 @@ class Formule(db.Model):
 
 
 class Type_plat(db.Model):
+    """class sqlAlchemy pour le type de plat
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "TYPE_PLAT"
 
     idTp = db.Column(db.Integer, primary_key=True)
@@ -148,6 +181,14 @@ class Type_plat(db.Model):
 
 
 class Plat(db.Model):
+    """class sqlAlchemy pour Plat
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "PLAT"
 
     idP = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -159,9 +200,9 @@ class Plat(db.Model):
     cheminImg = db.Column(db.String(50))
     descriptionP = db.Column(db.String(50))
 
-    compositions = db.relationship('Composer',
-                                   backref='plat',
-                                   cascade='all, delete-orphan',
+    compositions = db.relationship("Composer",
+                                   backref="plat",
+                                   cascade="all, delete-orphan",
                                    passive_deletes=True)
     reservations = db.relationship("ContenirP",
                                    backref="plat",
@@ -187,6 +228,14 @@ class Plat(db.Model):
 
 
 class Restriction(db.Model):
+    """class sqlAlchemy pour les Restrictions
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "RESTRICTION"
 
     nomA = db.Column(db.String(50), primary_key=True)
@@ -201,6 +250,14 @@ class Restriction(db.Model):
 
 
 class ContenirR(db.Model):
+    """class sqlAlchemy pour ContenirR
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "CONTENIR_R"
 
     idP = db.Column(db.Integer,
@@ -219,11 +276,19 @@ class ContenirR(db.Model):
 
 
 class Composer(db.Model):
+    """class sqlAlchemy pour Composer
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "COMPOSER"
 
     idF = db.Column(db.Integer, db.ForeignKey("FORMULE.idF"), primary_key=True)
     idP = db.Column(db.Integer,
-                    db.ForeignKey('PLAT.idP', ondelete='CASCADE'),
+                    db.ForeignKey("PLAT.idP", ondelete="CASCADE"),
                     primary_key=True)
     quantiteC = db.Column(db.Integer)
 
@@ -237,6 +302,14 @@ class Composer(db.Model):
 
 
 class ContenirF(db.Model):
+    """class sqlAlchemy pour ContenirF
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "CONTENIR_F"
 
     idR = db.Column(db.Integer,
@@ -255,13 +328,21 @@ class ContenirF(db.Model):
 
 
 class ContenirP(db.Model):
+    """class sqlAlchemy pour ContenirP
+
+    Args:
+        db (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     __tablename__ = "CONTENIR_P"
 
     idR = db.Column(db.Integer,
                     db.ForeignKey("RESERVATION.idR"),
                     primary_key=True)
     idP = db.Column(db.Integer,
-                    db.ForeignKey("PLAT.idP", ondelete='CASCADE'),
+                    db.ForeignKey("PLAT.idP", ondelete="CASCADE"),
                     primary_key=True)
     quantiteP = db.Column(db.Integer)
 

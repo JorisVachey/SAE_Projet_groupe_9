@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
 from wtforms.validators import DataRequired, Length
-from .models import *
+from .models import User
 from hashlib import sha256
 
 
@@ -28,7 +28,7 @@ class RegisterForm(FlaskForm):
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        new_client = User(numtel_user=self.numtel.data,
+        new_client = User(numtelUser=self.numtel.data,
                          pseudonyme=self.pseudonyme.data,
                          mdp=passwd)
         return new_client
@@ -101,7 +101,7 @@ class ReservationForm(FlaskForm):
     submit = SubmitField('Créer la réservation')
 
 
-class formuleForm(FlaskForm):
+class FormuleForm(FlaskForm):
     """form pour les formules
 
     Args:
@@ -116,7 +116,7 @@ class formuleForm(FlaskForm):
     submit = SubmitField('Créer la formule')
 
 
-class platForm(FlaskForm):
+class PlatForm(FlaskForm):
     """form pout les plats
 
     Args:
@@ -137,7 +137,7 @@ class platForm(FlaskForm):
     submit = SubmitField('Créer le plat')
 
 
-class composerForm(FlaskForm):
+class ComposerForm(FlaskForm):
     """form pout ma composition de formule
 
     Args:
@@ -150,7 +150,7 @@ class composerForm(FlaskForm):
     submit = SubmitField('Créer la formule')
 
 
-class contenirfForm(FlaskForm):
+class ContenirfForm(FlaskForm):
     """form pour le nombre de formule
 
     Args:
@@ -162,7 +162,7 @@ class contenirfForm(FlaskForm):
     submit = SubmitField('Ajouter la formule au panier')
 
 
-class contenirpForm(FlaskForm):
+class ContenirpForm(FlaskForm):
     """form pour le nombre de plat
 
     Args:
