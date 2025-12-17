@@ -2,4 +2,5 @@
 omit =
     */tests/*
     */__init__.py
-    */config.py
+        */config.py
+        */app.py

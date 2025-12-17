@@ -1,11 +1,11 @@
 import pytest
 from monApp.app import app, db
-from monApp.models import User, Plat, Type_plat, Formule
+from monApp.models import User, Plat, Type_plat
 from hashlib import sha256
 
 @pytest.fixture
 def testapp():
-    # Configuration de l'application pour les tests
+    # Configuration de l'application pour les tests (SQLite en mémoire)
     app.config.update({
         "TESTING": True,
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
@@ -14,15 +14,24 @@ def testapp():
 
     with app.app_context():
         db.create_all()
-        
-        # 1. Création d'un type de plat
-        entree = Type_plat(idTp=1, nomTp="Entrée", descriptionTp="Plats froids", cheminImg="entree.jpg")
+        # 1. Création d'un type de plat de test
+        entree = Type_plat(
+            idTp=1, 
+            nomTp="Entrée", 
+            descriptionTp="Plats froids", 
+            cheminImg="entree.jpg"
+        )
         db.session.add(entree)
-        
         # 2. Création d'un plat de test
-        plat = Plat(nomP="Salade César", idTp=1, prixP=12.50, stock=20, cheminImg="salade.jpg", descriptionP="Laitue, poulet, parmesan")
+        plat = Plat(
+            nomP="Salade César", 
+            idTp=1, 
+            prixP=12.50, 
+            stock=20, 
+            cheminImg="salade.jpg", 
+            descriptionP="Laitue, poulet, parmesan"
+        )
         db.session.add(plat)
-        
         # 3. Création d'un utilisateur de test (admin)
         m = sha256()
         m.update("password123".encode())
@@ -33,6 +42,7 @@ def testapp():
             est_admin=True
         )
         db.session.add(user)
+        
         db.session.commit()
         
         yield app
@@ -43,11 +53,11 @@ def testapp():
 
 @pytest.fixture
 def client(testapp):
-    """Un client HTTP pour les tests fonctionnels."""
+    """Fixture pour simuler des requêtes HTTP sur les routes."""
     return testapp.test_client()
 
 @pytest.fixture
 def session(testapp):
-    """Une session de base de données pour les tests unitaires."""
+    """Fixture pour interagir directement avec l'ORM dans les tests unitaires."""
     with testapp.app_context():
         yield db.session
