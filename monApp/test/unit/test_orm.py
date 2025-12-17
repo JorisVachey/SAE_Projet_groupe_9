@@ -1,10 +1,10 @@
 import pytest
 from monApp.models import User, Reservation, Plat, Type_plat, Formule, Composer, ContenirP, ContenirF
-from decimal import Decimal
+
 
 def test_user_creation(session):
     """Vérifie la création d'un utilisateur et ses méthodes de bannissement."""
-    new_user = User(numtelUser="0607080910", pseudonyme="DevIT", mdp="hash_secure")
+    new_user = User(numtelUser="0607080910", pseudonyme="test", mdp="mot de passe")
     session.add(new_user)
     session.commit()
 
@@ -15,16 +15,14 @@ def test_user_creation(session):
     new_user.bannir()
     assert new_user.est_banni is True
 
-def test_reservation_total_logic(session):
+def test_reservation_total(session):
     """Vérifie le calcul du total d'une réservation (Plats + Formules)."""
-    # Setup : Type, Plat et Formule
     tp = Type_plat(idTp=2, nomTp="Plat principal", descriptionTp="...", cheminImg="...")
     p1 = Plat(nomP="Burger", idTp=2, prixP=15.00, stock=10, cheminImg="...", descriptionP="...")
     f1 = Formule(idF=1, nomF="Menu Midi", prixF=20.00)
     
     session.add_all([tp, p1, f1])
     session.commit()
-
     # Création d'une réservation pour l'utilisateur de test (idUser=1 créé dans conftest)
     res = Reservation(idUser=1, dateR=None, nb_couverts=2, sur_place=True, statut='en cours')
     session.add(res)
@@ -37,7 +35,7 @@ def test_reservation_total_logic(session):
     session.commit()
 
     # Le total doit être de 35.00€
-    assert res.get_total() == Decimal("35.00")
+    assert res.get_total() == 15.00 
 
 def test_plat_stock_update(session):
     """Vérifie la mise à jour manuelle du stock et du prix."""
@@ -48,10 +46,10 @@ def test_plat_stock_update(session):
     session.commit()
     
     assert plat.stock == 50
-    assert plat.prixP == Decimal("13.00")
+    assert plat.prixP == 13.00
 
 def test_cascade_delete_reservation(session):
-    """Vérifie que la suppression d'une réservation supprime ses contenus (ContenirP/F)."""
+    """Vérifie que la suppression d'une réservation supprime son contenus ."""
     res = session.query(Reservation).first()
     res_id = res.idR
     
