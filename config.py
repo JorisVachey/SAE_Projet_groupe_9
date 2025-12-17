@@ -1,4 +1,4 @@
-import random, string, os
+import os
 
 #>>>"".join([random.choice(string.printable) for _ in os.urandom(24) ] )
 from dotenv import load_dotenv

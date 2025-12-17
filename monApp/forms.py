@@ -1,11 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
+from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
 from wtforms.validators import DataRequired, Length
 from .models import *
 from hashlib import sha256
 
 
 class RegisterForm(FlaskForm):
+    """form pour s'inscrire
+
+    Args:
+        FlaskForm (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     numtel = StringField('Numéro de téléphone',
                          validators=[DataRequired(),
                                      Length(max=10)])
@@ -15,51 +23,72 @@ class RegisterForm(FlaskForm):
     def get_registered_user(self):
         user = User.query.get(self.numtel.data)
         if user:
-            print("Utilisateur inexistant")
+            print('Utilisateur inexistant')
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        newClient = User(numtelUser=self.numtel.data,
+        new_client = User(numtel_user=self.numtel.data,
                          pseudonyme=self.pseudonyme.data,
                          mdp=passwd)
-        return newClient
+        return new_client
 
 
 class LoginForm(FlaskForm):
+    """form pour se connecter
+
+    Args:
+        FlaskForm (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     numtel = StringField('Numéro de téléphone',
                          validators=[DataRequired(),
                                      Length(max=10)])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
     def get_authenticated_user(self):
-        user = User.query.filter_by(numtelUser=self.numtel.data).first()
+        user = User.query.filter_by(numtel_user=self.numtel.data).first()
         if user is None:
-            print("--Utilisateur introuvable--")
+            print('--Utilisateur introuvable--')
             return None
         m = sha256()
         m.update(self.password.data.encode())
-        print(m.hexdigest())
-        print(user.mdp)
         passwd = m.hexdigest()
         return user if passwd == user.mdp else None
 
 
 class SansCompteclientForm(FlaskForm):
-    numtelUser = StringField('Numéro de téléphone', validators=[DataRequired()])
+    """form pour commander sans avoir de compte
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
+    numtel_user = StringField('Numéro de téléphone', validators=[DataRequired()])
     valider = SubmitField('Valider')
 
 
 class CompteuserForm(FlaskForm):
-    numtelUser = StringField('Numéro de téléphone', validators=[DataRequired()])
+    """form pour voir et modifier les infos du compte
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
+    numtel_user = StringField('Numéro de téléphone', validators=[DataRequired()])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     mdp = PasswordField('Mot de passe', validators=[DataRequired()])
     valider = SubmitField('Valider')
 
 
 class ReservationForm(FlaskForm):
+    """form pour la reservation
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idR = IntegerField('ID de la réservation', validators=[DataRequired()])
-    numtelUser = StringField('Numéro de téléphone du client',
+    numtel_user = StringField('Numéro de téléphone du client',
                              validators=[DataRequired(),
                                          Length(max=50)])
     dateR = DateField('Date de réservation',
@@ -73,6 +102,11 @@ class ReservationForm(FlaskForm):
 
 
 class formuleForm(FlaskForm):
+    """form pour les formules
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idF = IntegerField('ID de la formule', validators=[DataRequired()])
     idP = IntegerField('ID du plat', validators=[DataRequired()])
     nomF = StringField('Nom de la formule',
@@ -83,6 +117,11 @@ class formuleForm(FlaskForm):
 
 
 class platForm(FlaskForm):
+    """form pout les plats
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idP = IntegerField('ID du plat', validators=[DataRequired()])
     nomP = StringField('Nom du plat',
                        validators=[DataRequired(),
@@ -99,6 +138,11 @@ class platForm(FlaskForm):
 
 
 class composerForm(FlaskForm):
+    """form pout ma composition de formule
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idF = IntegerField('ID de la formule', validators=[DataRequired()])
     idp = IntegerField('ID du plat', validators=[DataRequired()])
     quantiteC = IntegerField('Quantité contenue dans formule',
@@ -107,6 +151,11 @@ class composerForm(FlaskForm):
 
 
 class contenirfForm(FlaskForm):
+    """form pour le nombre de formule
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idF = IntegerField('ID de la formule', validators=[DataRequired()])
     idR = IntegerField('ID de la réservation', validators=[DataRequired()])
     quantiteF = IntegerField('Quantité de formule', validators=[DataRequired()])
@@ -114,6 +163,11 @@ class contenirfForm(FlaskForm):
 
 
 class contenirpForm(FlaskForm):
+    """form pour le nombre de plat
+
+    Args:
+        FlaskForm (_type_): _description_
+    """
     idP = IntegerField('ID du plat', validators=[DataRequired()])
     idR = IntegerField('ID de la réservation', validators=[DataRequired()])
     quantiteP = IntegerField('Quantité du plat', validators=[DataRequired()])

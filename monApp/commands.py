@@ -1,8 +1,20 @@
 from .app import app, db
-from .models import *
+from .models import (
+    User,
+    Type_plat,
+    Plat,
+    Restriction,
+    ContenirR,
+    Formule,
+    Composer,
+    Reservation,
+    ContenirF,
+    ContenirP,
+)
 import yaml
 from flask.cli import with_appcontext
-import click, logging as lg
+import click
+import logging as lg
 from datetime import datetime
 from hashlib import sha256
 
@@ -25,11 +37,11 @@ def create_user(num_tel, pseudonyme, mdp, admin, est_bannie, pts_fidelite):
     """
     m = sha256()
     m.update(mdp.encode())
-    unUser = User(num_tel, pseudonyme, m.hexdigest(), admin, est_bannie,
+    un_user = User(num_tel, pseudonyme, m.hexdigest(), admin, est_bannie,
                   pts_fidelite)
-    db.session.add(unUser)
+    db.session.add(un_user)
     db.session.commit()
-    return unUser
+    return un_user
 
 
 # partie commands flask
@@ -41,7 +53,7 @@ def create_user(num_tel, pseudonyme, mdp, admin, est_bannie, pts_fidelite):
 def loaddb(file):
     """Charge les données initiales depuis data.yaml dans la base."""
     try:
-        with open(file, 'r') as f:
+        with open(file, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
     except FileNotFoundError:
         click.echo("Le fichier data.yaml est introuvable.")
@@ -118,20 +130,20 @@ def loaddb(file):
     db.session.commit()
 
     print("Insertion des formules dans les réservations...")
-    for cf in data['contenir_f']:
-        contenir_f = ContenirF(idR=cf['idR'],
-                               idF=cf['idF'],
-                               quantiteF=cf['quantiteF'])
+    for cf in data["contenir_f"]:
+        contenir_f = ContenirF(idR=cf["idR"],
+                               idF=cf["idF"],
+                               quantiteF=cf["quantiteF"])
         db.session.add(contenir_f)
         db.session.flush()  # Important pour MariaDB
     db.session.commit()
 
     click.echo("Insertion des plats dans les réservations...")
     for cp in data.get("contenir_p", []):
-        containP = ContenirP(idR=cp["idR"],
+        contain_p = ContenirP(idR=cp["idR"],
                              idP=cp["idP"],
                              quantiteP=cp["quantiteP"])
-        db.session.add(containP)
+        db.session.add(contain_p)
 
     db.session.commit()
 
@@ -142,9 +154,9 @@ app.cli.add_command(loaddb)
 
 
 @app.cli.command()
-@click.argument('num_tel')
-@click.argument('pseudonyme')
-@click.argument('pwd')
+@click.argument("num_tel")
+@click.argument("pseudonyme")
+@click.argument("pwd")
 @click.option("--admin", default=False, help="l'utilisateur est administrateur")
 @click.option("--est_bannie",
               default=False,
@@ -152,7 +164,7 @@ app.cli.add_command(loaddb)
 def newuser(num_tel, pseudonyme, pwd, admin, est_bannie, pts_fidelite):
     """Créer un nouvel utilisateur via CLI"""
     create_user(num_tel, pseudonyme, pwd, admin, est_bannie, pts_fidelite)
-    lg.warning('User ' + num_tel + ' created!')
+    lg.warning("User %s created!", num_tel)
 
 
 app.cli.add_command(newuser)
