@@ -16,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSuppr.addEventListener('click', () => {
-        
         const ligneSelectionnee = tableau.querySelector('tr.selected');
-        
         if (!ligneSelectionnee) {
             alert("Veuillez sélectionner un plat à supprimer.");
             return;
@@ -26,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm("Êtes-vous sûr de vouloir supprimer ce plat ?")) {
             return;
         }
-        const nomPlat = ligneSelectionnee.dataset.nomPlat; 
+        const nomPlat = ligneSelectionnee.dataset.nomPlat;
 
         fetch(`/supprimer-plat/${nomPlat}`, {
-            method: 'DELETE' 
+            method: 'DELETE'
         })
         .then(response => {
             return response.json()})

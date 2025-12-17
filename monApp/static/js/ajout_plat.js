@@ -11,13 +11,10 @@ function masquerForm() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    
     const form = document.querySelector("#form-ajout-plat");
     const tableBody = document.getElementById('tableBody');
-
     form.addEventListener('submit', function(event) {
-        
-        event.preventDefault(); 
+        event.preventDefault();
 
         const nomP = form.querySelector('[name="nomP"]').value;
         const idTP = form.querySelector('[name="idTp"]').value;
@@ -65,9 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function ajouterPlatALaListe(plat, tableBody) {
     const nouvelleLigne = document.createElement('tr');
-    
     nouvelleLigne.dataset.nomPlat = plat.nomP;
-
     nouvelleLigne.innerHTML = `
         <td>${plat.nomP}</td>
         <td>${plat.type_nom || 'N/A'}</td>
@@ -75,6 +70,5 @@ function ajouterPlatALaListe(plat, tableBody) {
         <td>${plat.stockInit}</td>
         <td>${plat.stock}</td>
     `;
-    
     tableBody.appendChild(nouvelleLigne);
 }

@@ -46,7 +46,7 @@ h1,h3,.trait-horizontal{
 }
 
 .table-container table th {
-    background-color: var(--btn); 
+    background-color: var(--btn);
     font-weight: bold;
     text-align: center;
     padding: 12px 15px;
@@ -59,7 +59,7 @@ h1,h3,.trait-horizontal{
 
 .table-container table td {
     padding: 12px 15px;
-    text-align: left; 
+    text-align: left;
     text-align: center
 }
 
@@ -118,15 +118,15 @@ h1,h3,.trait-horizontal{
 }
 
 #pop-up-ajout.open, #pop-up-modif-prix.open, #pop-up-modif-quantite.open{
-    display: flex !important; 
+    display: flex !important;
     padding: 10px;
 
 }
 
 .champs{
     display: flex;
-    flex-direction: column;   
-    width: 50em; 
+    flex-direction: column;
+    width: 50em;
 }
 .champs input, .champs select{
     margin-bottom: 1.5em;

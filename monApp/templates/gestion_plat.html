@@ -7,14 +7,14 @@
 <h3>GESTION DES</h3>
 <h1>PLATS</h1>
 <div class="trait-horizontal"></div>
-<section class="corps"> 
+<section class="corps">
     <article>
             <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
             <button class="boutons_plat" onclick="afficherForm()">Ajouter un plat</button>
             <button class="boutons_plat" id="btn_suppr">Supprimer le plat</button>
             <button class="boutons_plat" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
             <button class="boutons_plat" id="btn_quantite" onclick="modif_quantite()">Modifier la quantité</button>
-    </article>   
+    </article>
     <article class="table-container">
         <table id="tableau">
                 <thead>
@@ -38,14 +38,14 @@
                     {% endfor %}
                 </tbody>
             </table>
-    </article> 
+    </article>
 </section>
 <section id="pop-up-ajout">
     <form method="POST" class="champs" id="form-ajout-plat">
         <label for="nomP">Nom du Plat</label>
         <input id="nomP" type="text" name="nomP" placeholder="Saisir nom du plat...">
         <label for="user_select">Choisissez un type de plat :</label>
-        <select class="select_t" name="idTp"required > 
+        <select class="select_t" name="idTp"required >
             <option value="">-- Veuillez choisir --</option>
             {% for unType in types %}
                 <option value="{{ unType.idTp }}">{{ unType.nomTp }}</option>
