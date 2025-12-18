@@ -18,6 +18,7 @@ main {
 }
 
 .gestion-client table {
+    align-self: flex-start;
     border-collapse: collapse;
     flex-basis: 40%;
     flex-grow: 1;
