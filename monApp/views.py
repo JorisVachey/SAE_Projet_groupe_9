@@ -225,7 +225,7 @@ def ajouter_plat(id_p):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if qte_actuelle + 1 > plat.stock or qte_actuelle + 1 > plat.stockInit * variable_choix_com:
+    if qte_actuelle + 1 > plat.stock or qte_actuelle + 1 > plat.stockInit * variable_choix_com or plat.stock <=plat.stockInit:
         flash(f"Plus de stock disponible pour {plat.nomP}", "error")
         return redirect(url_for("menu"))
 
@@ -260,7 +260,7 @@ def ajouter_formule(id_f):
 
     for c in formule.plats:
         plat = Plat.query.get(c.idP)
-        if plat.stock < c.quantiteC * qte_formule_future or c.quantiteC * qte_formule_future > plat.stockInit * variable_choix_com:
+        if plat.stock < c.quantiteC * qte_formule_future or c.quantiteC * qte_formule_future > plat.stockInit * variable_choix_com or plat.stock <=plat.stockInit * variable_choix_com:
             flash(
                 f"Pas assez de stock pour le plat {plat.nomP} dans cette formule.",
                 "error")
