@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function ajouterPlatALaListe(plat, tableBody) {
     const nouvelleLigne = document.createElement('tr');
     nouvelleLigne.dataset.nomPlat = plat.nomP;
+    nouvelleLigne.dataset.idPlat = plat.id; // Ajout de l'id du plat pour modification prix
+    nouvelleLigne.dataset.prixPlat = plat.prixP;
+    nouvelleLigne.dataset.stockPlat = plat.stockInit;
     nouvelleLigne.innerHTML = `
         <td>${plat.nomP}</td>
         <td>${plat.type_nom || 'N/A'}</td>
