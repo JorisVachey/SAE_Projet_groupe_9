@@ -225,7 +225,7 @@ def ajouter_plat(id_p):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if qte_actuelle + 1 > plat.stock or qte_actuelle + 1 > plat.stockInit * variable_choix_com or plat.stock <=plat.stockInit:
+    if qte_actuelle + 1 > plat.stock or qte_actuelle + 1 > plat.stockInit * variable_choix_com or plat.stock <=plat.stockInit * variable_choix_com:
         flash(f"Plus de stock disponible pour {plat.nomP}", "error")
         return redirect(url_for("menu"))
 
