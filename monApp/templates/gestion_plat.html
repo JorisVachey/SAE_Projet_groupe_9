@@ -50,9 +50,9 @@
         </section>
     </section>
 
-    <section id="pop-up-ajout">
+    <section class="pop_up" id="pop-up-ajout">
         <form method="POST" class="champs" id="form-ajout-plat">
-            <label for="nomP">Nom du Plat</label>
+            <label for="nomP">Nom du Plat :</label>
             <input id="nomP" type="text" name="nomP" placeholder="Saisir nom du plat...">
             <label for="user_select">Choisissez un type de plat :</label>
             <select class="select_t" name="idTp"required >
@@ -61,11 +61,11 @@
                     <option value="{{ unType.idTp }}">{{ unType.nomTp }}</option>
                 {% endfor %}
             </select>
-            <label for="prix">Prix du plat</label>
+            <label for="prix">Prix du plat :</label>
             <input id="prix" type="decimal" name="prixP" placeholder="Saisir le prix..."required    >
-            <label for="stock">Stock</label>
+            <label for="stock">Stock :</label>
             <input id="stock" type="text" name="stock" placeholder="Saisir le stock..."required>
-            <label for="desc">Description du plat</label>
+            <label for="desc">Description du plat :</label>
             <input id="desc" type="text" name="desc" placeholder="Saisir la descritpion..." required>
             <article class="liste_boutons">
                 <div>
@@ -79,13 +79,13 @@
         </form>
     </section>
 
-    <section id="pop-up-modif-prix">
+    <section class="pop_up" id="pop-up-modif-prix">
         <form method="POST" class="champs" id="form-modif-prix">
             <h3>Modifier le prix</h3>
             <input type="hidden" id="modif-id-plat" name="idP">
             <label for="modif-nomP">Nom du Plat</label>
             <input id="modif-nomP" type="text" name="nomP" readonly>
-            <label for="modif-prix">Nouveau Prix</label>
+            <label for="modif-prix">Nouveau Prix :</label>
             <input id="modif-prix" type="number" step="0.01" name="prixP" placeholder="Saisir le nouveau prix..." required>
             <article class="liste_boutons">
                 <div>
@@ -99,13 +99,13 @@
         </form>
     </section>
 
-    <section id="pop-up-modif-quantite">
+    <section class="pop_up" id="pop-up-modif-quantite">
         <form method="POST" class="champs" id="form-modif-quantite">
             <h3>Modifier la quantité</h3>
             <input type="hidden" id="modif-qte-id-plat" name="idP">
             <label for="modif-qte-nomP">Nom du Plat</label>
             <input id="modif-qte-nomP" type="text" name="nomP" readonly>
-            <label for="modif-quantite">Nouvelle Quantité</label>
+            <label for="modif-quantite">Nouvelle Quantité :</label>
             <input id="modif-quantite" type="number" name="stock" placeholder="Saisir la nouvelle quantité..." required>
             <article class="liste_boutons">
                 <div>
@@ -127,6 +127,3 @@
 <script src="{{url_for('static', filename='js/modif_stock.js')}}"></script>
 
 {%endblock %}
-
-{%block footer%}
-{%endblock%}
