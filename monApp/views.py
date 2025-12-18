@@ -220,7 +220,12 @@ def ajouter_plat(id_p):
 
     item = ContenirP.query.filter_by(idR=reservation.idR, idP=id_p).first()
     qte_actuelle = item.quantiteP if item else 0
-    if qte_actuelle + 1 > plat.stock:
+
+    variable_choix_com = 1
+    if not reservation.sur_place:
+        variable_choix_com = 0.8
+
+    if qte_actuelle + 1 > plat.stock or qte_actuelle + 1 > plat.stockInit * variable_choix_com:
         flash(f"Plus de stock disponible pour {plat.nomP}", "error")
         return redirect(url_for("menu"))
 
@@ -249,9 +254,13 @@ def ajouter_formule(id_f):
     item = ContenirF.query.filter_by(idR=reservation.idR, idF=id_f).first()
     qte_formule_future = (item.quantiteF + 1) if item else 1
 
+    variable_choix_com = 1
+    if not reservation.sur_place:
+        variable_choix_com = 0.8
+
     for c in formule.plats:
         plat = Plat.query.get(c.idP)
-        if plat.stock < c.quantiteC * qte_formule_future:
+        if plat.stock < c.quantiteC * qte_formule_future or c.quantiteC * qte_formule_future > plat.stockInit * variable_choix_com:
             flash(
                 f"Pas assez de stock pour le plat {plat.nomP} dans cette formule.",
                 "error")
@@ -877,7 +886,7 @@ def modifier_prix_plat():
 def admin_modifier_quantite_plat():
     data = request.get_json()
     id_plat = data.get("idP")
-    nouvelle_quantite = data.get("stock")
+    nouvelle_quantite = data.get("stockInit")
 
     if not id_plat or not nouvelle_quantite:
         return jsonify({"success": False, "error": "Données manquantes"}), 400
@@ -891,7 +900,7 @@ def admin_modifier_quantite_plat():
         # Si on veut juste changer le stock initial (capacité totale) :
         plat.stockInit = int(nouvelle_quantite)
         # Si on veut réinitialiser le stock courant à la nouvelle capacité :
-        plat.stock = int(nouvelle_quantite)
+        # plat.stock = int(nouvelle_quantite)
 
         db.session.commit()
         return jsonify({"success": True}), 200

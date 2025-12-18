@@ -22,8 +22,8 @@
                         <th>Plat</th>
                         <th>Type de plat</th>
                         <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Quantité réservée</th>
+                        <th>Quantité Restante</th>
+                        <th>Quantité Initiale</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -32,8 +32,8 @@
                             <td>{{ unPlat.nomP }}</td>
                             <td>{{ unPlat.type.nomTp }}</td>
                             <td>{{ unPlat.prixP }}€</td>
-                            <td>{{ unPlat.stockInit }}</td>
                             <td>{{ unPlat.stock }}</td>
+                            <td>{{ unPlat.stockInit }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -84,7 +84,7 @@
         <label for="modif-qte-nomP">Nom du Plat</label>
         <input id="modif-qte-nomP" type="text" name="nomP" readonly>
         <label for="modif-quantite">Nouvelle Quantité</label>
-        <input id="modif-quantite" type="number" name="stock" placeholder="Saisir la nouvelle quantité..." required>
+        <input id="modif-quantite" type="number" name="stockInit" placeholder="Saisir la nouvelle quantité..." required>
         <div class="boutons_form">
             <button type="button" class="annuler" onclick="masquerFormQuantite()">Annuler</button>
             <button type="submit" class="boutons_plat">Valider</button>
