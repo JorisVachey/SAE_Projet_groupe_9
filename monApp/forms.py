@@ -113,7 +113,9 @@ class FormuleForm(FlaskForm):
                        validators=[DataRequired(),
                                    Length(max=50)])
     prixF = FloatField('Prix de la formule', validators=[DataRequired()])
+    cheminImg= StringField("Image de la formule")
     submit = SubmitField('Créer la formule')
+    
 
 
 class PlatForm(FlaskForm):

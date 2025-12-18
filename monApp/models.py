@@ -146,7 +146,7 @@ class Formule(db.Model):
                             cascade="all, delete-orphan")
     reservations = db.relationship("ContenirF", backref="formule")
 
-    def __init__(self, idF, nomF, prixF, cheminImg):
+    def __init__(self, idF, nomF, prixF, cheminImg="img/base/image_defaut.png"):
         self.idF = idF
         self.nomF = nomF
         self.prixF = prixF
