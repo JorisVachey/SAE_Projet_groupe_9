@@ -750,7 +750,7 @@ def debannir_cli(client_id):
 def voir_comm():
     commandes = Reservation.query.filter(
         Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
-    return render_template("commandes.html", commandes=commandes)
+    return render_template("gestion_commandes.html", commandes=commandes)
 
 
 @app.route("/admin/gestion_compte/", methods=(

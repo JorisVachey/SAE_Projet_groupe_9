@@ -1,0 +1,69 @@
+{% extends "admin.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_admin.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<section class="block">
+    <h3>GESTION DES</h3>
+    <h1>COMMANDES</h1>
+    <div class="trait-horizontal"></div>
+    <section class="corps">
+        <article class="liste_boutons">
+            <div>
+            </div>
+            <div> 
+            </div>
+            <div>
+                <button class="boutons_vert" id="btnDebannir">refuser</button>
+                <button class="boutons_vert" id="btnBannir">valider</button>
+            </div>
+        </article>
+        <section class="table_container">
+            <table>
+                <thead>
+                    <th>Nom</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Résumé de la commande</th>
+                    <th>Prix total</th>
+                    <th>Date de réservation</th>
+                    <th>Sur place</th>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                    <tr class="ligne-com" data-id="{{ commande.idR }}">
+                        <td>{{ commande.user.pseudonyme }}</td>
+                        <td>{{ commande.user.numtelUser }}</td>
+                        <td>
+                            <ul class="liste-plats">
+                                {% for plat, quantite in commande.getbesoin().items() %}
+                                    <li>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" class="plat-checkbox">
+                                            <span><span style="font-weight: bold; color: #d35400;">{{ quantite }}x</span> {{ plat.nomP }}</span>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td> {{ commande.get_total() }} €</td>
+                        <td>{{ commande.dateR }}</td>
+                    {% if commande.sur_place is true %}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>
+
+<script src="{{ url_for('static', filename='js/gerer_com.js') }}"></script>
+<script src="{{ url_for('static', filename='js/case_cocher.js') }}"></script>
+
+{% endblock %}
