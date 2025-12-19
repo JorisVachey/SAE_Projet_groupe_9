@@ -726,7 +726,7 @@ def modifier_prix_formule():
 @admin_required
 def gestion_cli():
     clients = User.query.filter_by(est_admin=False).all()
-    return render_template("admin_gestion-client.html", clients=clients)
+    return render_template("gestion_clients.html", clients=clients)
 
 
 @app.route("/admin/bannir-cli/<int:client_id>")

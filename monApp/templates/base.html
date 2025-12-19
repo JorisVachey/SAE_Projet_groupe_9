@@ -36,10 +36,10 @@
                 <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
             {% if current_user.est_admin %}
                 <ul class="boutons_base">
-                    <a href="{{ url_for('gestion_plats') }}">GESTION DES PLATS</a>
-                    <a href="{{ url_for('gestion_formules') }}">GESTION DES FORMULES</a>
-                    <a href="{{ url_for('gestion_cli') }}">GESTION DES CLIENTS</a>
-                    <a href="{{ url_for('voir_comm') }}">VOIR LES COMMANDES</a>
+                    <a href="{{ url_for('gestion_plats') }}">gestion des plats</a>
+                    <a href="{{ url_for('gestion_formules') }}">gestion des formules</a>
+                    <a href="{{ url_for('gestion_cli') }}">gestion des clients</a>
+                    <a href="{{ url_for('voir_comm') }}">gestion des commandes</a>
                     <a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a>
                     <a class="navbar-brand btn_inscription" href="{{ url_for('gestion_compte') }}">Gérer le compte</a>
                 </ul>

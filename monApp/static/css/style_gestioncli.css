@@ -1,82 +1,3 @@
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10em;
-    color: var(--noir-blanc);
-}
-
-.gestion-client {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 80vh;
-    background-color: var(--tableau);
-    width: 90%;
-    margin: 0 auto;
-    border-radius: 12px;
-    padding: 0 1em;
-    gap: 1em;
-}
-
-.gestion-client table {
-    align-self: flex-start;
-    border-collapse: collapse;
-    flex-basis: 49%;
-    margin-top: 20px;
-    background-color: var(--bg-base);
-    border: 1px solid var(--orange);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    overflow: hidden;
-    width: 100%;
-}
-.intituler{
-    flex-basis: 40%;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-.gestion-client button {
-    margin: 0.5em 0 0.5em;
-    background-color: var(--btn);
-    border: 1px solid var(--orange);
-    color: var(--noir-blanc);
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-}
-
-.gestion-client button:hover {
-    background-color: var(--orange);
-    color: var(--noir);
-}
-
-.gestion-client th,
-.gestion-client td {
-    border: 1px solid var(--orange);
-    padding: 12px 15px;
-    text-align: center;
-}
-
-.gestion-client th {
-    background-color: var(--btn);
-    font-weight: bold;
-}
-
-.ligne-client {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.ligne-client.selected {
-    background-color: #e0602da1;
-}
-
 .ligne-com {
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -116,17 +37,6 @@ main {
 }
 .checkbox-container input {
     cursor: pointer;
-}
-h2, h1, h3 {
-    color: var(--text-gris);
-    margin-bottom: 0.5em;
-}
-
-.trait-horizontal {
-    height: 0.125em;
-    width: 20em;
-    background-color: var(--text-gris);
-    margin: 0 0 1.6em 0;
 }
 
 .commande {

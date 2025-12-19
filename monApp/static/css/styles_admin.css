@@ -6,7 +6,7 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 8em;
+    margin-top: 6em;
     padding-bottom: 1.5em;
 }
 
@@ -28,6 +28,15 @@ ul {
     padding: 1em;
     border-radius: 1em;
     box-shadow: 0px 0px 4px 0px black;
+}
+
+.block .corps_utilisateur {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 auto;
 }
 
 .block .liste_boutons {
@@ -74,8 +83,23 @@ ul {
     border-radius: 0.7em 0 0 0.7em;
     margin: 1.2em 0 0 0;
     overflow-y: scroll;
-    height:50dvh;
+    height:54dvh;
     border: solid 0.1em var(--orange);
+}
+
+.block .table_container_utilisateur {
+    display: flex;
+    width: 100%;
+    overflow-y: hidden;
+    border: none;
+    gap: 1.5em;
+    height: auto;
+    border-radius: 0;
+}
+
+.table_utilisateur {
+    border: 0.1em solid var(--orange);
+    align-self: self-start;
 }
 
 .block .table_container table {
@@ -130,7 +154,7 @@ ul {
 .block .pop_up {
     display: none;
     position: fixed;
-    top: 16dvh;
+    top: 14dvh;
     right: 25dvw;
     max-width: 50dvw;
     padding: 1em;
