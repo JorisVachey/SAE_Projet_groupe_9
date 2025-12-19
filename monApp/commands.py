@@ -108,7 +108,7 @@ def loaddb(file):
             idF=f["idF"],
             nomF=f["nomF"],
             prixF=f["prixF"],
-            cheminImg=f["cheminImg"]
+            cheminImg=f.get("cheminImg", "img/base/image_defaut.png")
         )
         db.session.add(form)
 

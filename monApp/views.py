@@ -6,6 +6,9 @@ from monApp.models import db, User, Type_plat, Plat, Reservation, ContenirP, Con
 from flask_mail import Message
 from datetime import datetime
 import os
+import time
+import re
+from werkzeug.utils import secure_filename
 from functools import wraps
 from sqlite3 import IntegrityError
 from .forms import LoginForm, RegisterForm
@@ -29,6 +32,66 @@ def admin_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+
+
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+
+def allowed_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+def _slugify(text: str) -> str:
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9\-_. ]+", "", text)
+    text = re.sub(r"[\s]+", "_", text)
+    return text or "image"
+
+def save_image(file_storage, base_name: str, folder="imgP") -> str:
+    """Save uploaded image into static/img/{folder} and return relative path like 'img/{folder}/xxx.jpg'"""
+    if not file_storage or not allowed_file(file_storage.filename):
+        return ""
+
+    upload_dir = os.path.join(app.static_folder, "img", folder)
+    os.makedirs(upload_dir, exist_ok=True)
+
+    filename = secure_filename(file_storage.filename)
+    _, ext = os.path.splitext(filename)
+    unique = int(time.time())
+    safe_base = _slugify(base_name)
+    final_name = f"{safe_base}_{unique}{ext.lower()}"
+    abs_path = os.path.join(upload_dir, final_name)
+    file_storage.save(abs_path)
+    return f"img/{folder}/{final_name}"
+
+
+
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+
+def allowed_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+
+def _slugify(text: str) -> str:
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9\-_. ]+", "", text)
+    text = re.sub(r"[\s]+", "_", text)
+    return text or "image"
+
+def save_image(file_storage, base_name: str, folder="imgP") -> str:
+    """Save uploaded image into static/img/{folder} and return relative path like 'img/{folder}/xxx.jpg'"""
+    if not file_storage or not allowed_file(file_storage.filename):
+        return ""
+
+    upload_dir = os.path.join(app.static_folder, "img", folder)
+    os.makedirs(upload_dir, exist_ok=True)
+
+    filename = secure_filename(file_storage.filename)
+    _, ext = os.path.splitext(filename)
+    unique = int(time.time())
+    safe_base = _slugify(base_name)
+    final_name = f"{safe_base}_{unique}{ext.lower()}"
+    abs_path = os.path.join(upload_dir, final_name)
+    file_storage.save(abs_path)
+    return f"img/{folder}/{final_name}"
 
 
 @app.route("/")
@@ -395,27 +458,16 @@ def update_checkbox():
 
     for cf in ContenirF.query.filter_by(idR=id_r).all():
         cf.quantiteF = 1
-    success = False
-    message = ""
-
-    if sur_place:
-        places_prises = nb_couvert_jour(resa.dateR)
-        places_restantes = 12 - places_prises
-        if places_prises + resa.nb_couverts <= 12:
-            resa.sur_place = True
-            message = "Réservation mise à jour : sur place"
-            success = True
-        elif places_restantes > 0:
-            resa.nb_couverts = places_restantes
-            resa.sur_place = True
-            message = f"Réservation ajustée à {places_restantes} couverts (capacité max atteinte)."
-            success = True
-        else:
-            resa.sur_place = False
-            message = "Impossible de réserver sur place : complet (limite de 12 couverts)."
-            success = False
-
-    else:
+    if sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts <= 12:
+        resa.sur_place = sur_place
+        message = "Réservation mise à jour : sur place "
+        success = True
+    elif sur_place and nb_couvert_jour(resa.dateR) + resa.nb_couverts > 12:
+        message = "Réservation mise à jour : sur place "
+        success = True
+        resa.nb_couverts = 12-nb_couvert_jour(resa.dateR)
+        resa.sur_place = sur_place
+    elif not sur_place:
         resa.sur_place = False
         message = "Réservation mise à jour : à emporter"
         success = True
@@ -565,6 +617,7 @@ def gestion_plats():
             prix_plat = request.form.get("prixP")
             stock = request.form.get("stock")
             desc = request.form.get("desc")
+            image_file = request.files.get('image')
 
             if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
                 return jsonify({
@@ -597,6 +650,15 @@ def gestion_plats():
                                 descriptionP=desc)
 
             db.session.add(nouveau_plat)
+            db.session.flush()
+
+            nouveau_plat.stockInit = stock_int
+
+            if image_file and allowed_file(image_file.filename):
+                rel_path = save_image(image_file, nom_plat or f"plat_{nouveau_plat.idP or ''}")
+                if rel_path:
+                    nouveau_plat.cheminImg = rel_path
+
             db.session.commit()
 
             type_associe = Type_plat.query.get(type_id_int)
@@ -650,13 +712,19 @@ def gestion_formules():
                     "error": "Une formule avec ce nom existe déjà"
                 }), 400
 
-            # Find max idF to simulate autoincrement
             max_id = db.session.query(db.func.max(Formule.idF)).scalar()
             new_id = (max_id or 0) + 1
 
+            image_file = request.files.get('image')
+            chemin_img = "img/base/image_defaut.png"
+            if image_file:
+                saved_path = save_image(image_file, nom_formule, folder="imgF")
+                if saved_path:
+                    chemin_img = saved_path
+
             nouvelle_formule = Formule(idF=new_id,
                                        nomF=nom_formule,
-                                       prixF=float(prix_formule))
+                                       prixF=float(prix_formule), cheminImg=chemin_img)
             db.session.add(nouvelle_formule)
             db.session.flush()
 
@@ -731,6 +799,32 @@ def modifier_prix_formule():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route('/admin/modifier_image_formule', methods=['POST'])
+@admin_required
+def modifier_image_formule():
+    try:
+        id_formule = request.form.get('idF')
+        image_file = request.files.get('image')
+
+        if not id_formule or not image_file:
+            return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+        formule = Formule.query.get(id_formule)
+        if not formule:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+
+        saved_path = save_image(image_file, formule.nomF, folder="imgF")
+        if saved_path:
+            formule.cheminImg = saved_path
+            db.session.commit()
+            return jsonify({'success': True, 'cheminImg': saved_path}), 200
+        else:
+            return jsonify({'success': False, 'error': 'Erreur lors de l\'enregistrement de l\'image'}), 400
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route("/admin/gestion_cli/")
 @admin_required
 def gestion_cli():
@@ -794,7 +888,6 @@ def modifier_numtel():
     utilisateur_existant = User.query.filter_by(
         numtelUser=nouveau_numtel).first()
 
-    # Vérifie si le numéro de téléphone est déjà utilisé
     if utilisateur_existant and utilisateur_existant.idUser != current_user.idUser:
         flash("Ce numéro de téléphone est déjà utilisé.", "danger")
         return redirect(url_for("gestion_compte"))
@@ -817,13 +910,13 @@ def modifier_mdp():
     ancien_mdp = request.form.get("ancien_mdp")
     nouveau_mdp = request.form.get("nouveau_mdp")
 
-    # Vérification de l'ancien mot de passe
+
     hash_ancien = sha256(ancien_mdp.encode("utf-8")).hexdigest()
     if current_user.mdp != hash_ancien:
         flash("L'ancien mot de passe est incorrect.", "danger")
         return redirect(url_for("gestion_compte"))
 
-    # Hachage du nouveau mot de passe
+
     hash_nouveau = sha256(nouveau_mdp.encode("utf-8")).hexdigest()
     current_user.mdp = hash_nouveau
     db.session.commit()
@@ -912,5 +1005,33 @@ def admin_modifier_quantite_plat():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route('/admin/modifier_image_plat', methods=['POST'])
+@admin_required
+def modifier_image_plat():
+    try:
+        id_plat = request.form.get('idP')
+        image_file = request.files.get('image')
+
+        if not id_plat or not image_file:
+            return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+        plat = Plat.query.get(id_plat)
+        if not plat:
+            return jsonify({'success': False, 'error': 'Plat introuvable'}), 404
+
+        if not allowed_file(image_file.filename):
+            return jsonify({'success': False, 'error': 'Format d\'image non autorisé'}), 400
+
+        rel_path = save_image(image_file, plat.nomP or f"plat_{plat.idP}")
+        if not rel_path:
+            return jsonify({'success': False, 'error': 'Échec de l\'enregistrement de l\'image'}), 500
+
+        plat.cheminImg = rel_path
+        db.session.commit()
+        return jsonify({'success': True, 'cheminImg': rel_path}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+    
 if __name__ == "__main__":
     app.run()
