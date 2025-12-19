@@ -54,6 +54,56 @@ a {
     left: 0%;
 }
 
+.block .compte {
+    width: 30dvw;
+    margin: 4em;
+    background: #fff;
+    background-color: var(--tableau);
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.block .compte input {
+    width: 100%;
+    padding: 0.2em 0 0.2em 0.5em;
+    margin-bottom: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.block .compte h4 {
+    padding-top: 1em;
+}
+
+.block .compte .vue-formulaires form {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+}
+
+.block .compte .vue-formulaires {
+    display: none;
+}
+
+.block .compte #toggle-modif:checked ~ .carte .vue-info {
+    display: none;
+}
+
+.block .compte #toggle-modif:checked ~ .carte .vue-formulaires {
+    display: block;
+}
+
+.block .compte .vue-formulaires form:has(#maj_mdp) {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.block .compte .vue-formulaires form input[type="text"] {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 .block .corps {
     width: 90%;
     background-color: var(--tableau);
