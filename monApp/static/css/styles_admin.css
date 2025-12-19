@@ -2,6 +2,11 @@ ul {
     list-style-type: none;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .block {
     display: flex;
     flex-direction: column;
@@ -20,6 +25,33 @@ ul {
     width: 20em;
     background-color: var(--text-gris);
     margin: 0 0 1.6em 0;
+}
+
+.block .liste_boutons_accueil_admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:row;
+    margin-top: 5em;
+    gap: 1.5em;
+}
+
+.block .images_admin #bambou_coin{
+    max-width: 50%;
+    max-height: 50%;
+    position: absolute;
+    overflow: hidden;
+    top: 10%;
+    right: 0%;
+}
+
+.block .images_admin #sakura{
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 5%;
+    left: 0%;
 }
 
 .block .corps {
