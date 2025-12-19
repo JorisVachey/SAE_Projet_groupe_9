@@ -35,16 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const idPlat = document.getElementById('modif-qte-id-plat').value;
             const nouvelleQuantite = document.getElementById('modif-quantite').value;
-
-            const tableau = document.getElementById('tableau');
-            const ligne = tableau.querySelector(`tr[data-id-plat="${idPlat}"]`);
-            if (ligne) {
-                const qteReservee = parseInt(ligne.cells[4].textContent);
-                if (parseInt(nouvelleQuantite) <= qteReservee) {
-                    alert("La quantité doit être supérieure à la quantité réservée.");
-                    return;
-                }
-            }
+            
 
             fetch('/admin/modifier_quantite_plat', {
                 method: 'POST',
@@ -53,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     idP: idPlat,
-                    stock: nouvelleQuantite
+                    stockInit: nouvelleQuantite
                 })
             })
             .then(response => response.json())
@@ -62,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const tableau = document.getElementById('tableau');
                     const ligne = tableau.querySelector(`tr[data-id-plat="${idPlat}"]`);
                     if (ligne) {
-                        ligne.dataset.stockPlat = nouvelleQuantite;
-                        ligne.cells[3].textContent = nouvelleQuantite;
+                        ligne.dataset.stockPlatInit = nouvelleQuantite;
+                        ligne.cells[4].textContent = nouvelleQuantite;
                     }
                     masquerFormQuantite();
                 } else {

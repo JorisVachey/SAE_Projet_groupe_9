@@ -18,6 +18,7 @@
             <div>
                 <button class="boutons_vert" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
                 <button class="boutons_vert" id="btn_quantite" onclick="modif_quantite()">Modifier la quantité</button>
+                <button class="boutons_vert" id="btn_image" onclick="modif_image()">Modifier l'image</button>
             </div>
             <div>
                 <button class="boutons_vert" id="btn_suppr">Supprimer le plat</button>
@@ -31,8 +32,8 @@
                         <th>Plat</th>
                         <th>Type de plat</th>
                         <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Quantité réservée</th>
+                        <th>Quantité Restante</th>
+                        <th>Quantité Initiale</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -41,8 +42,8 @@
                             <td>{{ unPlat.nomP }}</td>
                             <td>{{ unPlat.type.nomTp }}</td>
                             <td>{{ unPlat.prixP }}€</td>
-                            <td>{{ unPlat.stockInit }}</td>
                             <td>{{ unPlat.stock }}</td>
+                            <td>{{ unPlat.stockInit }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -67,6 +68,12 @@
             <input id="stock" type="text" name="stock" placeholder="Saisir le stock..."required>
             <label for="desc">Description du plat :</label>
             <input id="desc" type="text" name="desc" placeholder="Saisir la descritpion..." required>
+            <label>Image du plat : </label>
+            <div id="drop-zone-ajout" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-ajout" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-ajout" class="preview" alt="" />
+            </div>
             <article class="liste_boutons">
                 <div>
                     <button type="reset" class="boutons_gris" onclick="masquerForm()">Annuler</button>
@@ -118,6 +125,30 @@
             </article>
         </form>
     </section>
+
+    <section class="pop_up" id="pop-up-modif-image">
+        <form method="POST" enctype="multipart/form-data" class="champs" id="form-modif-image">
+            <h3>Modifier l'image du plat</h3>
+            <input type="hidden" id="modif-img-id-plat" name="idP">
+            <label for="modif-img-nomP">Nom du Plat</label>
+            <input id="modif-img-nomP" type="text" name="nomP" readonly>
+            <label>Nouvelle image : </label>
+            <div id="drop-zone-modif" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-modif" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-modif" class="preview" alt="" />
+            </div>
+            <article class="liste_boutons">
+                <div>
+                    <button type="button" class="boutons_gris" onclick="masquerFormImage()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
 </section>
 
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
@@ -125,5 +156,7 @@
 <script src="{{url_for('static', filename='js/ajout_plat.js')}}"></script>
 <script src="{{url_for('static', filename='js/modif_prix.js')}}"></script>
 <script src="{{url_for('static', filename='js/modif_stock.js')}}"></script>
+<script src="{{url_for('static', filename='js/upload_image.js')}}"></script>
+<script src="{{url_for('static', filename='js/modif_image.js')}}"></script>
 
 {%endblock %}

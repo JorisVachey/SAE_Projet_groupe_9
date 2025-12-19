@@ -16,7 +16,8 @@
                 <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher une formule...">
             </div>
             <div>
-                <button class="boutons_vert" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>    
+                <button class="boutons_vert" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
+                <button class="boutons_vert" id="btn_image" onclick="modif_image()">Modifier l'image</button>    
             </div>
             <div>
                 <button class="boutons_vert" id="btn_suppr">Supprimer la formule</button>
@@ -57,6 +58,12 @@
             <input id="nomF" type="text" name="nomF" placeholder="Saisir nom de la formule..." required>
             <label for="prixF">Prix de la Formule :</label>
             <input id="prixF" type="number" step="0.01" name="prixF" placeholder="Saisir le prix..." required>
+            <label>Image de la formule</label>
+            <div id="drop-zone-ajout" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-ajout" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-ajout" class="preview" alt="" />
+            </div>
             <label>Composition :</label>
             <div class="composition_container">
                 {% for unType in types %}
@@ -109,9 +116,36 @@
             </article>
         </form>
     </section>
+
+    <section class="pop_up" id="pop-up-modif-image">
+        <form method="POST" enctype="multipart/form-data" class="champs" id="form-modif-image">
+            <h3>Modifier l'image de la formule</h3>
+            <input type="hidden" id="modif-img-id-formule" name="idF">
+            <label for="modif-img-nomF">Nom de la Formule</label>
+            <input id="modif-img-nomF" type="text" name="nomF" readonly>
+            <label>Nouvelle image : </label>
+            <div id="drop-zone-modif" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-modif" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-modif" class="preview" alt="" />
+            </div>
+            <article class="liste_boutons">
+                <div>
+                    <button type="button" class="boutons_gris" onclick="masquerFormImage()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
 </section>
 
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 <script src="{{url_for('static', filename='js/gestion_formules.js')}}"></script>
+<script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
+<script src="{{url_for('static', filename='js/gestion_formules.js')}}"></script>
+<script src="{{url_for('static', filename='js/upload_image.js')}}"></script>
 
 {%endblock %}

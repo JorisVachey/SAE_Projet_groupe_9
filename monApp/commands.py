@@ -37,8 +37,8 @@ def create_user(num_tel, pseudonyme, mdp, admin, est_bannie, pts_fidelite):
     """
     m = sha256()
     m.update(mdp.encode())
-    un_user = User(num_tel, pseudonyme, m.hexdigest(), admin, est_bannie,
-                  pts_fidelite)
+    un_user = User(num_tel, pseudonyme, m.hexdigest(), est_bannie,
+                  pts_fidelite, admin)
     db.session.add(un_user)
     db.session.commit()
     return un_user
@@ -108,7 +108,7 @@ def loaddb(file):
             idF=f["idF"],
             nomF=f["nomF"],
             prixF=f["prixF"],
-            cheminImg=f["cheminImg"]
+            cheminImg=f.get("cheminImg", "img/base/image_defaut.png")
         )
         db.session.add(form)
 
@@ -162,14 +162,11 @@ app.cli.add_command(loaddb)
 @click.argument("num_tel")
 @click.argument("pseudonyme")
 @click.argument("pwd")
-@click.option("--admin", default=False, help="l'utilisateur est administrateur")
-@click.option("--est_bannie",
-              default=False,
-              help="Creer un nouvel utilisateur bannie")
-def newuser(num_tel, pseudonyme, pwd, admin, est_bannie, pts_fidelite):
+@click.option("--admin", is_flag=True, help="Définit l'utilisateur comme administrateur")
+@click.option("--banni", is_flag=True, help="Définit l'utilisateur comme banni")
+def newuser(num_tel, pseudonyme, pwd, admin, banni):
     """Créer un nouvel utilisateur via CLI"""
-    create_user(num_tel, pseudonyme, pwd, admin, est_bannie, pts_fidelite)
-    lg.warning("User %s created!", num_tel)
-
+    create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
+    lg.warning("User %s created! (Admin: %s)", num_tel, admin)
 
 app.cli.add_command(newuser)
