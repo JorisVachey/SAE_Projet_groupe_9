@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block styles_additionnels %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_nouveautes.css') }}">
+{% endblock %}
+
+{% block main %}
+<main>
+  <section class="page-titre" aria-labelledby="titre-nouveautes">
+    <div class="trait-horizontal"></div>
+    <h2 id="titre-nouveautes">NOUVEAUTÉS OUMAMI</h2>
+    <div class="trait-horizontal"></div>
+  </section>
+
+  <section class="horaire">
+    <img src="{{ url_for('static', filename='img/nouveautes/horaires.jpg') }}" alt="Horaires d'ouverture de fin d'année">
+    <div class="bloc">
+      <h3>Ouvertures de fin d'année</h3>
+      <time datetime="2024-12-16">16 DÉCEMBRE 2024</time>
+      <ul class="liste">
+        <li>Dimanche 22 décembre : Marché de Noël 10h30–18h</li>
+        <li>Mardi 24 décembre : 11h30–14h</li>
+        <li>Mercredi 25 décembre : fermé</li>
+        <li>Jeudi 26 au samedi 28 décembre : 11h30–14h et 17h–20h</li>
+        <li>Dimanche 29 décembre : 11h30–14h</li>
+        <li>Lundi 30 décembre : 11h30–14h et 17h–20h</li>
+        <li>Mardi 31 décembre : 11h30–14h</li>
+        <li>Du 1er au 6 janvier 2025 : congés annuels</li>
+        <li>Réouverture : mardi 7 janvier 2025</li>
+      </ul>
+    </div>
+    <div class="trait-horizontal"></div>
+  </section>
+
+  <section class="reveillon">
+    <img src="{{ url_for('static', filename='img/nouveautes/reveillon.jpg') }}" alt="Plateau repas pour la Saint-Sylvestre">
+    <div class="bloc">
+      <h3>Repas de la Saint-Sylvestre</h3>
+      <time datetime="2024-12-16">16 DÉCEMBRE 2024</time>
+      <p class="prix">32,50 € / personne</p>
+      <ul class="liste">
+        <li>Sushi 9 pièces</li>
+        <li>Brochette de poulet au caramel</li>
+        <li>Salade de crevettes</li>
+        <li>Soupe miso</li>
+        <li>Œuf mollet à la façon thermale</li>
+        <li>Carpaccio de bœuf</li>
+        <li>Bière japonaise (33 cl) ou boisson sans alcool offerte</li>
+      </ul>
+      <h4>Réservation</h4>
+      <p>Plateau à emporter uniquement sur réservation.</p>
+      <p>Commandes jusqu’au 28 décembre. Retrait de 11h30 à 14h le 31 décembre.</p>
+    </div>
+    <div class="trait-horizontal"></div>
+  </section>
+</main>
+{% endblock %}

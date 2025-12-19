@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/panier.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Mon Panier</h1>
+
+{% if panier %}
+    {% if not panier.ifPlatVide() %}
+    <h2>Plats uniques</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Plat</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cp in panier.plats %}
+            <tr>
+                <td>{{ cp.plat.nomP }}</td>
+                <td>{{ cp.quantiteP }}</td>
+                <td>{{ cp.plat.prixP }} €</td>
+                <td>{{ cp.quantiteP * cp.plat.prixP }} €</td>
+                <td>
+                    <form action="{{ url_for('modifier_quantite_plat', id_p=cp.idP, action='diminuer') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                    </form>
+                    <form action="{{ url_for('modifier_quantite_plat', id_p=cp.idP, action='ajouter') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% if not panier.ifFormuleVide() %}
+    <h2>Formules</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Formule</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cf in panier.formules %}
+            <tr>
+                <td>{{ cf.formule.nomF }}</td>
+                <td>{{ cf.quantiteF }}</td>
+                <td>{{ cf.formule.prixF }} €</td>
+                <td>{{ cf.quantiteF * cf.formule.prixF }} €</td>
+                <td>
+                    <form action="{{ url_for('modifier_quantite_formule', id_f=cf.idF, action='diminuer') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                    </form>
+                    <form action="{{ url_for('modifier_quantite_formule', id_f=cf.idF, action='ajouter') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <h2>Paramettre de la commande</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sur Place</th>
+                <th>Nombre de personne</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% if current_user.est_banni %}
+                <td><input type="checkbox" id="checkbox-surplace" data-idr="{{ panier.idR }}" value="1" checked disabled></td>
+                {% else %}
+                <td><input type="checkbox" id="checkbox-surplace" data-idr="{{ panier.idR }}" value="1" {% if panier.sur_place %}checked{% endif %}></td>
+                {% endif %}
+                <td>
+                    <form action="{{ url_for('modifier_nb_couvert', id_r=panier.idR, action='diminuer') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                    </form>
+                    {{panier.nb_couverts}}
+                    <form action="{{ url_for('modifier_nb_couvert', id_r=panier.idR, action='ajouter') }}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </form>
+                    </td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>Total du panier: {{panier.get_total()}} €</h3>
+    <div class="espace">
+    <form action="{{ url_for('supprimer_panier') }}" method="post" class="bouton_valide_sup">
+        <button type="submit" class="btn btn-primary">Supprimer le panier</button>
+    </form>
+        <form action="{{ url_for('valider_panier') }}" method="post" class="bouton_valide_sup">
+        <button type="submit" class="btn btn-primary" {% if panier.get_total() == 0 %} disabled {% endif %}>Valider le panier</button>
+    </form>
+
+    </div>
+
+{% else %}
+    <p>Votre panier est vide.</p>
+{% endif %}
+<script src="{{ url_for('static', filename='js/case_cocher.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
+{% endblock %}
+
+
+
+{%block main%}
+<div class="page-admin-accueil">
+    <div class="titre_admin">
+        <h3>BIENVENUE </h3>
+        <h1>ADMIN</h1>
+        <div class="trait-horizontal"></div>
+        <h3>Que souhaitez-vous faire ?</h3>
+    </div>
+    <ul class="actions">
+        <a class="boutons_admin" href="{{ url_for('gestion_plats') }}">GESTION DES PLATS</a>
+        <a class="boutons_admin" href="{{ url_for('gestion_formules') }}">GESTION DES FORMULES</a>
+        <a class="boutons_admin" href="{{ url_for('gestion_cli') }}">GESTION DES CLIENTS</a>
+        <a class="boutons_admin" href="{{ url_for('voir_comm') }}">VOIR LES COMMANDES</a>
+    </ul>
+    <div class="images_admin">
+        <img id="sakura" src="{{ url_for('static', filename='img/image1.png') }}" alt="sakura">
+        <img id="bambou_coin"  src="{{ url_for('static', filename='img/bambou1.png') }}" alt="image de bambou en coin">
+    </div>
+</div>
+
+{%endblock%}
+
+{%block footer%}
+{%endblock%}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reservation.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<h1>Mes Réservations</h1>
+
+{% if reservations %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date de la réservation</th>
+                <th>Nombre de couvert</th>
+                <th>Statut</th>
+                <th>Detail</th>
+                <th>Option</th>
+                <th>Prix Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.dateR.strftime('%d/%m/%Y') }}</td>
+                <td>{{ reservation.nb_couverts }}</td>
+                <td>{{ reservation.statut }}</td>
+                <td>{% for formule in reservation.formules %}
+                    <p>Formule: {{ formule.formule.nomF }} (x{{ formule.quantiteF }})</p>
+                    {%endfor%}
+                    {% for plat in reservation.plats %}
+                    <p>Plat: {{ plat.plat.nomP }} (x{{ plat.quantiteP }})</p>
+                    {%endfor%}
+                </td>
+                <td>{% if reservation.sur_place %}Sur Place{% else %}A emporté {% endif %}</td></td>
+                <td> {{ reservation.get_total() }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Vous n'avez pas encore de réservations.</p>
+{% endif %}
+
+{% endblock %}

@@ -34,9 +34,9 @@
         <article class="plateau_repas">
             <h1>Bentô - plateau repas</h1>
             <div class="trait-horizontal"></div>
-            <p>OUMAMI vous  propose des plateaux repas à partir de 6 personnes pour vos réunions,  
+            <p>OUMAMI vous  propose des plateaux repas à partir de 6 personnes pour vos réunions,
                 pique-niques, manifestation sportives et culturelles, etc. Uniquement sur réservation</p>
-            <p>Pour télécharger la carte des plateaux repas, 
+            <p>Pour télécharger la carte des plateaux repas,
                 cliquez <a href="https://www.traiteur-oumami.fr/flyer-livraison2025.pdf"></a>ici.</p>
         </article>
         <article class="plat_emporter">
@@ -54,14 +54,16 @@
     </section>
     <section class="liste_plats">
         {% for unTpeDePlat in TypeDePlats %}
-        <article class="un_type_plat">
+        <a href="{{ url_for('menu') }}">
+            <article class="un_type_plat">
             <img src="{{ url_for('static', filename=unTpeDePlat.cheminImg) }}" alt="image de {{ unTpeDePlat.nomTp }}">
             <article>
                 <h3>{{ unTpeDePlat.nomTp }}</h3>
                 <p>{{ unTpeDePlat.descriptionTp }}</p>
             </article>
         </article>
+        </a>
         {% endfor %}
     </section>
-
+</section>
 {% endblock %}

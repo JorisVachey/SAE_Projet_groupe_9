@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_apropos.css') }}">
+{% endblock %}
+
+{% block main %}
+<section class="premier">
+        <img src="{{ url_for('static', filename='img/base/cerisier.png')}}" alt="image arbre">
+        <article>
+            <div class="trait-horizontal"></div>
+            <h3>A propos de Oumami</h3>
+            <div class="trait-horizontal"></div>
+        </article>
+</section>
+<section class="contenu">
+    <img src="{{ url_for('static', filename='img/apropos/image2.png')}}" alt="image plats">
+    <article>
+        <p>
+            L’«Oumami» est un mot japonais qui signifie un «goût savoureux».
+            C’est la cinquième saveur fondamentale avec le sucré, l’acide,
+            l’amer et le salé. Ce goût a été découvert en 1908 par un chercheur japonais,
+            Professeur IKEDA Kikumae.
+        </p>
+        <p>
+            L’oumami est présent dans le DASHI (bouillon d’algue KOMBU,
+            de copeaux de  bonite séchée et de champignon SHIITAKE),
+            ingrédient indispensable dans  la cuisine japonaise.
+        </p>
+        <p>
+            C’est la raison pour laquelle j’ai choisi ce mot «oumami» pour nommer
+            mon magasin, où je pourrai vous faire découvrir ce goût savoureux et  l’art
+            de cuisine asiatique au travers de mes plats. Madoka
+        </p>
+    </article>
+</section>
+<section class="contenu">
+    <img src="{{ url_for('static', filename='img/apropos/image3.png')}}" alt="image plats">
+    <article>
+        <p>
+            Tous nos plats sont «faits maison».
+            Dégustez-les ! Les plats «faits maison» sont élaborés sur place à partir de produits bruts.
+        </p>
+        <p>
+            En décembre 2024, l'Oumami est apparu sur le guide "Gault&Millau Restaurant " ainsi que "gaultmillau.com".
+        </p>
+    </article>
+</section>
+<section class="deuxieme">
+        <article>
+            <div class="trait-horizontal"></div>
+            <h3>NOS PARTENAIRES</h3>
+            <div class="trait-horizontal"></div>
+            <h3 class="txt">- SANGA : miso, koji et produits BIO (<a href="https://www.sangamiso.fr/">site web</a>)</h3>
+        </article>
+        <img src="{{ url_for('static', filename='img/base/plante.png')}}" alt="image arbre">
+</section>
+<section class="horaire">
+    <article>
+            <div class="trait-horizontal"></div>
+            <h3>NOS HORAIRE D'OUVERTURE</h3>
+            <div class="trait-horizontal"></div>
+            <img src="{{ url_for('static', filename='img/apropos/image5.png')}}" alt="image HORAIRE">
+            <p class="txt">Le magasin est ouvert du mardi au samedi de  11h30 à 14h (la vente à emporter et la restauration sur place) <br>
+                et de 17h à 20h (la vente à emporter uniquement).</p>
+        </article>
+</section>
+<section class="conges">
+        <img src="{{ url_for('static', filename='img/base/bambou1.png')}}" alt="image bambou1">
+        <article>
+            <div class="trait-horizontal"></div>
+            <h3>CONGÉS ANNUELS</h3>
+            <div class="trait-horizontal"></div>
+            <p class="txt">Le magasin Oumami sera fermé du dimanche 26 octobre au lundi 3 novembre 2025. La  réouverture sera le mardi 4 novembre. <br>
+                Merci de votre compréhension.</p>
+        </article>
+</section>
+{% endblock %}

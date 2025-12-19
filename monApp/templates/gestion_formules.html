@@ -1,0 +1,123 @@
+{%extends "admin.html"%}
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestion_formules.css') }}">
+{% endblock %}
+
+{%block main%}
+<h3>GESTION DES</h3>
+<h1>FORMULES</h1>
+<div class="trait-horizontal"></div>
+<section class="corps">
+    <article>
+            <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher une formule...">
+            <button class="boutons_plat" onclick="afficherForm()">Ajouter une formule</button>
+            <button class="boutons_plat" id="btn_suppr">Supprimer la formule</button>
+            <button class="boutons_plat" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
+            <button class="boutons_plat" id="btn_image" onclick="modif_image()">Modifier l'image</button>
+    </article>
+    <article class="table-container">
+        <table id="tableau">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Composition</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {% for uneFormule in formules %}
+                        <tr data-id-formule="{{ uneFormule.idF }}" data-nom-formule="{{ uneFormule.nomF }}" data-prix-formule="{{ uneFormule.prixF }}">
+                            <td>{{ uneFormule.nomF }}</td>
+                            <td>{{ uneFormule.prixF }}€</td>
+                            <td>
+                                <ul>
+                                {% for comp in uneFormule.plats %}
+                                    <li>{{ comp.plat.nomP }} x{{ comp.quantiteC }}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </article>
+</section>
+<section id="pop-up-ajout">
+    <form method="POST" class="champs" id="form-ajout-formule" enctype="multipart/form-data">
+        <label for="nomF">Nom de la Formule</label>
+        <input id="nomF" type="text" name="nomF" placeholder="Saisir nom de la formule..." required>
+
+        <label for="prixF">Prix de la Formule</label>
+        <input id="prixF" type="number" step="0.01" name="prixF" placeholder="Saisir le prix..." required>
+        
+        <label>Image de la formule</label>
+        <div id="drop-zone-ajout" class="drop-zone">
+            <span>Glissez-déposez l'image ici ou cliquez</span>
+            <input id="image-ajout" type="file" name="image" accept="image/*" hidden>
+            <img id="preview-ajout" class="preview" alt="" />
+        </div>
+
+        <label>Composition :</label>
+        <div class="composition-container">
+            {% for unType in types %}
+                <details class="type-section">
+                    <summary>{{ unType.nomTp }}</summary>
+                    <div class="scroll-menu">
+                        {% for unPlat in plats %}
+                            {% if unPlat.idTp == unType.idTp %}
+                                <div class="plat-selection" style="display: flex; align-items: center; margin-bottom: 5px;">
+                                    <label style="flex-grow: 1;">
+                                        <input type="checkbox" name="plats" value="{{ unPlat.idP }}" onchange="toggleQuantity(this)">
+                                        {{ unPlat.nomP }}
+                                    </label>
+                                    <input type="number" name="quantite_{{ unPlat.idP }}" value="1" min="1" class="quantite-input" disabled style="width: 50px; margin-left: 10px;">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </details>
+            {% endfor %}
+        </div>
+
+        <div class="boutons_form">
+            <button type="button" class="annuler" onclick="masquerForm()">Annuler</button>
+            <button type="submit" class="boutons_plat">Ajouter</button>
+        </div>
+    </form>
+</section>
+<section id="pop-up-modif-prix">
+    <form method="POST" class="champs" id="form-modif-prix">
+        <h3>Modifier le prix</h3>
+        <input type="hidden" id="modif-id-formule" name="idF">
+        <label for="modif-nomF">Nom de la Formule</label>
+        <input id="modif-nomF" type="text" name="nomF" readonly>
+        <label for="modif-prix">Nouveau Prix</label>
+        <input id="modif-prix" type="number" step="0.01" name="prixF" placeholder="Saisir le nouveau prix..." required>
+        <div class="boutons_form">
+            <button type="button" class="annuler" onclick="masquerFormPrix()">Annuler</button>
+            <button type="submit" class="boutons_plat">Valider</button>
+        </div>
+    </form>
+</section>
+<section id="pop-up-modif-image">
+    <form method="POST" enctype="multipart/form-data" class="champs" id="form-modif-image">
+        <h3>Modifier l'image de la formule</h3>
+        <input type="hidden" id="modif-img-id-formule" name="idF">
+        <label for="modif-img-nomF">Nom de la Formule</label>
+        <input id="modif-img-nomF" type="text" name="nomF" readonly>
+        <label>Nouvelle image</label>
+        <div id="drop-zone-modif" class="drop-zone">
+            <span>Glissez-déposez l'image ici ou cliquez</span>
+            <input id="image-modif" type="file" name="image" accept="image/*" hidden>
+            <img id="preview-modif" class="preview" alt="" />
+        </div>
+        <div class="boutons_form">
+            <button type="button" class="annuler" onclick="masquerFormImage()">Annuler</button>
+            <button type="submit" class="boutons_plat">Valider</button>
+        </div>
+    </form>
+</section>
+<script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
+<script src="{{url_for('static', filename='js/gestion_formules.js')}}"></script>
+<script src="{{url_for('static', filename='js/upload_image.js')}}"></script>
+{%endblock %}
