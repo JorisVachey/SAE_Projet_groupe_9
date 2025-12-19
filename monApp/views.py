@@ -39,12 +39,12 @@ def _slugify(text: str) -> str:
     text = re.sub(r"[\s]+", "_", text)
     return text or "image"
 
-def save_image(file_storage, base_name: str) -> str:
-    """Save uploaded image into static/img/imgP and return relative path like 'img/imgP/xxx.jpg'"""
+def save_image(file_storage, base_name: str, folder="imgP") -> str:
+    """Save uploaded image into static/img/{folder} and return relative path like 'img/{folder}/xxx.jpg'"""
     if not file_storage or not allowed_file(file_storage.filename):
         return ""
 
-    upload_dir = os.path.join(app.static_folder, "img", "imgP")
+    upload_dir = os.path.join(app.static_folder, "img", folder)
     os.makedirs(upload_dir, exist_ok=True)
 
     filename = secure_filename(file_storage.filename)
@@ -54,7 +54,7 @@ def save_image(file_storage, base_name: str) -> str:
     final_name = f"{safe_base}_{unique}{ext.lower()}"
     abs_path = os.path.join(upload_dir, final_name)
     file_storage.save(abs_path)
-    return f"img/imgP/{final_name}"
+    return f"img/{folder}/{final_name}"
 
 
 @app.route('/')
@@ -573,7 +573,14 @@ def gestion_formules():
             max_id = db.session.query(db.func.max(Formule.idF)).scalar()
             new_id = (max_id or 0) + 1
 
-            nouvelle_formule = Formule(idF=new_id, nomF=nom_formule, prixF=float(prix_formule))
+            image_file = request.files.get('image')
+            chemin_img = "img/base/image_defaut.png"
+            if image_file:
+                saved_path = save_image(image_file, nom_formule, folder="imgF")
+                if saved_path:
+                    chemin_img = saved_path
+
+            nouvelle_formule = Formule(idF=new_id, nomF=nom_formule, prixF=float(prix_formule), cheminImg=chemin_img)
             db.session.add(nouvelle_formule)
             db.session.flush()
 
@@ -630,6 +637,32 @@ def modifier_prix_formule():
 
     except ValueError:
         return jsonify({'success': False, 'error': 'Prix invalide'}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/modifier_image_formule', methods=['POST'])
+@admin_required
+def modifier_image_formule():
+    try:
+        id_formule = request.form.get('idF')
+        image_file = request.files.get('image')
+
+        if not id_formule or not image_file:
+            return jsonify({'success': False, 'error': 'Données manquantes'}), 400
+
+        formule = Formule.query.get(id_formule)
+        if not formule:
+            return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
+
+        saved_path = save_image(image_file, formule.nomF, folder="imgF")
+        if saved_path:
+            formule.cheminImg = saved_path
+            db.session.commit()
+            return jsonify({'success': True, 'cheminImg': saved_path}), 200
+        else:
+            return jsonify({'success': False, 'error': 'Erreur lors de l\'enregistrement de l\'image'}), 400
+
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500

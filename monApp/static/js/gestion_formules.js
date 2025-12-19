@@ -21,6 +21,45 @@ function masquerForm() {
             input.disabled = true;
             input.value = 1;
         });
+        const fileInput = document.getElementById('image-ajout');
+        if (fileInput) fileInput.value = '';
+        const preview = document.getElementById('preview-ajout');
+        if (preview) {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    }
+}
+
+function modif_image() {
+    const tableau = document.getElementById('tableau');
+    const ligneSelectionnee = tableau.querySelector('tr.selected');
+
+    if (!ligneSelectionnee) {
+        alert("Veuillez sélectionner une formule à modifier.");
+        return;
+    }
+
+    const idFormule = ligneSelectionnee.dataset.idFormule;
+    const nomFormule = ligneSelectionnee.dataset.nomFormule;
+
+    document.getElementById('modif-img-id-formule').value = idFormule;
+    document.getElementById('modif-img-nomF').value = nomFormule;
+
+    const form = document.querySelector('#pop-up-modif-image');
+    if (form) form.classList.add('open');
+}
+
+function masquerFormImage() {
+    const form = document.querySelector('#pop-up-modif-image');
+    if (form) form.classList.remove('open');
+    
+    const fileInput = document.getElementById('image-modif');
+    if (fileInput) fileInput.value = '';
+    const preview = document.getElementById('preview-modif');
+    if (preview) {
+        preview.src = '';
+        preview.style.display = 'none';
     }
 }
 
@@ -181,6 +220,44 @@ document.addEventListener('DOMContentLoaded', () => {
                         ligne.cells[1].textContent = prixFormate + '€';
                     }
                     masquerFormPrix();
+                } else {
+                    alert("Erreur lors de la modification : " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Une erreur est survenue.");
+            });
+        });
+    }
+
+    const formImage = document.getElementById('form-modif-image');
+    if (formImage) {
+        formImage.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const idFormule = document.getElementById('modif-img-id-formule').value;
+            const fileInput = document.getElementById('image-modif');
+            
+            if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+                alert("Veuillez sélectionner une image.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('idF', idFormule);
+            formData.append('image', fileInput.files[0]);
+
+            fetch('/admin/modifier_image_formule', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    masquerFormImage();
+                    alert("Image modifiée avec succès !");
+                    // Optionnel : recharger la page ou mettre à jour l'image si elle est affichée dans le tableau
                 } else {
                     alert("Erreur lors de la modification : " + data.error);
                 }
