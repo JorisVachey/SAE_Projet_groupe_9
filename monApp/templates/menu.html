@@ -20,14 +20,14 @@
 <section id="liste_aliment" class="liste_aliment">
     <article class="nav_type_plat">
         {% for type_plat in TypeDePlats %}
-                <button class="choix_type_plat" data-id="{{ type_plat.idTp }}"><p>{{ type_plat.nomTp }}</p></button>
+            <button class="choix_type_plat" data-id="{{ type_plat.idTp }}"><p>{{ type_plat.nomTp }}</p></button>
         {% endfor %}
+        <button class="choix_type_plat" data-id="formules"><p>formules</p></button>
     </article>
     <section class="derouler">
         {% for plat in plats %}
             <article class="deux" data-id-tp="{{ plat.idTp }}">
                 <article class="info_plat">
-                    <input type="hidden" class="type_plat" ></input>
                     <input type="hidden" class="stock" value="{{ plat.stock }}"></input>
                     <img src="{{ url_for('static', filename=plat.cheminImg) }}" alt="image {{plat.nomP}}">
                         <h5 class="nom">{{ plat.nomP }}</h5>
@@ -35,7 +35,7 @@
                 </article>
                 <article class="btn_prix">
                     {% if current_user.is_authenticated %}
-                        <form action="{{ url_for('ajouter_plat', idP=plat.idP) }}" method="post">
+                        <form action="{{ url_for('ajouter_plat', id_p=plat.idP) }}" method="post">
                             <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
                         </form>
                     {%else%}
@@ -45,6 +45,35 @@
                         </form>
                     {%endif%}
                     <p class="prix">{{ plat.prixP }} €</p>
+                </article>
+            </article>
+        {% endfor %}
+        {% for formule in formules %}
+            <article class="deux formule_article" data-id-tp="formule.idF">
+                <article class="info_plat">
+                    <img src="{{ url_for('static', filename=formule.cheminImg ) }}" alt="image {{formule.nomF}}">
+                    <h5 class="nom">{{ formule.nomF }}</h5>
+                    <div class="composition_formule">
+                        <p style="padding-top: 1.2em;"><strong>Composition :</strong></p>
+                        {% for plat, quantite in formule.details_plats %}
+                            <div>
+                                <p>{{ plat.nomP }} (x{{ quantite }})</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+                <article class="btn_prix">
+                    {% if current_user.is_authenticated %}
+                        <form action="{{ url_for('ajouter_formule', id_f=formule.idF) }}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                        </form>
+                    {%else%}
+                        <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
+                            <input type="hidden" name="next" value="menu">
+                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                        </form>
+                    {%endif%}
+                    <p class="prix">{{ formule.prixF }} €</p>
                 </article>
             </article>
         {% endfor %}

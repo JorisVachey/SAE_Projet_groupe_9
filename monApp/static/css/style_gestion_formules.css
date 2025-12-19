@@ -46,7 +46,7 @@ h1,h3,.trait-horizontal{
 }
 
 .table-container table th {
-    background-color: var(--btn); 
+    background-color: var(--btn);
     font-weight: bold;
     text-align: center;
     padding: 12px 15px;
@@ -59,7 +59,7 @@ h1,h3,.trait-horizontal{
 
 .table-container table td {
     padding: 12px 15px;
-    text-align: left; 
+    text-align: left;
     text-align: center
 }
 
@@ -130,15 +130,15 @@ h1,h3,.trait-horizontal{
 }
 
 #pop-up-ajout.open, #pop-up-modif-prix.open{
-    display: flex !important; 
+    display: flex !important;
     padding: 10px;
 
 }
 
 .champs{
     display: flex;
-    flex-direction: column;   
-    width: 100%; 
+    flex-direction: column;
+    width: 100%;
 }
 .champs input[type="text"], .champs input[type="number"]{
     margin-bottom: 1em;
@@ -165,7 +165,7 @@ h1,h3,.trait-horizontal{
     cursor: pointer;
     font-weight: bold;
     background-color: var(--btn);
-    list-style: none; 
+    list-style: none;
 }
 
 .type-section summary::-webkit-details-marker {
@@ -173,7 +173,7 @@ h1,h3,.trait-horizontal{
 }
 
 .type-section summary::after {
-    content: '+'; 
+    content: '+';
     float: right;
     font-weight: bold;
 }

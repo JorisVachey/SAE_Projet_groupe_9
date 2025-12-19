@@ -46,7 +46,7 @@
 .liste_aliment {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; 
+    align-items: flex-start;
 }
 
 .nav_type_plat {
@@ -105,7 +105,7 @@
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
     height: auto;
-    max-height: 28em;
+    max-height: 30em;
     justify-content: space-between;
     position: relative;
 }
@@ -190,7 +190,6 @@
         width: 100%;
         padding: 1em;
         overflow-x: auto;
-        
     }
 
     .nav_type_plat button {

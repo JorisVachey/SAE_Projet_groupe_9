@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap5 import Bootstrap
-from flask_mail import Mail,Message
+from flask_mail import Mail
 #from flask_login import LoginManager
-app=Flask(__name__)
+app = Flask(__name__)
 # mise en place de la configuration avec config.py
 app.config.from_object('config')
 # Creation de la base pour le moment pas initialiser
@@ -14,12 +14,12 @@ Bootstrap(app)
 #initialisation mail
 mail = Mail(app)
 
-
 from flask_login import LoginManager
 from monApp.models import User
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 
 @login_manager.user_loader
 def load_user(user_id):

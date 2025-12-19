@@ -4,3 +4,4 @@ monApp/__pycache__
 .coverage
 .env
 *.pdf
+*.google

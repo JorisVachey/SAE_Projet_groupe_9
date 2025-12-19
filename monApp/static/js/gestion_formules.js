@@ -74,7 +74,7 @@ function modif_prix() {
 
     const idFormule = ligneSelectionnee.dataset.idFormule;
     const nomFormule = ligneSelectionnee.dataset.nomFormule;
-    
+
     document.getElementById('modif-id-formule').value = idFormule;
     document.getElementById('modif-nomF').value = nomFormule;
     document.getElementById('modif-prix').value = "";
@@ -163,8 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
 
             const formData = new FormData(form);
-            
-            // Check if at least one dish is selected
             const plats = formData.getAll('plats');
             if (plats.length === 0) {
                 alert("Veuillez sélectionner au moins un plat.");

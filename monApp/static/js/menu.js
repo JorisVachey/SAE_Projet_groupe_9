@@ -1,11 +1,18 @@
 typePlatChoisi = null;
 
 function StockEpuise(article) {
-    const stock = parseInt(article.querySelector(".stock").value, 10);
-    console.log(stock)
+    const stockInput = article.querySelector(".stock");
+
+    if (!stockInput) {
+        return false;
+    }
+
+    const stock = parseInt(stockInput.value, 10);
+
     if (stock === 0) {
         return true;
     }
+    return false;
 }
 
 const articles = document.querySelectorAll(".deux");
@@ -20,11 +27,27 @@ articles.forEach(article => {
 const btnPlatChoisi = document.querySelectorAll(".choix_type_plat");
 btnPlatChoisi.forEach(btn => {
     btn.addEventListener("click", () => {
-        typePlatChoisi = parseInt(btn.dataset.id);
+        const dataId = btn.dataset.id;
+        if (dataId === "formules") {
+            typePlatChoisi = dataId;
+        } else {
+            typePlatChoisi = parseInt(dataId, 10);
+        }
+
         const articles = document.querySelectorAll(".deux");
         articles.forEach(article => {
-            const idPlat = parseInt(article.dataset.idTp);
-            const estPlatChoisi = (idPlat === typePlatChoisi);
+            const idPlat = article.dataset.idTp;
+            let estPlatChoisi;
+
+            if (typePlatChoisi === "formules") {
+                estPlatChoisi = article.classList.contains("formule_article");
+            } else {
+                let identifiantTexte = idPlat;
+                let identifiantNombre = parseInt(identifiantTexte, 10);
+                let resultatComparaison = (identifiantNombre === typePlatChoisi);
+                estPlatChoisi = resultatComparaison;
+            }
+            
             let affichage;
             if (estPlatChoisi) {
                 affichage = "flex";
@@ -48,7 +71,6 @@ btnPlatChoisi.forEach(btn => {
 });
 
 
-
 const btnTrierPrix = document.getElementById("triPrix");
 btnTrierPrix.addEventListener("click", () => {
     const container = document.querySelector(".derouler");
@@ -65,7 +87,6 @@ btnTrierPrix.addEventListener("click", () => {
 
 const btnTrierNom = document.getElementById("triNom");
 btnTrierNom.addEventListener("click", () => {
-    
     const container = document.querySelector(".derouler");
     const lstArticles = Array.from(container.querySelectorAll(".deux"));
     lstArticles.sort((a, b) => {
@@ -83,7 +104,6 @@ btnTrierNom.addEventListener("click", () => {
     });
     lstArticles.forEach(article => container.appendChild(article));
 });
-
 
 
 const btnToutPlat = document.getElementById("tout");
@@ -111,10 +131,17 @@ function effectuerRecherche() {
     const articles = document.querySelectorAll(".deux");
     articles.forEach(article => {
         const nomPlat = article.querySelector("h5").textContent.toLowerCase();
-        const idTp = parseInt(article.dataset.idTp);
+        const idTp = article.dataset.idTp;
+        let estSelectionne = true;
+        if (typePlatChoisi !== null) {
+            if (typePlatChoisi === "formules") {
+                estSelectionne = article.classList.contains("formule_article");
+            } else {
+                estSelectionne = (parseInt(idTp, 10) === typePlatChoisi);
+            }
+        }
         let affichage;
-        if ((typePlatChoisi === null || typePlatChoisi === idTp) &&
-            nomPlat.includes(valRecherche)) {
+        if (estSelectionne && nomPlat.includes(valRecherche)) {
             affichage = "flex";
         } else {
             affichage = "none";
@@ -131,7 +158,7 @@ function effectuerRecherche() {
 const btnRechercher = document.getElementById("recherche_bouton");
 const inputRecherche = document.getElementById("recherche_bare");
 
-btnRechercher.addEventListener("click", () => {
+btnRechercher.addEventListener("click", (e) => {
     e.preventDefault();
     effectuerRecherche();
     inputRecherche.blur();
