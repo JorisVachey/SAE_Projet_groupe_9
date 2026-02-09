@@ -39,6 +39,12 @@
   justify-content:center;
 }
 
+.mb-4{
+  color: var(--text-gris);
+  text-decoration: none;
+
+}
+
 .card-register{
   width:100%;
   max-width:520px;

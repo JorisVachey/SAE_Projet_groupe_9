@@ -1,0 +1,16 @@
+.chartre{
+    color: var(--text-gris);
+    margin-top: 6em;
+}
+
+.retour_connexion{
+    background-color: var(--btn);
+    border-radius: 10px;
+    color: var(--blanc);
+    border: 1px solid var(--gris);
+    padding: 0.2em 0.3em;
+    margin: 0.6em;
+    text-decoration: none;
+    color: white;
+    border: solid 1px var(--noir-blanc);
+}
