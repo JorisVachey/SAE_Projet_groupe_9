@@ -223,6 +223,9 @@ def inscription():
             return redirect(url_for("connection"))
     return render_template("inscription.html", form=inscription_form)
 
+@app.route("/chartre/")
+def chartre():
+    return render_template("chartre.html")
 
 def nb_couvert_jour(date):
     couverts_journalier = 0

@@ -29,6 +29,12 @@
                         {{ form.password(class="form-control input-field", placeholder="Mot de passe") }}
                     </div>
 
+                    <div class= "mb-4">
+                        <h5>Charte de confidentialité</h5>
+                        <input type="checkbox"/>
+                        <a href="{{url_for('chartre') }}">Détail</a>
+                    </div>
+
                     <div class="d-grid mt-4">
                         <input type="submit" value="S'inscrire" class="btn btn-register">
                     </div>
