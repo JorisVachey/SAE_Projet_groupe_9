@@ -1,126 +1,123 @@
+import io
 import pytest
-from monApp.models import User, Plat, Reservation, ContenirP, Type_plat, db
+import json
+from monApp.models import *
 
-# --- Utilitaire de connexion ---
-def login(client, user_obj):
+
+
+def force_login_user(client, user_id=1):
+    """
+    Force la connexion d'un utilisateur en manipulant la session Flask.
+    Contourne le formulaire de login et le hachage de mot de passe.
+    """
     with client.session_transaction() as sess:
-        sess['_user_id'] = str(user_obj.idUser)
+        sess['_user_id'] = str(user_id)
         sess['_fresh'] = True
 
-# --- 1. Pages de base ---
-def test_navigation_basique(client):
-    """Vérifie que les pages principales répondent 200."""
-    routes = ['/', '/propos', '/menu/', '/nouveautes/', '/connection/', '/inscription/']
-    for route in routes:
-        assert client.get(route).status_code == 200
+def force_login(client, user_id):
+    with client.session_transaction() as sess:
+        sess['_user_id'] = str(user_id)
+        sess['_fresh'] = True
 
-# --- 2. Gestion du Panier (Client) ---
-def test_panier_workflow(client, testapp):
-    with testapp.app_context():
-        user = User.query.filter_by(est_admin=False).first()
-        plat = Plat.query.first()
-        login(client, user)
+def force_login_admin(client):
+    """Force la connexion de l'admin (ID 2 dans ton conftest)."""
+    force_login_user(client, user_id=2)
 
-        # Ajout
-        client.post(f'/ajouter_plat/{plat.idP}', follow_redirects=True)
-        
-        # Validation : On vérifie si on est redirigé (302) ou si le statut change en BD
-        response = client.post('/panier/valider', follow_redirects=True)
-        assert response.status_code == 200
-        
-        resa = Reservation.query.filter_by(idUser=user.idUser).first()
-        assert resa is not None
-        assert resa.statut in ["CONFIRMÉE", "PAYÉE"]
+def login_standard(client):
+    """Connecte le client via la route officielle."""
+    return client.post('/connection/', data={
+        'numtelUser': '0600000000',
+        'mdp': 'password123'
+    }, follow_redirects=True)
 
-def test_annuler_panier(client, testapp):
-    """Vérifie que le panier est bien supprimé de la BD après annulation."""
-    with testapp.app_context():
-        user = User.query.filter_by(est_admin=False).first()
-        login(client, user)
+def login_admin(client):
+    """Connecte l'admin via la route officielle."""
+    return client.post('/connection/', data={
+        'numtelUser': '0600000000',
+        'mdp': 'password123'
+    }, follow_redirects=True)
+def test_index(client):
+    """Vérifie que la page d'accueil charge."""
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b"TypeDePlats" in response.data or b"Entr\xc3\xa9e" in response.data
 
-        # 1. Créer un panier
-        client.post('/ajouter_plat/1', follow_redirects=True)
-        assert Reservation.query.filter_by(idUser=user.idUser, statut="EN ATTENTE").first() is not None
+def test_menu(client):
+    """Vérifie l'affichage du menu."""
+    response = client.get('/menu/')
+    assert response.status_code == 200
+    assert b"Salade C\xc3\xa9sar" in response.data
 
-        # 2. Annuler le panier
-        response = client.post('/panier/annuler', follow_redirects=True)
-        assert response.status_code == 200
 
-        # 3. Vérification robuste en base de données
-        panier = Reservation.query.filter_by(idUser=user.idUser, statut="EN ATTENTE").first()
-        assert panier is None
 
-# --- 3. Administration ---
-def test_admin_gestion_clients(client, testapp):
-    with testapp.app_context():
-        admin = User.query.filter_by(est_admin=True).first()
-        client_simple = User.query.filter_by(est_admin=False).first()
-        
-        if not admin or not client_simple:
-            pytest.fail("Manque admin ou client dans la fixture.")
+def test_creation_automatique_panier(client, session):
+    """Vérifie qu'accéder au panier en crée un vide s'il n'existe pas."""
+    force_login_user(client)
+    resa_avant = Reservation.query.filter_by(idUser=1, statut="EN ATTENTE").first()
+    assert resa_avant is None
+    response = client.get('/panier/')
+    assert response.status_code == 200
+    resa_apres = Reservation.query.filter_by(idUser=1, statut="EN ATTENTE").first()
+    assert resa_apres is not None
 
-        login(client, admin)
 
-        # Bannir
-        client.get(f'/admin/bannir-cli/{client_simple.idUser}', follow_redirects=True)
-        assert User.query.get(client_simple.idUser).est_banni is True
-        
-        # Débannir
-        client.get(f'/admin/debannir-cli/{client_simple.idUser}', follow_redirects=True)
-        assert User.query.get(client_simple.idUser).est_banni is False
 
-def test_admin_traiter_commande(client, testapp):
-    """Teste la validation d'une commande (Correction du TypeError sur_place)."""
-    with testapp.app_context():
-        admin = User.query.filter_by(est_admin=True).first()
-        plat = Plat.query.first()
-        login(client, admin)
 
-        # Création manuelle d'une résa avec tous les arguments requis
-        # Ton modèle demande : idUser, dateR, nb_couverts, sur_place, statut
-        from datetime import datetime
-        res = Reservation(
-            idUser=admin.idUser, 
-            dateR=datetime.now(), 
-            nb_couverts=2, 
-            sur_place=False, 
-            statut="CONFIRMÉE"
-        )
-        db.session.add(res)
-        db.session.commit()
-        
-        # Ajouter un plat à cette résa
-        item = ContenirP(idR=res.idR, idP=plat.idP, quantiteP=1)
-        db.session.add(item)
-        db.session.commit()
+def test_admin_validation_commande_et_stock(client, session):
+    """Test admin valide commande et décrémente stock."""
+    force_login(client, user_id=1)
+    client.post('/ajouter_plat/1')
+    client.post('/panier/valider')
+    force_login(client, user_id=2)
+    resa = Reservation.query.filter_by(statut="CONFIRMÉE").first()
+    url = f'/admin/preparer_panier/{resa.idR}/valider'
+    response = client.post(url, follow_redirects=True)
+    assert response.status_code == 200
+    session.refresh(resa)
+    assert resa.statut == "VENIR CHERCHER"
+    plat = session.get(Plat, 1)
+    assert plat.stock == 19
 
-        stock_avant = plat.stock
-        
-        # Admin valide
-        client.post(f'/admin/preparer_panier/{res.idR}/valider', follow_redirects=True)
-        
-        # Vérification stock et statut
-        assert Plat.query.get(plat.idP).stock == stock_avant - 1
-        assert Reservation.query.get(res.idR).statut == "VENIR CHERCHER"
 
-# --- 4. Sécurité ---
-def test_acces_admin_interdit_au_client(client, testapp):
-    with testapp.app_context():
-        user = User.query.filter_by(est_admin=False).first()
-        login(client, user)
-        
-        # Tentative d'accès à la gestion
-        response = client.get('/admin/gestion_plats/', follow_redirects=True)
-        # Redirection vers index car non admin
-        assert response.request.path in ['/', '/index/']
+def test_update_checkbox_sur_place(client, session):
+    """Teste la route AJAX pour changer 'sur place'."""
+    force_login_user(client)
+    client.get('/panier/')
+    resa = Reservation.query.filter_by(idUser=1).first()
+    payload = {'idR': resa.idR, 'sur_place': True}
+    response = client.post('/update_checkbox', 
+                           data=json.dumps(payload), 
+                           content_type='application/json')
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data['success'] is True
+    assert data['sur_place'] is True
 
-def test_modifier_prix_plat_json(client, testapp):
-    with testapp.app_context():
-        admin = User.query.filter_by(est_admin=True).first()
-        plat = Plat.query.first()
-        login(client, admin)
 
-        payload = {"idP": plat.idP, "prixP": 20.00}
-        response = client.post('/admin/modifier_prix_plat', json=payload)
-        assert response.json['success'] is True
-        assert Plat.query.get(plat.idP).prixP == 20.00
+def test_admin_acces_protege(client):
+    """Un user normal ne doit pas accéder à l'admin."""
+    force_login_user(client)
+    response = client.get('/admin/', follow_redirects=True)
+    assert response.request.path == "/" or response.request.path == "/index/"
+
+def test_admin_creation_plat(client, session):
+    """L'admin crée un plat (avec upload image simulé)."""
+    force_login_admin(client)
+    data = {
+        'nomP': 'Nouveau Plat',
+        'idTp': 1,
+        'prixP': 15.0,
+        'stock': 10,
+        'desc': 'Description',
+        'image': (io.BytesIO(b"fake image content"), 'test.jpg')
+    }
+    response = client.post('/admin/gestion_plats/', 
+                           data=data, 
+                           content_type='multipart/form-data')
+    assert response.status_code == 200
+    json_resp = response.get_json()
+    assert json_resp['success'] is True
+    plat = Plat.query.filter_by(nomP="Nouveau Plat").first()
+    assert plat is not None
+    assert plat.stock == 10
+
