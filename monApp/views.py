@@ -364,17 +364,32 @@ def modifier_quantite_plat(id_p, action):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if action == "ajouter":
-        nouvelle_quantite = item.quantiteP + 1
-        if nouvelle_quantite > plat.stock or nouvelle_quantite > plat.stockInit * variable_choix_com:
-            flash(f"Pas assez de stock pour '{plat.nomP}'", "error")
-            return redirect(url_for("voir_panier"))
-        item.quantiteP = nouvelle_quantite
-
-    elif action == "diminuer":
-        item.quantiteP -= 1
-        if item.quantiteP <= 0:
+    if action == "supprimer":
             db.session.delete(item)
+
+    elif action == "maj_directe":
+        try:
+            saisie = request.form.get('quantite')
+            if not saisie:
+                return redirect(url_for("voir_panier"))
+                
+            nouvelle_quantite = int(saisie)
+
+            limite_quota = int(plat.stockInit * variable_choix_com)
+            stock_reel_dispo = min(plat.stock, limite_quota)
+
+            if nouvelle_quantite <= 0:
+                db.session.delete(item)
+            
+            elif nouvelle_quantite > stock_reel_dispo:
+                flash(f"Stock limité à {stock_reel_dispo} pour ce plat.", "error")
+                item.quantiteP = stock_reel_dispo
+            
+            else:
+                item.quantiteP = nouvelle_quantite
+                
+        except (ValueError, TypeError):
+            pass
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
@@ -401,22 +416,36 @@ def modifier_quantite_formule(id_f, action):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if action == "ajouter":
-        nouvelle_quantite = item.quantiteF + 1
-        for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            qte_totale = nouvelle_quantite * c.quantiteC
-            if qte_totale > plat.stock or qte_totale > plat.stockInit * variable_choix_com:
-                flash(
-                    f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'",
-                    "error")
-                return redirect(url_for("voir_panier"))
-        item.quantiteF = nouvelle_quantite
+    if action == "supprimer":
+        db.session.delete(item)
 
-    elif action == "diminuer":
-        item.quantiteF -= 1
-        if item.quantiteF <= 0:
-            db.session.delete(item)
+    elif action == "maj_directe":
+        try:
+            saisie = request.form.get('quantite')
+            if not saisie:
+                return redirect(url_for("voir_panier"))
+                
+            nouvelle_quantite = int(saisie)
+            if nouvelle_quantite <= 0:
+                db.session.delete(item)
+            else:
+                max_possible = nouvelle_quantite 
+
+                for c in formule.plats:
+                    plat = Plat.query.get(c.idP)
+                    stock_autorise = min(plat.stock, plat.stockInit * variable_choix_com)
+                    formules_possibles_pour_ce_plat = int(stock_autorise // c.quantiteC)
+                    if formules_possibles_pour_ce_plat < max_possible:
+                        max_possible = formules_possibles_pour_ce_plat
+
+                if max_possible < nouvelle_quantite:
+                    flash(f"Stock limité. Quantité ajustée à {max_possible}.", "error")
+                    item.quantiteF = max_possible
+                else:
+                    item.quantiteF = nouvelle_quantite
+
+        except (ValueError, TypeError):
+            pass
 
     db.session.commit()
     return redirect(url_for("voir_panier"))

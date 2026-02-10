@@ -6,37 +6,66 @@
     margin-top: 9em;
 }
 
+h1 {
+    color: var(--text-gris);
+}
+
+h2,
+h3 {
+    color: var(--orange);
+}
+
+.trait-horizontal {
+    height: 0.125em;
+    width: 14em;
+    background-color: var(--text-gris);
+    margin-bottom: 0.5em;
+}
+
+
+.panier .total button {
+    background-color: var(--btn);
+    border-radius: 10px;
+    color: white;
+    border: 1px solid black;
+    padding: 0.2em 1.2em;
+}
+
 .panier {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
-    gap: 3em;
-    margin-top: 2em;
-    padding: 0 3em;
+    gap: 5em;
+    margin: 2em 0 4em 0;
+    padding: 0 10em;
+}
+
+.panier h2 {
+    margin-bottom: 1em;
 }
 
 .panier .liste_plats {
     flex-basis: 65%;
-    background-color: white;
+    background-color: var(--header);
     border-radius: 0.6em;
-    box-shadow: 0px 0px 4px 0 black;
+    box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
+    height: 39em;
+    overflow-y: auto;
     padding: 1.5em;
+    text-align: center;
 }
 
 .panier .liste_plats article {
     display: flex;
     align-items: center;
     padding: 1em 0.5em;
+    margin-bottom: 1em;
+    box-shadow: 0px 0px 4px black;
 }
 
 .panier .liste_plats article div:first-of-type{
-    width: 40%;
-    margin-left: 3em;
-}
-
-.panier .liste_plats article:not(:last-child) {
-    border-bottom: rgb(116, 115, 115) 0.08em solid;
+    width: 35%;
 }
 
 .panier .liste_plats article>img {
@@ -61,7 +90,37 @@
 .panier .recapitulatif .total,
 .panier .recapitulatif .parametre {
     text-align: center;
-    background-color: white;
+    background-color: var(--header);
     border-radius: 0.6em;
-    box-shadow: 0px 0px 4px 0 black;
+    box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
+    padding: 2em 0;
+}
+
+.panier .corbeille {
+    text-align: right;
+    flex-grow: 1;
+}
+
+.panier .nombre {
+    flex-basis: 30%;
+    width: 100%;
+}
+
+.form-quantite {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.input-style-panier {
+    width: 60px;
+    height: 40px;
+    border: 1px solid #ccc;
+    text-align: center;
+    outline: none;
+}
+
+.input-style-panier::-webkit-inner-spin-button,
+.input-style-panier::-webkit-outer-spin-button {
+    opacity: 1;
 }
