@@ -20,8 +20,6 @@ def admin_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Vérifie si le user est connecté
-        print(current_user)
         if not current_user.is_authenticated:
             flash("Veuillez vous connecter pour accéder à cette page.",
                   "warning")
@@ -575,7 +573,7 @@ def preparer_panier(id_r, action):
                 flash(
                     f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
                     "error")
-                return redirect(url_for("voir_panier"))
+                return redirect(url_for("voir_comm"))
         for id_p, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(id_p)
             plat.stock -= quantite_totale
