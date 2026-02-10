@@ -23,4 +23,4 @@ MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER")
 #basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = (
-    f"mariadb+mariadbconnector://{user}:{password}@{host}/{database}")
+    f"mysql+pymysql://{user}:{password}@{host}:{os.getenv('DB_PORT', 3306)}/{database}")
