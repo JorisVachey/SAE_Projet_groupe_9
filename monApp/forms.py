@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Length, Regexp
+from wtforms.validators import DataRequired, Length, Regexp,ValidationError
 from .models import User
 from hashlib import sha256
 
@@ -22,11 +22,8 @@ class RegisterForm(FlaskForm):
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
+
     def get_registered_user(self):
-        user = User.query.get(self.numtel.data)
-        if user:
-            print('Utilisateur inexistant')
-            return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()

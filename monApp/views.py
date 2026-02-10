@@ -214,13 +214,26 @@ def deconnection():
 ))
 def inscription():
     inscription_form = RegisterForm()
-    new_user = None
+
     if inscription_form.validate_on_submit():
+        numtel_saisi = inscription_form.numtel.data
+        user_existant = User.query.filter_by(numtelUser=numtel_saisi).first()
+
+        if user_existant:
+            return render_template("inscription.html", 
+                                   form=inscription_form, 
+                                   erreur_js="Ce numéro de téléphone est déjà utilisé !")
         new_user = inscription_form.get_registered_user()
         if new_user:
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for("connection"))
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for("connection"))
+            except Exception as e:
+                db.session.rollback()
+                return render_template("inscription.html", 
+                                       form=inscription_form, 
+                                       erreur_js="Une erreur est survenue lors de l'enregistrement.")
     return render_template("inscription.html", form=inscription_form)
 
 @app.route("/chartre/")
