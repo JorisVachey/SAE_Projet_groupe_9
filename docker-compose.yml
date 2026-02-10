@@ -3,11 +3,12 @@ services:
   db:
     image: mariadb:latest
     restart: always
+    container_name: db
     env_file:
       - .env
     environment:
-      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD}
-      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: db
       MARIADB_USER: ${DB_USER}
       MARIADB_PASSWORD: ${DB_PASSWORD}
     volumes:
@@ -26,8 +27,17 @@ services:
     env_file:
       - .env
     environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_NAME: db
+      DB_PORT: 3306
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
       FLASK_APP: monApp.app:app
       FLASK_ENV: production
+    
 
 
 volumes:

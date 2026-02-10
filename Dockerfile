@@ -1,7 +1,6 @@
-
 FROM python:3.13
 
-# Definition du workspace
+# Définition du workspace
 WORKDIR /app
 
 # Mise à jour de pip
@@ -14,8 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copie du code source
 COPY . .
 
+# Copie du script entrypoint et le rendre exécutable
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # Exposition du port utilisé par Flask
 EXPOSE 5000
 
-# Script d'entrée pour initialiser la BD puis démarrer l'app
-CMD ["sh", "-c", "python init_db.py && gunicorn --bind 0.0.0.0:5000 --timeout 120 monApp.app:app"]
+# Utilisation du script comme point d'entrée
+CMD ["/app/entrypoint.sh"]
