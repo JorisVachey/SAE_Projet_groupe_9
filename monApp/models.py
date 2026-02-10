@@ -200,7 +200,7 @@ class Plat(db.Model):
     stock = db.Column(db.Integer)
     stockInit = db.Column(db.Integer)
     cheminImg = db.Column(db.String(50))
-    descriptionP = db.Column(db.String(50))
+    descriptionP = db.Column(db.String(500))
 
     compositions = db.relationship("Composer",
                                    backref="plat",

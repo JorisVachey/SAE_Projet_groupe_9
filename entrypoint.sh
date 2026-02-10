@@ -45,6 +45,15 @@ with app.app_context():
 END
 echo "✅ Tables prêtes"
 
+if [ ! -f "/app/.loaddb_done" ]; then
+    echo "⚙️  Chargement des données initiales via Flask CLI..."
+    export FLASK_APP=monApp.app
+    flask loaddb
+    touch /app/.loaddb_done
+    echo "✅ Données initiales chargées"
+else
+    echo "ℹ️  Données déjà chargées, skip loaddb"
+fi
 # Lancer Gunicorn
 echo "🚀 Démarrage de l'application Flask..."
 exec gunicorn --bind 0.0.0.0:5000 --timeout 120 monApp.app:app
