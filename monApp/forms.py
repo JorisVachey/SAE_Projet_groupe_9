@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Length, Regexp
+from wtforms.validators import DataRequired, Length, Regexp,ValidationError
 from .models import User
 from hashlib import sha256
 
@@ -22,11 +22,13 @@ class RegisterForm(FlaskForm):
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
-    def get_registered_user(self):
-        user = User.query.get(self.numtel.data)
+    def validate_numtel(self, numtel):
+        """Vérifie si le numéro existe déjà avant même de valider le formulaire"""
+        user = User.query.filter_by(numtelUser=numtel.data).first()
         if user:
-            print('Utilisateur inexistant')
-            return None
+            raise ValidationError("Ce numéro de téléphone est déjà inscrit.")
+
+    def get_registered_user(self):
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
