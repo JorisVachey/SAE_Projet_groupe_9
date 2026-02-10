@@ -45,4 +45,9 @@
         </div>
     </div>
 </div>
+{% if erreur_js %}
+<script>
+    alert("{{ erreur_js }}");
+</script>
+{% endif %}
 {% endblock %}

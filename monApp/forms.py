@@ -22,11 +22,6 @@ class RegisterForm(FlaskForm):
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
-    def validate_numtel(self, numtel):
-        """Vérifie si le numéro existe déjà avant même de valider le formulaire"""
-        user = User.query.filter_by(numtelUser=numtel.data).first()
-        if user:
-            raise ValidationError("Ce numéro de téléphone est déjà inscrit.")
 
     def get_registered_user(self):
         m = sha256()
