@@ -102,6 +102,7 @@
                         <button type="submit" class="btn btn-primary" {% if panier.get_total() == 0 %} disabled {% endif %}>Valider le panier</button>
                     </form>
                 </article>
+                <img class="feuille" src="{{ url_for('static', filename='img/feuille.png') }}" alt="">
             </section>
         </section>
     </section>

@@ -124,3 +124,9 @@ h3 {
 .input-style-panier::-webkit-outer-spin-button {
     opacity: 1;
 }
+
+.panier .feuille {
+    width: 10em;
+    height: auto;
+    margin-left: auto;
+}
