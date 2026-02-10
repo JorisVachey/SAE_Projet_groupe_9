@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Regexp
 from .models import User
 from hashlib import sha256
 
@@ -16,7 +16,9 @@ class RegisterForm(FlaskForm):
     """
     numtel = StringField('Numéro de téléphone',
                          validators=[DataRequired(),
-                                     Length(max=10)])
+                                     Length(max=10), Length(min=10),
+                                     Regexp(r'^\d+$', message="Le numéro ne doit contenir que des chiffres.")
+                                     ])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
