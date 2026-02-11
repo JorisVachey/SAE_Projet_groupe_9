@@ -1,0 +1,44 @@
+
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    container_name: db
+    env_file:
+      - .env
+    environment:
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: db
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    container_name: site_sushi
+    restart: always
+    ports:
+      - "8080:5000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      DB_USER: root
+      DB_PASSWORD: ${ROOT_PASSWORD}
+      DB_HOST: db
+      DB_NAME: db
+      DB_PORT: 3306
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
+      FLASK_APP: monApp.app:app
+      FLASK_ENV: production
+    
+
+
+volumes:
+  mariadb_data:
