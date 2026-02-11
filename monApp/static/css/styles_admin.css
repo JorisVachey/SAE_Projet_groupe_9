@@ -18,6 +18,7 @@ a {
 .block h1,
 .block h3{
     color: var(--text-gris);
+    margin-bottom: 0;
 }
 
 .block .trait-horizontal {
@@ -41,7 +42,7 @@ a {
     max-height: 50%;
     position: absolute;
     overflow: hidden;
-    top: 10%;
+    top: 4em;
     right: 0%;
 }
 
@@ -152,7 +153,12 @@ a {
 .block .boutons_vert {
     border-radius: 0.4em;
     background-color: var(--btn);
-    color: var(--noir);
+    color: white;
+    border: 0.1em black solid;
+}
+
+.block .boutons_vert a {
+    color: white;
 }
 
 .block .boutons_gris {

@@ -140,7 +140,7 @@ def contact():
         email = request.form["email"]
         message = request.form["message"]
         msg = Message(
-            subject=f"Nouveau message de {email or "anonyme"}",
+            subject=f"Nouveau message de {email or 'anonyme'}",
             sender=app.config[
                 "MAIL_DEFAULT_SENDER"],
                 # fonctionne car on s'envoie le mail a nous meme
