@@ -174,5 +174,19 @@ def newuser(num_tel, pseudonyme, pwd, admin, banni):
     create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
     lg.warning("User %s created! (Admin: %s)", num_tel, admin)
 
+app.cli.add_command(newuser)
 
+@app.cli.command()
+@with_appcontext
+def init_db():
+    """Créer toutes les tables."""
+    db.create_all()
+    lg.warning("Tables creer avec succès")
+app.cli.add_command(newuser)
+@app.cli.command()
+@with_appcontext
+def drop_db():
+    """Supprime toutes les tables"""
+    db.drop_all()
+    lg.warning("Tables supprimer")
 app.cli.add_command(newuser)

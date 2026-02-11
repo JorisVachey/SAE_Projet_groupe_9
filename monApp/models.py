@@ -169,7 +169,7 @@ class Type_plat(db.Model):
 
     idTp = db.Column(db.Integer, primary_key=True)
     nomTp = db.Column(db.String(50))
-    descriptionTp = db.Column(db.String(50))
+    descriptionTp = db.Column(db.String(200))
     cheminImg = db.Column(db.String(50))
 
     def __init__(self, idTp, nomTp, descriptionTp, cheminImg):

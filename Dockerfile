@@ -1,4 +1,4 @@
-FROM python:3.13
+FROM python:3.12
 
 # Définition du workspace
 WORKDIR /app
@@ -12,13 +12,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copie du code source
 COPY . .
-
-# Copie du script entrypoint et le rendre exécutable
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x initdb.sh
 
 # Exposition du port utilisé par Flask
 EXPOSE 5000
 
 # Utilisation du script comme point d'entrée
-CMD ["/app/entrypoint.sh"]
+CMD ["flask","run","--host=0.0.0.0"]

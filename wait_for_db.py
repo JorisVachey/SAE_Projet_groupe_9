@@ -8,7 +8,7 @@ password = os.getenv("DB_PASSWORD")
 database = os.getenv("DB_NAME")
 port = int(os.getenv("DB_PORT", 3306))
 
-print("⏳ Attente de MariaDB...")
+print(" en attente de MariaDB...")
 
 while True:
     try:
@@ -22,7 +22,7 @@ while True:
         )
         conn.close()
         print("MariaDB est prêt !")
-        break
+        
 
     except pymysql.MySQLError:
         print("MariaDB pas encore prêt")
