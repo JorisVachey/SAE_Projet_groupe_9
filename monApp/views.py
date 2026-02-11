@@ -529,16 +529,22 @@ def update_checkbox():
 @app.route("/admin/update_statut_preparation", methods=["POST"])
 def update_statut_preparation():
     """
-    Passe le statut de la commande à 'EN PREPARATION'
-    dès qu'une case est cochée.
+    Passe le statut de la commande à 'EN PRÉPARATION' ou 'PRÊTE'
+    selon si toutes les cases sont cochées.
     """
     data = request.get_json()
     id_r = data.get("idR")
+    all_checked = data.get("allChecked", False)
 
     reservation = Reservation.query.get(id_r)
     if not reservation:
         return jsonify({"success": False, "error": "Commande introuvable"}), 404
-    reservation.statut = "EN PRÉPARATION"
+    
+    if all_checked:
+        reservation.statut = "PRÊTE"
+    else:
+        reservation.statut = "EN PRÉPARATION"
+    
     db.session.commit()
     return jsonify({"success": True, "statut": reservation.statut})
 
@@ -903,12 +909,12 @@ def voir_comm():
     return render_template("commandes.html", commandes=commandes)
 
 
-@app.route("/admin/hitorique/")
+@app.route("/admin/historique/")
 @admin_required
 def historique():
     commandes = Reservation.query.filter(
-        Reservation.statut.not_in_(["REFUSÉE","RÉCUPÉRÉE"])).all()
-    return render_template("commandes.html", commandes=commandes)
+        Reservation.statut.in_(["RÉCUPÉRÉE"])).all()
+    return render_template("historique.html", commandes=commandes)
 
 
 @app.route("/admin/gestion_compte/", methods=(
