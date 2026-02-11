@@ -553,7 +553,18 @@ def valider_panier():
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser,
                                          statut="PANIER").first()
-    panier.statut = "EN ATTENTE"
+    besoins_stock = getbesoin(panier)
+    for id_p, quantite_totale in besoins_stock.items():
+        plat = Plat.query.get(id_p)
+        if plat.stock < quantite_totale:
+            flash(
+                f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
+                "stock_insufisant")
+    for id_p, quantite_totale in besoins_stock.items():
+        plat = Plat.query.get(id_p)
+        plat.stock -= quantite_totale
+
+    panier.statut = "VALIDÉE"
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
@@ -585,31 +596,23 @@ def getbesoin(reservation):
 @app.route("/admin/preparer_panier/<int:id_r>/<action>", methods=["POST"])
 @login_required
 def preparer_panier(id_r, action):
-    """ -> quand l'admin prend en compte une commande 
-    Valide le panier et décrémente les stocks 
-    ou refuse et chage l'attribut
+    """ -> quand l'admin donne une commande au client,
+    Passe la commande en récupérée
+    ou opère un refus de commande et change l'attribut
     """
     reservation = Reservation.query.get(id_r)
 
     if not reservation:
         flash("Aucune réservation à traiter.", "error")
         return redirect(url_for("menu"))
-    if action == "valider":
+    if action=="récupérée":
+        reservation.statut = "RÉCUPÉRÉE"
+
+    if action == "supprimer":
         besoins_stock = getbesoin(reservation)
         for id_p, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(id_p)
-            if plat.stock < quantite_totale:
-                flash(
-                    f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
-                    "stock_insufisant")
-                return redirect(url_for("voir_comm"))
-        for id_p, quantite_totale in besoins_stock.items():
-            plat = Plat.query.get(id_p)
-            plat.stock -= quantite_totale
-
-        reservation.statut = "PRÊTE"
-
-    elif action == "supprimer":
+            plat.stock += quantite_totale
         reservation.statut = "REFUSÉE"
 
     db.session.commit()
@@ -636,8 +639,9 @@ def supprimer_panier():
 @login_required
 @app.route("/mesreservation/")
 def mes_reservations():
-    reservations = Reservation.query.filter_by(
-        idUser=current_user.idUser).order_by(Reservation.dateR.desc()).all()
+    reservations = Reservation.query.filter(
+        Reservation.idUser==current_user.idUser,
+        Reservation.statut!="PANIER").order_by(Reservation.dateR.desc()).all();
     return render_template("reservation.html",
                            user=current_user,
                            reservations=reservations)
@@ -895,7 +899,15 @@ def debannir_cli(client_id):
 @admin_required
 def voir_comm():
     commandes = Reservation.query.filter(
-        Reservation.statut.in_(["VALIDÉE", "EN ATTENTE", "EN PRÉPARATION", "PRÊTE"])).all()
+        Reservation.statut.in_(["VALIDÉE", "EN PRÉPARATION", "PRÊTE"])).all()
+    return render_template("commandes.html", commandes=commandes)
+
+
+@app.route("/admin/hitorique/")
+@admin_required
+def historique():
+    commandes = Reservation.query.filter(
+        Reservation.statut.not_in_(["REFUSÉE","RÉCUPÉRÉE"])).all()
     return render_template("commandes.html", commandes=commandes)
 
 
