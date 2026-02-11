@@ -20,8 +20,6 @@ def admin_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Vérifie si le user est connecté
-        print(current_user)
         if not current_user.is_authenticated:
             flash("Veuillez vous connecter pour accéder à cette page.",
                   "warning")
@@ -139,7 +137,7 @@ def contact():
         email = request.form["email"]
         message = request.form["message"]
         msg = Message(
-            subject=f"Nouveau message de {email or "anonyme"}",
+            subject=f"Nouveau message de {email or 'anonyme'}",
             sender=app.config[
                 "MAIL_DEFAULT_SENDER"],
                 # fonctionne car on s'envoie le mail a nous meme
@@ -214,13 +212,26 @@ def deconnection():
 ))
 def inscription():
     inscription_form = RegisterForm()
-    new_user = None
+
     if inscription_form.validate_on_submit():
+        numtel_saisi = inscription_form.numtel.data
+        user_existant = User.query.filter_by(numtelUser=numtel_saisi).first()
+
+        if user_existant:
+            return render_template("inscription.html", 
+                                   form=inscription_form, 
+                                   erreur_js="Ce numéro de téléphone est déjà utilisé !")
         new_user = inscription_form.get_registered_user()
         if new_user:
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for("connection"))
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for("connection"))
+            except Exception as e:
+                db.session.rollback()
+                return render_template("inscription.html", 
+                                       form=inscription_form, 
+                                       erreur_js="Une erreur est survenue lors de l'enregistrement.")
     return render_template("inscription.html", form=inscription_form)
 
 @app.route("/chartre/")
@@ -364,17 +375,32 @@ def modifier_quantite_plat(id_p, action):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if action == "ajouter":
-        nouvelle_quantite = item.quantiteP + 1
-        if nouvelle_quantite > plat.stock or nouvelle_quantite > plat.stockInit * variable_choix_com:
-            flash(f"Pas assez de stock pour '{plat.nomP}'", "error")
-            return redirect(url_for("voir_panier"))
-        item.quantiteP = nouvelle_quantite
-
-    elif action == "diminuer":
-        item.quantiteP -= 1
-        if item.quantiteP <= 0:
+    if action == "supprimer":
             db.session.delete(item)
+
+    elif action == "maj_directe":
+        try:
+            saisie = request.form.get('quantite')
+            if not saisie:
+                return redirect(url_for("voir_panier"))
+                
+            nouvelle_quantite = int(saisie)
+
+            limite_quota = int(plat.stockInit * variable_choix_com)
+            stock_reel_dispo = min(plat.stock, limite_quota)
+
+            if nouvelle_quantite <= 0:
+                db.session.delete(item)
+            
+            elif nouvelle_quantite > stock_reel_dispo:
+                flash(f"Stock limité à {stock_reel_dispo} pour ce plat.", "error")
+                item.quantiteP = stock_reel_dispo
+            
+            else:
+                item.quantiteP = nouvelle_quantite
+                
+        except (ValueError, TypeError):
+            pass
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
@@ -401,22 +427,36 @@ def modifier_quantite_formule(id_f, action):
     if not reservation.sur_place:
         variable_choix_com = 0.8
 
-    if action == "ajouter":
-        nouvelle_quantite = item.quantiteF + 1
-        for c in formule.plats:
-            plat = Plat.query.get(c.idP)
-            qte_totale = nouvelle_quantite * c.quantiteC
-            if qte_totale > plat.stock or qte_totale > plat.stockInit * variable_choix_com:
-                flash(
-                    f"Pas assez de stock pour le plat '{plat.nomP}' de la formule '{formule.nomF}'",
-                    "error")
-                return redirect(url_for("voir_panier"))
-        item.quantiteF = nouvelle_quantite
+    if action == "supprimer":
+        db.session.delete(item)
 
-    elif action == "diminuer":
-        item.quantiteF -= 1
-        if item.quantiteF <= 0:
-            db.session.delete(item)
+    elif action == "maj_directe":
+        try:
+            saisie = request.form.get('quantite')
+            if not saisie:
+                return redirect(url_for("voir_panier"))
+                
+            nouvelle_quantite = int(saisie)
+            if nouvelle_quantite <= 0:
+                db.session.delete(item)
+            else:
+                max_possible = nouvelle_quantite 
+
+                for c in formule.plats:
+                    plat = Plat.query.get(c.idP)
+                    stock_autorise = min(plat.stock, plat.stockInit * variable_choix_com)
+                    formules_possibles_pour_ce_plat = int(stock_autorise // c.quantiteC)
+                    if formules_possibles_pour_ce_plat < max_possible:
+                        max_possible = formules_possibles_pour_ce_plat
+
+                if max_possible < nouvelle_quantite:
+                    flash(f"Stock limité. Quantité ajustée à {max_possible}.", "error")
+                    item.quantiteF = max_possible
+                else:
+                    item.quantiteF = nouvelle_quantite
+
+        except (ValueError, TypeError):
+            pass
 
     db.session.commit()
     return redirect(url_for("voir_panier"))
@@ -562,7 +602,7 @@ def preparer_panier(id_r, action):
                 flash(
                     f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
                     "error")
-                return redirect(url_for("voir_panier"))
+                return redirect(url_for("voir_comm"))
         for id_p, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(id_p)
             plat.stock -= quantite_totale
