@@ -256,13 +256,13 @@ def get_or_create_panier(id_user):
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=id_user,
-                                         statut="EN ATTENTE").first()
+                                         statut="PANIER").first()
     if not panier:
         panier = Reservation(idUser=id_user,
                              dateR=datetime.now(),
                              nb_couverts=1,
                              sur_place=False,
-                             statut="EN ATTENTE")
+                             statut="PANIER")
         db.session.add(panier)
         print(datetime.now())
         db.session.commit()
@@ -360,7 +360,7 @@ def modifier_quantite_plat(id_p, action):
     """commande pour interagir avec les bouton + et - du panier
     """
     reservation = Reservation.query.filter_by(idUser=current_user.idUser,
-                                              statut="en attente").first()
+                                              statut="PANIER").first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
         return redirect(url_for("voir_panier"))
@@ -412,7 +412,7 @@ def modifier_quantite_formule(id_f, action):
     """commande pour interagir avec les bouton + et - du panier
     """
     reservation = Reservation.query.filter_by(idUser=current_user.idUser,
-                                              statut="en attente").first()
+                                              statut="PANIER").first()
     if not reservation:
         flash("Aucune réservation en cours.", "error")
         return redirect(url_for("voir_panier"))
@@ -552,8 +552,8 @@ def valider_panier():
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser,
-                                         statut="EN ATTENTE").first()
-    panier.statut = "CONFIRMÉE"
+                                         statut="PANIER").first()
+    panier.statut = "EN ATTENTE"
     db.session.commit()
     flash("Réservation validée !", "success")
     return redirect(url_for("mes_reservations"))
@@ -601,19 +601,19 @@ def preparer_panier(id_r, action):
             if plat.stock < quantite_totale:
                 flash(
                     f"Stock insuffisant pour {plat.nomP} (Demandé: {quantite_totale}, Dispo: {plat.stock}). Veuillez modifier votre panier.",
-                    "error")
+                    "stock_insufisant")
                 return redirect(url_for("voir_comm"))
         for id_p, quantite_totale in besoins_stock.items():
             plat = Plat.query.get(id_p)
             plat.stock -= quantite_totale
 
-        reservation.statut = "VENIR CHERCHER"
+        reservation.statut = "PRÊTE"
 
     elif action == "supprimer":
-        reservation.statut = "REFUSÉ"
+        reservation.statut = "REFUSÉE"
 
     db.session.commit()
-    flash("La commande a etais traité avec succès !", "success")
+    flash("La commande a été traité avec succès !", "success")
     return redirect(url_for("voir_comm"))
 
 
@@ -626,7 +626,7 @@ def supprimer_panier():
         _type_: _description_
     """
     panier = Reservation.query.filter_by(idUser=current_user.idUser,
-                                         statut="EN ATTENTE").first()
+                                         statut="PANIER").first()
     db.session.delete(panier)
     db.session.commit()
     flash("Réservation annulée !", "success")
@@ -895,7 +895,7 @@ def debannir_cli(client_id):
 @admin_required
 def voir_comm():
     commandes = Reservation.query.filter(
-        Reservation.statut.in_(["CONFIRMÉE", "EN PRÉPARATION"])).all()
+        Reservation.statut.in_(["VALIDÉE", "EN ATTENTE", "EN PRÉPARATION", "PRÊTE"])).all()
     return render_template("commandes.html", commandes=commandes)
 
 
