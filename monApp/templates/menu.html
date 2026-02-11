@@ -39,13 +39,13 @@
                             <button id = 'ban' >Ajouter au panier</button>
                         {% else %}
                             <form action="{{ url_for('ajouter_plat', id_p=plat.idP) }}" method="post">
-                                <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                                <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                             </form>
                         {%endif%}
                     {%else%}
                         <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
                             <input type="hidden" name="next" value="menu">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                            <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                         </form>
                     {%endif%}
                     <p class="prix">{{ plat.prixP }} €</p>
@@ -72,13 +72,13 @@
                             <button id = 'ban' >Ajouter au panier</button>
                         {%else%}
                             <form action="{{ url_for('ajouter_formule', id_f=formule.idF) }}" method="post">
-                                <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                                <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                             </form>
                         {% endif %}
                     {%else%}
                         <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
                             <input type="hidden" name="next" value="menu">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                            <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                         </form>
                     {%endif%}
                     <p class="prix">{{ formule.prixF }} €</p>
