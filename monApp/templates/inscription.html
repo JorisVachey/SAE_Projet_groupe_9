@@ -10,7 +10,6 @@
         <div class="card shadow-lg card-register">
             <div class="card-body p-4">
                 <h2 class="text-center mb-4">Inscription</h2>
-
                 <form method="POST" action="{{ url_for('inscription') }}">
                     {{ form.hidden_tag() }}
 
@@ -46,4 +45,9 @@
         </div>
     </div>
 </div>
+{% if erreur_js %}
+<script>
+    alert("{{ erreur_js }}");
+</script>
+{% endif %}
 {% endblock %}
