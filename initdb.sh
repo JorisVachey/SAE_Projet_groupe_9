@@ -1,0 +1,4 @@
+#!/bin/bash
+flask drop-db
+flask init-db
+flask loaddb

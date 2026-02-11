@@ -51,8 +51,9 @@
                     <a href="{{ url_for('contact') }}">Contact</a>
                     <a href="{{ url_for('nouveautes') }}">Nouveautés</a>
                     {% if current_user.is_authenticated %}
-
+                    {% if not current_user.est_banni %}
                     <li  class="btn-conn"><a class="navbar-brand btn_panier" href="{{ url_for('voir_panier') }}">Mon panier</a></li>
+                    {% endif %} 
                     <li  class="btn-conn"><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
                     <li><a href="" id="profil"><img src="{{url_for ('static', filename='img/accueil/profil.png')}}" alt="image profil"></a></li>
                 {% else %}
@@ -70,7 +71,6 @@
                         {% if current_user.is_authenticated %}
                             <p>Pseudo : {{ current_user.pseudonyme }}</p>
                             <p>Téléphone : {{ current_user.numtelUser }}</p>
-                            <p>Points de fidélités : {{ current_user.pts_fidelite }}</p>
                             <p>Banni : {{ current_user.est_banni }}</p>
                             <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
                         {% else %}

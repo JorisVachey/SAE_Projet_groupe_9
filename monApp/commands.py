@@ -37,8 +37,8 @@ def create_user(num_tel, pseudonyme, mdp, admin, est_bannie, pts_fidelite):
     """
     m = sha256()
     m.update(mdp.encode())
-    un_user = User(num_tel, pseudonyme, m.hexdigest(), est_bannie,
-                  pts_fidelite, admin)
+    un_user = User(num_tel, pseudonyme, m.hexdigest(), est_bannie, pts_fidelite,
+                   admin)
     db.session.add(un_user)
     db.session.commit()
     return un_user
@@ -68,8 +68,12 @@ def loaddb(file):
 
     click.echo("Insertion des utilisateurs...")
     for u in data.get("users", []):
-        create_user(u["numtelUser"], u["pseudonyme"], u["mdp"], u["est_banni"],
-                    u.get("pts_fidelite", 0), u.get("est_admin", False))
+        create_user(num_tel=u["numtelUser"],
+                    pseudonyme=u["pseudonyme"],
+                    mdp=u["mdp"],
+                    admin=u.get("est_admin", False),
+                    est_bannie=u.get("est_banni", False),
+                    pts_fidelite=u.get("pts_fidelite", 0))
 
     click.echo("Insertion des types de plats...")
     for t in data.get("type_plats", []):
@@ -85,7 +89,7 @@ def loaddb(file):
         plat = Plat(nomP=p["nomP"],
                     idTp=p["idTp"],
                     prixP=p["prixP"],
-                    stock=p["stock"],
+                    stockInit=p["stockInit"],
                     descriptionP=p["descriptionP"],
                     cheminImg=p["cheminImg"])
         db.session.add(plat)
@@ -104,12 +108,11 @@ def loaddb(file):
 
     click.echo("Insertion des formules...")
     for f in data.get("formules", []):
-        form = Formule(
-            idF=f["idF"],
-            nomF=f["nomF"],
-            prixF=f["prixF"],
-            cheminImg=f.get("cheminImg", "img/base/image_defaut.png")
-        )
+        form = Formule(idF=f["idF"],
+                       nomF=f["nomF"],
+                       prixF=f["prixF"],
+                       cheminImg=f.get("cheminImg",
+                                       "img/base/image_defaut.png"))
         db.session.add(form)
 
     db.session.commit(
@@ -146,8 +149,8 @@ def loaddb(file):
     click.echo("Insertion des plats dans les réservations...")
     for cp in data.get("contenir_p", []):
         contain_p = ContenirP(idR=cp["idR"],
-                             idP=cp["idP"],
-                             quantiteP=cp["quantiteP"])
+                              idP=cp["idP"],
+                              quantiteP=cp["quantiteP"])
         db.session.add(contain_p)
 
     db.session.commit()
@@ -162,11 +165,28 @@ app.cli.add_command(loaddb)
 @click.argument("num_tel")
 @click.argument("pseudonyme")
 @click.argument("pwd")
-@click.option("--admin", is_flag=True, help="Définit l'utilisateur comme administrateur")
+@click.option("--admin",
+              is_flag=True,
+              help="Définit l'utilisateur comme administrateur")
 @click.option("--banni", is_flag=True, help="Définit l'utilisateur comme banni")
 def newuser(num_tel, pseudonyme, pwd, admin, banni):
     """Créer un nouvel utilisateur via CLI"""
     create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
     lg.warning("User %s created! (Admin: %s)", num_tel, admin)
 
+app.cli.add_command(newuser)
+
+@app.cli.command()
+@with_appcontext
+def init_db():
+    """Créer toutes les tables."""
+    db.create_all()
+    lg.warning("Tables creer avec succès")
+app.cli.add_command(newuser)
+@app.cli.command()
+@with_appcontext
+def drop_db():
+    """Supprime toutes les tables"""
+    db.drop_all()
+    lg.warning("Tables supprimer")
 app.cli.add_command(newuser)
