@@ -169,7 +169,7 @@ class Type_plat(db.Model):
 
     idTp = db.Column(db.Integer, primary_key=True)
     nomTp = db.Column(db.String(50))
-    descriptionTp = db.Column(db.String(50))
+    descriptionTp = db.Column(db.String(200))
     cheminImg = db.Column(db.String(50))
 
     def __init__(self, idTp, nomTp, descriptionTp, cheminImg):
@@ -200,7 +200,7 @@ class Plat(db.Model):
     stock = db.Column(db.Integer)
     stockInit = db.Column(db.Integer)
     cheminImg = db.Column(db.String(50))
-    descriptionP = db.Column(db.String(50))
+    descriptionP = db.Column(db.String(500))
 
     compositions = db.relationship("Composer",
                                    backref="plat",
@@ -211,11 +211,12 @@ class Plat(db.Model):
                                    passive_deletes=True)
     type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
-    def __init__(self, nomP, idTp, prixP, stock, cheminImg, descriptionP):
+    def __init__(self, nomP, idTp, prixP, stockInit, cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP
-        self.stock = stock
+        self.stockInit = stockInit
+        self.stock = self.stockInit
         self.cheminImg = cheminImg
         self.descriptionP = descriptionP
 

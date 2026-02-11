@@ -5,3 +5,4 @@ monApp/__pycache__
 .env
 *.pdf
 *.google
+.gitattributes
