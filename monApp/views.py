@@ -658,11 +658,11 @@ def gestion_plats():
             nom_plat = request.form.get("nomP")
             type_plat_id = request.form.get("idTp")
             prix_plat = request.form.get("prixP")
-            stock = request.form.get("stock")
+            stockInit = request.form.get("stockInit")
             desc = request.form.get("desc")
             image_file = request.files.get('image')
 
-            if not nom_plat or not prix_plat or not type_plat_id or not stock or not desc:
+            if not nom_plat or not prix_plat or not type_plat_id or not stockInit or not desc:
                 return jsonify({
                     "success": False,
                     "error": "Champs manquants"
@@ -678,7 +678,7 @@ def gestion_plats():
             try:
                 prix_decimal = float(prix_plat)
                 type_id_int = int(type_plat_id)
-                stock_int = int(stock)
+                stock_int = int(stockInit)
             except ValueError:
                 return jsonify({
                     "success": False,
@@ -688,7 +688,7 @@ def gestion_plats():
             nouveau_plat = Plat(nomP=nom_plat,
                                 idTp=type_id_int,
                                 prixP=prix_decimal,
-                                stock=stock_int,
+                                stockInit=stock_int,
                                 cheminImg="",
                                 descriptionP=desc)
 

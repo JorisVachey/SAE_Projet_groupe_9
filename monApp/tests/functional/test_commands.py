@@ -24,3 +24,19 @@ def test_loaddb_command(testapp):
         assert result.exit_code == 0
     else:
         assert "Insertion" in result.output
+
+
+def test_drop_bd_command(testapp):
+    """Teste la commande CLI 'drop_bd'."""
+    runner = testapp.test_cli_runner()
+    result = runner.invoke(args=["drop-bd"])
+    assert result.exit_code == 0
+    assert "Tables supprimées" in result.output
+
+def test_init_db_command(testapp):
+    runner = testapp.test_cli_runner()
+    result = runner.invoke(args=["init-db"])
+    assert result.exit_code == 0
+    assert "Tables crées avec succès" in result.output
+
+

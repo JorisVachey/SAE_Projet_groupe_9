@@ -181,12 +181,15 @@ app.cli.add_command(newuser)
 def init_db():
     """Créer toutes les tables."""
     db.create_all()
-    lg.warning("Tables creer avec succès")
-app.cli.add_command(newuser)
+    click.echo("Tables crées avec succès")
+app.cli.add_command(init_db)
+
+
+
 @app.cli.command()
 @with_appcontext
 def drop_db():
     """Supprime toutes les tables"""
     db.drop_all()
-    lg.warning("Tables supprimer")
-app.cli.add_command(newuser)
+    click.echo("Tables supprimées")
+app.cli.add_command(drop_db)

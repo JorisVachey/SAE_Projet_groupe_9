@@ -32,7 +32,7 @@ def testapp():
             nomP="Salade César", 
             idTp=1, 
             prixP=12.50, 
-            stock=20, 
+            stockInit=20, 
             cheminImg="salade.jpg", 
             descriptionP="Laitue"
         )

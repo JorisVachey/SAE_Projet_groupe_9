@@ -100,14 +100,14 @@ def test_admin_acces_protege(client):
     response = client.get('/admin/', follow_redirects=True)
     assert response.request.path == "/" or response.request.path == "/index/"
 
-def test_admin_creation_plat(client, session):
+def test_admin_creation_plat(client):
     """L'admin crée un plat (avec upload image simulé)."""
     force_login_admin(client)
     data = {
         'nomP': 'Nouveau Plat',
         'idTp': 1,
         'prixP': 15.0,
-        'stock': 10,
+        'stockInit': 10,
         'desc': 'Description',
         'image': (io.BytesIO(b"fake image content"), 'test.jpg')
     }
@@ -120,6 +120,87 @@ def test_admin_creation_plat(client, session):
     plat = Plat.query.filter_by(nomP="Nouveau Plat").first()
     assert plat is not None
     assert plat.stock == 10
+
+def test_admin_suppression_plat(client, session):
+    """L'admin supprime un plat."""
+    force_login_admin(client)
+    plat = Plat(nomP="Plat A Supprimer", idTp=1, prixP=10.0,  stockInit=5, cheminImg="...", descriptionP="...")
+    session.add(plat)
+    session.commit()
+    response = client.delete(f'/supprimer-plat/{plat.nomP}')
+    assert response.status_code == 200
+    assert response.get_json()['success'] is True
+    assert Plat.query.filter_by(nomP="Plat A Supprimer").first() is None
+
+def test_admin_création_formule(client, session):
+    """L'admin crée une formule (nécessite un plat existant)."""
+    force_login_admin(client)
+    plat = Plat(nomP="Plat Test Formule", idTp=1, prixP=10.0,  stockInit=10, cheminImg="", descriptionP="Desc")
+    session.add(plat)
+    session.commit()
+
+    data = {
+        'nomF': 'Nouvelle Formule',
+        'prixF': 20.0,
+        'plats': [plat.idP], 
+        'quantite_' + str(plat.idP): 1,
+        'image': (io.BytesIO(b"fake image content"), 'test.jpg')
+    }
+    
+    response = client.post('/admin/gestion_formules/', 
+                           data=data, 
+                           content_type='multipart/form-data')
+    
+    assert response.status_code == 200
+    json_resp = response.get_json()
+    assert json_resp['success'] is True
+    
+    form = Formule.query.filter_by(nomF="Nouvelle Formule").first()
+    assert form is not None
+    assert float(form.prixF) == 20.0
+    assert len(form.plats) == 1
+
+def test_admin_suppression_formule(client):
+    """L'admin supprime une formule."""
+    force_login_admin(client)
+    form = Formule.query.filter_by(nomF="Nouvelle Formule").first()
+    response = client.delete(f'/admin/supprimer-formule/{form.idF}')
+    assert response.status_code == 200
+    form_deleted = Formule.query.get(form.idF)
+    assert form_deleted is None
+
+def test_admin_modification_plat(client,session):
+    """L'admin modifie un plat."""
+    force_login_admin(client)
+    plat = Plat(nomP="Plat Modif Prix", idTp=1, prixP=10.0, stockInit=5, cheminImg="...", descriptionP="...")
+    session.add(plat)
+    session.commit()
+    data = {
+        'idP': plat.idP,
+        'prixP': 15.0
+    }
+    response = client.post('/admin/modifier_prix_plat', json=data)
+    assert response.status_code == 200
+    assert response.get_json()['success'] is True
+    session.refresh(plat)
+    assert float(plat.prixP) == 15.0
+
+def test_admin_modification_formule(client,session):
+    """L'admin modifie une formule."""
+    force_login_admin(client)
+    form = Formule(idF=200, nomF="Formule Modif", prixF=15.0, cheminImg="img.png")
+    session.add(form)
+    session.commit()
+    data = {
+        'idF': form.idF,
+        'prixF': 18.0
+    }
+    response = client.post('/admin/modifier_prix_formule', json=data)
+    assert response.status_code == 200
+    assert response.get_json()['success'] is True
+    session.refresh(form)
+    assert float(form.prixF) == 18.0
+
 
 
 def test_contact(client):

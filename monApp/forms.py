@@ -131,7 +131,7 @@ class PlatForm(FlaskForm):
                         validators=[DataRequired(),
                                     Length(max=50)])
     prixP = FloatField('Prix du plat', validators=[DataRequired()])
-    stock = IntegerField('Stock du plat', validators=[DataRequired()])
+    stockInit = IntegerField('Stock du plat', validators=[DataRequired()])
     descriptionP = StringField('Description du plat',
                                validators=[DataRequired(),
                                            Length(max=50)])
