@@ -165,6 +165,7 @@ a {
     border-radius: 0.4em;
     background-color: var(--text-gris);
     color: white;
+    border: 0.1em black solid;
 }
 
 .block .table_container {
