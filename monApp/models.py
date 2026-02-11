@@ -211,11 +211,12 @@ class Plat(db.Model):
                                    passive_deletes=True)
     type = db.relationship("Type_plat", backref="plat", passive_deletes=True)
 
-    def __init__(self, nomP, idTp, prixP, stock, cheminImg, descriptionP):
+    def __init__(self, nomP, idTp, prixP, stockInit, cheminImg, descriptionP):
         self.nomP = nomP
         self.idTp = idTp
         self.prixP = prixP
-        self.stock = stock
+        self.stockInit = stockInit
+        self.stock = self.stockInit
         self.cheminImg = cheminImg
         self.descriptionP = descriptionP
 

@@ -89,7 +89,7 @@ def loaddb(file):
         plat = Plat(nomP=p["nomP"],
                     idTp=p["idTp"],
                     prixP=p["prixP"],
-                    stock=p["stock"],
+                    stockInit=p["stockInit"],
                     descriptionP=p["descriptionP"],
                     cheminImg=p["cheminImg"])
         db.session.add(plat)
