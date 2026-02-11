@@ -26,7 +26,7 @@ function submitAdminAction(action) {
 
 // Bouton valider
 document.getElementById("btnBannir").addEventListener("click", () => {
-    submitAdminAction('valider');
+    submitAdminAction('récupérer');
 });
 
 // Bouton refuser

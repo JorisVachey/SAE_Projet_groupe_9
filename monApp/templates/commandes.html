@@ -10,20 +10,9 @@
 <div class="trait-horizontal"></div>
 <section class="gestion-client commande">
     <div>
-        <button id="btnBannir">VALIDER</button>
+        <button id="btnBannir">RÉCUPÉRER</button>
 
         <button id="btnDebannir">REFUSER</button>
-    </div>
-    <div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class=flashes>
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
     </div>
     <table>
         <thead>

@@ -605,7 +605,7 @@ def preparer_panier(id_r, action):
     if not reservation:
         flash("Aucune réservation à traiter.", "error")
         return redirect(url_for("menu"))
-    if action=="récupérée":
+    if action=="récupérer":
         reservation.statut = "RÉCUPÉRÉE"
 
     if action == "supprimer":
