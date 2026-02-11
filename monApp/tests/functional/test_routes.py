@@ -121,3 +121,55 @@ def test_admin_creation_plat(client, session):
     assert plat is not None
     assert plat.stock == 10
 
+
+def test_contact(client):
+    response = client.get("/contact/")
+    assert response.status_code == 200
+
+def test_nouveauter(client):
+    response = client.get("/nouveautes/")
+    assert response.status_code == 200
+
+def test_connection(client):
+    response = client.get("/connection/")
+    assert response.status_code == 200
+
+def test_déco(client):
+    force_login_user(client)
+    response = client.get("/deconnection/")
+    assert response.status_code == 302  # redirection
+
+
+def test_inscription(client):
+    response = client.get("/inscription/")
+    assert response.status_code == 200
+
+def test_chartre(client):
+    response = client.get("/chartre/")
+    assert response.status_code == 200
+
+def test_mesreservation(client):
+    force_login_user(client)
+    response = client.get("/mesreservation/")
+    assert response.status_code == 200
+
+def test_gestionformule(client):
+    force_login_admin(client)
+    response = client.get("/admin/gestion_formules/")
+    assert response.status_code == 200
+
+def test_gestionformule(client):
+    force_login_admin(client)
+    response = client.get("/admin/gestion_cli/")
+    assert response.status_code == 200
+
+def test_gestionformule(client):
+    force_login_admin(client)
+    response = client.get("/admin/voir_comm/")
+    assert response.status_code == 200
+
+def test_gestionformule(client):
+    force_login_admin(client)
+    response = client.get("/admin/gestion_compte/")
+    assert response.status_code == 200
+    
