@@ -130,3 +130,27 @@ h3 {
     height: auto;
     margin-left: auto;
 }
+
+@media screen and (max-width: 600px) {
+
+    .block {
+        margin-top: 3em;
+    }
+
+    .panier {
+        flex-direction: column;
+        padding: 1.5em;
+        gap:1.5em;
+        margin-top: 0;
+    }
+
+    .feuille {
+        display: none;
+    }
+
+    .panier .liste_plats article {
+        justify-content: space-between;
+        gap: 2em;
+        flex-wrap: wrap;
+    }
+}
