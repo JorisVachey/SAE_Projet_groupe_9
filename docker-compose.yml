@@ -23,8 +23,9 @@ services:
       - "3306:3306"
 
   web:
-    build: .
-    container_name: site_sushi
+    # build: .
+    image: gboissel/site-sushi:latest
+    container_name: site-sushi
     restart: always
     ports:
       - "8080:5000"
