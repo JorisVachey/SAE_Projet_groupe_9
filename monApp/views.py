@@ -530,25 +530,33 @@ def update_checkbox():
 @app.route("/admin/update_statut_preparation", methods=["POST"])
 def update_statut_preparation():
     """
-    Passe le statut de la commande à 'EN PRÉPARATION' ou 'PRÊTE'
-    selon si toutes les cases sont cochées.
+    Gère le statut de la commande selon l'état des checkboxes :
+    - Toutes cochées → PRÊTE
+    - Certaines cochées → EN PRÉPARATION
+    - Aucune cochée → CONFIRMÉE (statut initial)
     """
     data = request.get_json()
     id_r = data.get("idR")
     all_checked = data.get("allChecked", False)
+    none_checked = data.get("noneChecked", False) 
 
     reservation = Reservation.query.get(id_r)
     if not reservation:
         return jsonify({"success": False, "error": "Commande introuvable"}), 404
     
-    if all_checked:
+
+    if none_checked:
+       
+        reservation.statut = "CONFIRMÉE" 
+    elif all_checked:
+       
         reservation.statut = "PRÊTE"
     else:
         reservation.statut = "EN PRÉPARATION"
     
     db.session.commit()
+    
     return jsonify({"success": True, "statut": reservation.statut})
-
 
 @app.route("/panier/valider", methods=["POST"])
 @login_required
