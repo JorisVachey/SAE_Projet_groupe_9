@@ -31,9 +31,8 @@
                     data-hamburger="{{ url_for('static', filename='img/base/hamburger.png') }}">
             </button>
         </article>
-        <nav>
-            <ul>
-                <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
+        <nav id="menu", class="menu">
+            <button id="toggle-theme"><img src="{{ url_for('static', filename='img/accueil/theme_btn.svg') }}" alt="theme button"></button>
             {% if current_user.est_admin %}
                 <ul class="boutons_base">
                     <a href="{{ url_for('gestion_plats') }}">gestion des plats</a>
@@ -62,7 +61,7 @@
                         <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
                         <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
                     </article>
-
+                </ul>
                 {% endif %} 
                 <section class="profil">
                     <div class="profil_div">
@@ -79,7 +78,6 @@
                         {% endif %}
                     </div>
                 </section>
-                </ul>
             {% endif %}
         </nav>
     </header>
@@ -115,6 +113,7 @@
     </footer>
     {%endblock%}
     <script src="{{ url_for('static', filename='js/bnt_theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/responsive.js') }}"></script>
     <script>
         const aProfil = document.getElementById('profil');
         const profil = document.querySelector('.profil');
