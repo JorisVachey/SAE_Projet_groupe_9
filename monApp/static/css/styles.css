@@ -191,7 +191,7 @@ footer article img {
         justify-content: space-between;
     }
 
-    header img {
+    header>article>a>img {
         margin-left: 1em;
     }
 
@@ -199,6 +199,7 @@ footer article img {
         display:block;
         margin-right: 1em;
         border: none;
+        background-color: transparent;
     }
 
     header button img {
@@ -256,5 +257,22 @@ footer article img {
     footer {
         flex-direction: column;
         gap: 2em;
+    }
+    .menu .boutons_base {
+        margin-top: 0.5em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+    }
+
+    .menu .boutons_base a {
+        margin-left: 0;
+    }
+
+    .menu .boutons_base li {
+        margin: 0;
     }
 }
