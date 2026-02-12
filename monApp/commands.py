@@ -1,4 +1,5 @@
 from .app import app, db
+import sys
 from .models import (
     User,
     Type_plat,
@@ -182,11 +183,23 @@ def init_db():
     """Créer toutes les tables."""
     db.create_all()
     lg.warning("Tables creer avec succès")
-app.cli.add_command(newuser)
+app.cli.add_command(init_db)
+
 @app.cli.command()
 @with_appcontext
 def drop_db():
     """Supprime toutes les tables"""
     db.drop_all()
     lg.warning("Tables supprimer")
-app.cli.add_command(newuser)
+app.cli.add_command(drop_db)
+
+@app.cli.command()
+@with_appcontext
+def exist_db():
+    """Vérifie si les tables existe déjà"""
+    existing_tables = db.inspect(db.engine).get_table_names()
+    for table in db.metadata.tables.keys():
+        if not(table in existing_tables):
+            sys.exit(1)# il n'y a pas les tables 
+    sys.exit(0)# il y a les tables 
+app.cli.add_command(exist_db)
