@@ -1,0 +1,345 @@
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6em;
+    padding-bottom: 1.5em;
+}
+
+.block h1,
+.block h3{
+    color: var(--text-gris);
+    margin-bottom: 0;
+}
+
+.block .trait-horizontal {
+    height: 0.125em;
+    width: 20em;
+    background-color: var(--text-gris);
+    margin: 0 0 1.6em 0;
+}
+
+.block .liste_boutons_accueil_admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:row;
+    margin-top: 5em;
+    gap: 1.5em;
+}
+
+.block .images_admin #bambou_coin{
+    max-width: 50%;
+    max-height: 50%;
+    position: absolute;
+    overflow: hidden;
+    top: 4em;
+    right: 0%;
+}
+
+.block .images_admin #sakura{
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 5%;
+    left: 0%;
+}
+
+.block .compte {
+    width: 30dvw;
+    margin: 4em;
+    background: #fff;
+    background-color: var(--tableau);
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.block .compte input {
+    width: 100%;
+    padding: 0.2em 0 0.2em 0.5em;
+    margin-bottom: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.block .compte h4 {
+    padding-top: 1em;
+}
+
+.block .compte .vue-formulaires form {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+}
+
+.block .compte .vue-formulaires {
+    display: none;
+}
+
+.block .compte #toggle-modif:checked ~ .carte .vue-info {
+    display: none;
+}
+
+.block .compte #toggle-modif:checked ~ .carte .vue-formulaires {
+    display: block;
+}
+
+.block .compte .vue-formulaires form:has(#maj_mdp) {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.block .compte .vue-formulaires form input[type="text"] {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.block .corps {
+    width: 90%;
+    background-color: var(--tableau);
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.block .corps_utilisateur {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 auto;
+}
+
+.block .liste_boutons {
+    display: flex;
+    align-items: center;
+}
+
+.block .liste_boutons > div:nth-child(1) {
+    display: flex;
+    gap: 2em;
+    margin-right: auto;
+}
+
+.block .liste_boutons > div:nth-child(2) {
+    display: flex;
+    gap: 2em;
+    margin: 0 auto;
+}
+
+.block .liste_boutons > div:nth-child(3) {
+    gap: 2em;
+    display: flex;
+    margin-left: auto;
+}
+
+.block .liste_boutons #recherche {
+    border-radius: 0.4em;
+    color: var(--noir);
+}
+
+.block .boutons_vert {
+    border-radius: 0.4em;
+    background-color: var(--btn);
+    color: white;
+    border: 0.1em black solid;
+}
+
+.block .boutons_vert a {
+    color: white;
+}
+
+.block .boutons_gris {
+    border-radius: 0.4em;
+    background-color: var(--text-gris);
+    color: white;
+    border: 0.1em black solid;
+}
+
+.block .table_container {
+    border-radius: 0.7em 0 0 0.7em;
+    margin: 1.2em 0 0 0;
+    overflow-y: scroll;
+    height:54dvh;
+    border: solid 0.1em var(--orange);
+}
+
+.block .table_container_utilisateur {
+    display: flex;
+    width: 100%;
+    overflow-y: hidden;
+    border: none;
+    gap: 1.5em;
+    height: auto;
+    border-radius: 0;
+}
+
+.table_utilisateur {
+    border: 0.1em solid var(--orange);
+    align-self: self-start;
+}
+
+.block .table_container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+.block .table_container table th {
+    text-align: center;
+    padding: 0.8em 1.2em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--btn);
+    font-weight: bold;
+}
+
+.block .table_container table td {
+    padding: 0.8em 1.2em;
+    text-align: center;
+}
+
+.block .table_container table tbody tr {
+    border-bottom: 0.1em solid var(--orange);
+}
+
+.block .table_container table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.block .table_container table tbody tr:nth-child(odd) {
+  background-color: var(--tableau);
+}
+
+.block .table_container table tbody tr:nth-child(even) {
+  background-color: var(--ligne-impair);
+  color: var(--noir-blanc)
+}
+
+.block .table_container table tbody tr.selected {
+  background-color:var(--selected);
+  color: black;
+}
+
+.block .table_container table tbody > tr:hover {
+  cursor: pointer;
+  background-color:var(--selected);
+  color: black;
+}
+
+.block .pop_up {
+    display: none;
+    position: fixed;
+    top: 14dvh;
+    right: 25dvw;
+    max-width: 50dvw;
+    padding: 1em;
+    z-index: 2;
+    background-color: var(--tableau);
+    border: solid 0.1em var(--orange);
+    border-radius: 0.4em;
+    overflow-y: auto;
+    max-height: 70dvh;
+}
+
+.block .pop_up.open {
+    display: flex !important;
+}
+
+.block .pop_up .champs {
+    display: flex;
+    flex-direction: column;
+    width: 50em;
+}
+
+.block .pop_up .champs input,
+.block .pop_up .champs select {
+    margin-bottom: 1.5em;
+}
+
+.block .composition_container {
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border-radius: 0.4em;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.block .type-section {
+    margin-bottom: 0.4em;
+    border: 0.1em solid var(--orange);
+    border-radius: 0.4em;
+    background-color: white;
+}
+
+.block .type-section summary {
+    padding: 0.7em;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--btn);
+    list-style: none;
+}
+
+.block .type-section summary::after {
+    content: '+';
+    float: right;
+    font-weight: bold;
+}
+
+.block .type-section[open] summary::after {
+    content: '-';
+}
+
+.block .scroll-menu {
+    max-height: 7em;
+    overflow-y: auto;
+    padding: 0.9em;
+}
+
+.block .checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+}
+
+.block .checkbox-container input:checked + span {
+    text-decoration: line-through;
+    color: #888;
+    opacity: 0.7;
+}
+
+.block .drop-zone {
+    border: 2px dashed var(--orange);
+    border-radius: 6px;
+    padding: 1em;
+    text-align: center;
+    color: var(--text-gris);
+    margin-bottom: 1em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.block .drop-zone.dragover {
+    background-color: rgba(255,165,0,0.1);
+}
+.block .drop-zone .preview {
+    display: none;
+    max-width: 100%;
+    max-height: 150px;
+    margin-top: 0.5em;
+}

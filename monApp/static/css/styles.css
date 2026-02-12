@@ -73,7 +73,7 @@ header nav {
 }
 
 header img {
-    width: 5em;
+    width: 3em;
     height: auto;
 }
 #toggle-theme {
@@ -107,10 +107,10 @@ header nav a {
 
 header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
     background-color: var(--btn);
-    border-radius: 10px;
+    border-radius: 0.4em;
     color: #FFFFFF;
-    border: 1px solid black;
-    padding: 0.2em 0.3em;
+    border: 0.1em black solid;
+    padding: 0.1em 0.3em;
 }
 
 header article button {

@@ -7,13 +7,22 @@
 {% block main %}
 
 <section class="block">
-    <h3>HISTORIQUE DES</h3>
+    <h3>GESTION DES</h3>
     <h1>COMMANDES</h1>
     <div class="trait-horizontal"></div>
     <section class="corps">
-
+        <article class="liste_boutons">
+            <div>
+            </div>
+            <div>
+                <button class="boutons_vert" id="btnBannir">récupérer</button>
+                <button class="boutons_vert" id="btnDebannir">refuser</button>
+            </div>
+            <div>
+            </div>
+        </article>
         <section class="table_container">
-            <table id="tableau">
+            <table>
                 <thead>
                     <th>Nom</th>
                     <th>Numéro de téléphone</th>
@@ -22,7 +31,7 @@
                     <th>Date de réservation</th>
                     <th>Sur place</th>
                 </thead>
-                <tbody id="tableBody">
+                <tbody>
                     {% for commande in commandes %}
                     <tr class="ligne-com" data-id="{{ commande.idR }}">
                         <td>{{ commande.user.pseudonyme }}</td>
@@ -31,7 +40,10 @@
                             <ul class="liste-plats">
                                 {% for plat, quantite in commande.getbesoin().items() %}
                                     <li>
-                                        <span><span class="qte">{{ quantite }}x</span> {{ plat.nomP }}</span>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" class="plat-checkbox">
+                                            <span><span class="qte">{{ quantite }}x</span> {{ plat.nomP }}</span>
+                                        </label>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -50,5 +62,8 @@
         </section>
     </section>
 </section>
+
+<script src="{{ url_for('static', filename='js/gerer_com.js') }}"></script>
+<script src="{{ url_for('static', filename='js/case_cocher.js') }}"></script>
 
 {% endblock %}

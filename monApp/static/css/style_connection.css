@@ -39,12 +39,23 @@
     justify-content: center;
 }
 
-.card-login {
+.mb-4{
+  color: var(--text-gris);
+  text-decoration: none;
+
+}
+
+.card-login,
+.card-register {
     width: 100%;
     border-radius: 20px;
     border: none;
     background-color: #fff;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.card-register {
+  max-width:520px;
 }
 
 .input-field {
@@ -53,7 +64,8 @@
     padding: 10px;
 }
 
-.btn-login {
+.btn-login,
+.btn-register {
     background-color: var(--bg-base);
     border: none;
     border-radius: 8px;
@@ -92,7 +104,8 @@ a.text-dark:hover {
     background-repeat: no-repeat;
   }
 
-  .card-login {
+  .card-login,
+  .card-register {
     width: 90%;
     max-width: 380px;
     border-radius: 16px;
@@ -105,11 +118,13 @@ a.text-dark:hover {
     font-size: 0.95rem;
   }
 
-  .card-login h2 {
+  .card-login h2, 
+  .card-register h2 {
     font-size: 1.5rem;
   }
 
-  .btn-login {
+  .btn-login,
+  .btn-register {
     width: 100%;
     padding: 12px;
     font-size: 1rem;

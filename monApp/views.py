@@ -13,6 +13,7 @@ from functools import wraps
 from sqlite3 import IntegrityError
 from .forms import LoginForm, RegisterForm
 import traceback
+from sqlalchemy import update
 
 
 
@@ -874,9 +875,15 @@ def modifier_image_formule():
         if not formule:
             return jsonify({'success': False, 'error': 'Formule introuvable'}), 404
 
+        db.session.refresh(formule)
+
         saved_path = save_image(image_file, formule.nomF, folder="imgF")
         if saved_path:
-            formule.cheminImg = saved_path
+            db.session.execute(
+                update(Formule)
+                .where(Formule.idF == id_formule)
+                .values(cheminImg=saved_path)
+            )
             db.session.commit()
             return jsonify({'success': True, 'cheminImg': saved_path}), 200
         else:
@@ -890,7 +897,7 @@ def modifier_image_formule():
 @admin_required
 def gestion_cli():
     clients = User.query.filter_by(est_admin=False).all()
-    return render_template("admin_gestion-client.html", clients=clients)
+    return render_template("gestion_clients.html", clients=clients)
 
 
 @app.route("/admin/bannir-cli/<int:client_id>")
@@ -914,7 +921,7 @@ def debannir_cli(client_id):
 def voir_comm():
     commandes = Reservation.query.filter(
         Reservation.statut.in_(["VALIDÉE", "EN PRÉPARATION", "PRÊTE"])).all()
-    return render_template("commandes.html", commandes=commandes)
+    return render_template("gestion_commandes.html", commandes=commandes)
 
 
 @app.route("/admin/historique/")
