@@ -172,7 +172,7 @@ app.cli.add_command(loaddb)
 def newuser(num_tel, pseudonyme, pwd, admin, banni):
     """Créer un nouvel utilisateur via CLI"""
     create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
-    lg.warning("User %s created! (Admin: %s)", num_tel, admin)
+    click.echo("User %s created! (Admin: %s)", num_tel, admin)
 
 app.cli.add_command(newuser)
 

@@ -160,10 +160,14 @@ def test_admin_création_formule(client, session):
     assert float(form.prixF) == 20.0
     assert len(form.plats) == 1
 
-def test_admin_suppression_formule(client):
+def test_admin_suppression_formule(client,session):
     """L'admin supprime une formule."""
     force_login_admin(client)
-    form = Formule.query.filter_by(nomF="Nouvelle Formule").first()
+    formule = Formule(idF=200, nomF="Formule A Supprimer", prixF=15.0,cheminImg='')
+    session.add(formule)
+    session.commit()
+    print(formule.idF)
+    form = Formule.query.filter_by(nomF="Formule A Supprimer").first()
     response = client.delete(f'/admin/supprimer-formule/{form.idF}')
     assert response.status_code == 200
     form_deleted = Formule.query.get(form.idF)
