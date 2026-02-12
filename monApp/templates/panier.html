@@ -23,7 +23,7 @@
                             <img src="{{ url_for('static', filename=cp.plat.cheminImg) }}" alt="image {{cp.plat.nomP}}">
                             <div>
                                 <p>{{ cp.plat.nomP }}</p>
-                                <p>Unité : {{ cp.plat.prixP }} €</p>
+                                <p>Unité : {{ cp.plat.prixP }}€</p>
                             </div>
                             <div class="nombre">
                                 <form action="{{ url_for('modifier_quantite_plat', id_p=cp.idP, action='maj_directe') }}" method="post" class="form-quantite">
@@ -33,7 +33,7 @@
                                         onchange="this.form.submit()"
                                         class="input-style-panier">
 
-                                    <span>{{ cp.quantiteP * cp.plat.prixP }} €</span>
+                                    <span>{{ cp.quantiteP * cp.plat.prixP }}€</span>
                                 </form>
                             </div>
                             <div class="corbeille">
@@ -54,7 +54,7 @@
                             <img src="{{ url_for('static', filename=cf.formule.cheminImg) }}" alt="image {{cf.formule.nomP}}">
                             <div>
                                 <p>{{ cf.formule.nomF }}</p>
-                                <p>Unité : {{ cf.formule.prixF }}</p>
+                                <p>Unité : {{ cf.formule.prixF }}€</p>
                             </div>
                             <div style="margin-right: 4em;">
                                 {% for c in cf.formule.plats %}
@@ -69,7 +69,7 @@
                                         onchange="this.form.submit()"
                                         class="input-style-panier">
 
-                                    <span>{{ cf.quantiteF * cf.formule.prixF }} €</span>
+                                    <span>{{ cf.quantiteF * cf.formule.prixF }}€</span>
                                 </form>
                             </div>
                             <div class="corbeille">
