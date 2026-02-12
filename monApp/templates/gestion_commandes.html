@@ -1,4 +1,4 @@
-{% extends "admin.html" %}
+{% extends "base.html" %}
 
 {% block styles_additionnels %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_admin.css') }}">
@@ -14,11 +14,11 @@
         <article class="liste_boutons">
             <div>
             </div>
-            <div> 
+            <div>
+                <button class="boutons_vert" id="btnBannir">récupérer</button>
+                <button class="boutons_vert" id="btnDebannir">refuser</button>
             </div>
             <div>
-                <button class="boutons_vert" id="btnDebannir">refuser</button>
-                <button class="boutons_vert" id="btnBannir">valider</button>
             </div>
         </article>
         <section class="table_container">
@@ -42,7 +42,7 @@
                                     <li>
                                         <label class="checkbox-container">
                                             <input type="checkbox" class="plat-checkbox">
-                                            <span><span style="font-weight: bold; color: #d35400;">{{ quantite }}x</span> {{ plat.nomP }}</span>
+                                            <span><span class="qte">{{ quantite }}x</span> {{ plat.nomP }}</span>
                                         </label>
                                     </li>
                                 {% endfor %}

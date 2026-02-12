@@ -913,7 +913,7 @@ def debannir_cli(client_id):
 def voir_comm():
     commandes = Reservation.query.filter(
         Reservation.statut.in_(["VALIDÉE", "EN PRÉPARATION", "PRÊTE"])).all()
-    return render_template("commandes.html", commandes=commandes)
+    return render_template("gestion_commandes.html", commandes=commandes)
 
 
 @app.route("/admin/historique/")
