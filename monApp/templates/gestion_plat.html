@@ -1,23 +1,32 @@
 {%extends "admin.html"%}
+
 {% block styles_additionnels %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_gestion_plat.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_admin.css') }}">
 {% endblock %}
 
 {%block main%}
-<h3>GESTION DES</h3>
-<h1>PLATS</h1>
-<div class="trait-horizontal"></div>
-<section class="corps">
-    <article>
-            <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
-            <button class="boutons_plat" onclick="afficherForm()">Ajouter un plat</button>
-            <button class="boutons_plat" id="btn_suppr">Supprimer le plat</button>
-            <button class="boutons_plat" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
-            <button class="boutons_plat" id="btn_quantite" onclick="modif_quantite()">Modifier la quantité</button>
-            <button class="boutons_plat" id="btn_image" onclick="modif_image()">Modifier l'image</button>
-    </article>
-    <article class="table-container">
-        <table id="tableau">
+
+<section class="block">
+    <h3>GESTION DES</h3>
+    <h1>PLATS</h1>
+    <div class="trait-horizontal"></div>
+    <section class="corps">
+        <article class="liste_boutons">
+            <div>
+                <input type="text" id="recherche" onkeyup="filtrerTableau()" placeholder="Rechercher un plat...">
+            </div>
+            <div>
+                <button class="boutons_vert" id="btn_prix" onclick="modif_prix()">Modifier le prix</button>
+                <button class="boutons_vert" id="btn_quantite" onclick="modif_quantite()">Modifier la quantité</button>
+                <button class="boutons_vert" id="btn_image" onclick="modif_image()">Modifier l'image</button>
+            </div>
+            <div>
+                <button class="boutons_vert" id="btn_suppr">Supprimer le plat</button>
+                <button class="boutons_vert" onclick="afficherForm()">Ajouter un plat</button>
+            </div>
+        </article>
+        <section class="table_container">
+            <table id="tableau">
                 <thead>
                     <tr>
                         <th>Plat</th>
@@ -39,83 +48,109 @@
                     {% endfor %}
                 </tbody>
             </table>
-    </article>
-</section>
-<section id="pop-up-ajout">
-    <form method="POST" action="{{ url_for('gestion_plats') }}" enctype="multipart/form-data" class="champs" id="form-ajout-plat">
-        <label for="nomP">Nom du Plat</label>
-        <input id="nomP" type="text" name="nomP" placeholder="Saisir nom du plat...">
-        <label for="user_select">Choisissez un type de plat :</label>
-        <select class="select_t" name="idTp"required >
-            <option value="">-- Veuillez choisir --</option>
-            {% for unType in types %}
-                <option value="{{ unType.idTp }}">{{ unType.nomTp }}</option>
-            {% endfor %}
-        </select>
-        <label for="prix">Prix du plat</label>
-        <input id="prix" type="decimal" name="prixP" placeholder="Saisir le prix..."required    >
-        <label for="stock">Stock</label>
-        <input id="stock" type="text" name="stock" placeholder="Saisir le stock..."required>
-        <label for="desc">Description du plat</label>
-        <input id="desc" type="text" name="desc" placeholder="Saisir la descritpion..." required>
-        <label>Image du plat</label>
-        <div id="drop-zone-ajout" class="drop-zone">
-            <span>Glissez-déposez l'image ici ou cliquez</span>
-            <input id="image-ajout" type="file" name="image" accept="image/*" hidden>
-            <img id="preview-ajout" class="preview" alt="" />
-        </div>
-        <div class="boutons_form">
-            <button type="reset" class="annuler" onclick="masquerForm()">Annuler</button>
-            <button type="submit" class="boutons_plat">Ajouter</button>
-        </div>
-    </form>
-</section>
-<section id="pop-up-modif-prix">
-    <form method="POST" class="champs" id="form-modif-prix">
-        <h3>Modifier le prix</h3>
-        <input type="hidden" id="modif-id-plat" name="idP">
-        <label for="modif-nomP">Nom du Plat</label>
-        <input id="modif-nomP" type="text" name="nomP" readonly>
-        <label for="modif-prix">Nouveau Prix</label>
-        <input id="modif-prix" type="number" step="0.01" name="prixP" placeholder="Saisir le nouveau prix..." required>
-        <div class="boutons_form">
-            <button type="button" class="annuler" onclick="masquerFormPrix()">Annuler</button>
-            <button type="submit" class="boutons_plat">Valider</button>
-        </div>
-    </form>
-</section>
-<section id="pop-up-modif-quantite">
-    <form method="POST" class="champs" id="form-modif-quantite">
-        <h3>Modifier la quantité</h3>
-        <input type="hidden" id="modif-qte-id-plat" name="idP">
-        <label for="modif-qte-nomP">Nom du Plat</label>
-        <input id="modif-qte-nomP" type="text" name="nomP" readonly>
-        <label for="modif-quantite">Nouvelle Quantité</label>
-        <input id="modif-quantite" type="number" name="stockInit" placeholder="Saisir la nouvelle quantité..." required>
-        <div class="boutons_form">
-            <button type="button" class="annuler" onclick="masquerFormQuantite()">Annuler</button>
-            <button type="submit" class="boutons_plat">Valider</button>
-        </div>
-    </form>
-</section>
-<section id="pop-up-modif-image">
-    <form method="POST" enctype="multipart/form-data" class="champs" id="form-modif-image">
-        <h3>Modifier l'image du plat</h3>
-        <input type="hidden" id="modif-img-id-plat" name="idP">
-        <label for="modif-img-nomP">Nom du Plat</label>
-        <input id="modif-img-nomP" type="text" name="nomP" readonly>
-        <label>Nouvelle image</label>
-        <div id="drop-zone-modif" class="drop-zone">
-            <span>Glissez-déposez l'image ici ou cliquez</span>
-            <input id="image-modif" type="file" name="image" accept="image/*" hidden>
-            <img id="preview-modif" class="preview" alt="" />
-        </div>
-        <div class="boutons_form">
-            <button type="button" class="annuler" onclick="masquerFormImage()">Annuler</button>
-            <button type="submit" class="boutons_plat">Valider</button>
-        </div>
-    </form>
+        </section>
     </section>
+
+    <section class="pop_up" id="pop-up-ajout">
+        <form method="POST" class="champs" id="form-ajout-plat">
+            <label for="nomP">Nom du Plat :</label>
+            <input id="nomP" type="text" name="nomP" placeholder="Saisir nom du plat...">
+            <label for="user_select">Choisissez un type de plat :</label>
+            <select class="select_t" name="idTp"required >
+                <option value="">-- Veuillez choisir --</option>
+                {% for unType in types %}
+                    <option value="{{ unType.idTp }}">{{ unType.nomTp }}</option>
+                {% endfor %}
+            </select>
+            <label for="prix">Prix du plat :</label>
+            <input id="prix" type="decimal" name="prixP" placeholder="Saisir le prix..."required    >
+            <label for="stock">Stock :</label>
+            <input id="stock" type="text" name="stock" placeholder="Saisir le stock..."required>
+            <label for="desc">Description du plat :</label>
+            <input id="desc" type="text" name="desc" placeholder="Saisir la descritpion..." required>
+            <label>Image du plat : </label>
+            <div id="drop-zone-ajout" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-ajout" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-ajout" class="preview" alt="" />
+            </div>
+            <article class="liste_boutons">
+                <div>
+                    <button type="reset" class="boutons_gris" onclick="masquerForm()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
+
+    <section class="pop_up" id="pop-up-modif-prix">
+        <form method="POST" class="champs" id="form-modif-prix">
+            <h3>Modifier le prix</h3>
+            <input type="hidden" id="modif-id-plat" name="idP">
+            <label for="modif-nomP">Nom du Plat</label>
+            <input id="modif-nomP" type="text" name="nomP" readonly>
+            <label for="modif-prix">Nouveau Prix :</label>
+            <input id="modif-prix" type="number" step="0.01" name="prixP" placeholder="Saisir le nouveau prix..." required>
+            <article class="liste_boutons">
+                <div>
+                    <button type="button" class="boutons_gris" onclick="masquerFormPrix()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
+
+    <section class="pop_up" id="pop-up-modif-quantite">
+        <form method="POST" class="champs" id="form-modif-quantite">
+            <h3>Modifier la quantité</h3>
+            <input type="hidden" id="modif-qte-id-plat" name="idP">
+            <label for="modif-qte-nomP">Nom du Plat</label>
+            <input id="modif-qte-nomP" type="text" name="nomP" readonly>
+            <label for="modif-quantite">Nouvelle Quantité :</label>
+            <input id="modif-quantite" type="number" name="stock" placeholder="Saisir la nouvelle quantité..." required>
+            <article class="liste_boutons">
+                <div>
+                    <button type="button" class="boutons_gris" onclick="masquerFormQuantite()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
+
+    <section class="pop_up" id="pop-up-modif-image">
+        <form method="POST" enctype="multipart/form-data" class="champs" id="form-modif-image">
+            <h3>Modifier l'image du plat</h3>
+            <input type="hidden" id="modif-img-id-plat" name="idP">
+            <label for="modif-img-nomP">Nom du Plat</label>
+            <input id="modif-img-nomP" type="text" name="nomP" readonly>
+            <label>Nouvelle image : </label>
+            <div id="drop-zone-modif" class="drop-zone">
+                <span>Glissez-déposez l'image ici ou cliquez</span>
+                <input id="image-modif" type="file" name="image" accept="image/*" hidden>
+                <img id="preview-modif" class="preview" alt="" />
+            </div>
+            <article class="liste_boutons">
+                <div>
+                    <button type="button" class="boutons_gris" onclick="masquerFormImage()">Annuler</button>
+                </div>
+                <div></div>
+                <div>
+                    <button type="submit" class="boutons_vert">Valider</button>
+                </div>
+            </article>
+        </form>
+    </section>
+</section>
+
 <script src="{{ url_for('static', filename='js/recherche.js') }}"></script>
 <script src="{{url_for('static', filename='js/selec_line.js')}}"></script>
 <script src="{{url_for('static', filename='js/ajout_plat.js')}}"></script>
@@ -123,6 +158,5 @@
 <script src="{{url_for('static', filename='js/modif_stock.js')}}"></script>
 <script src="{{url_for('static', filename='js/upload_image.js')}}"></script>
 <script src="{{url_for('static', filename='js/modif_image.js')}}"></script>
+
 {%endblock %}
-{%block footer%}
-{%endblock%}
