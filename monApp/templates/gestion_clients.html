@@ -1,0 +1,70 @@
+{% extends 'admin.html' %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_admin.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<section class="block">
+    <h3>GESTION DES</h3>
+    <h1>CLIENTS</h1>
+    <div class="trait-horizontal"></div>
+    <section class="corps corps_utilisateur">
+        <article style="width: 100%;" class="liste_boutons">
+            <div>
+                <h3>Utilisateur</h3>
+                <button class="boutons_vert" id="btnBannir">Blacklister</button>
+            </div>
+            <div>
+                <button class="boutons_vert" id="btnSuppClient">Supprimer client</button>
+            </div>
+            <div>
+                <h3>Utilisateur Blacklister</h3>
+                <button class="boutons_vert" id="btnDebannir">Enlever de la blacklist</button>
+            </div>
+        </article>
+        <section class="table_container table_container_utilisateur">
+            <table class="table_utilisateur">
+                <thead>
+                    <th>Numéro de téléphone</th>
+                    <th>Pseudonyme</th>
+                    <th>Nombre d'oublis</th>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                        {% if not client.est_banni %}
+                        <tr class="ligne-client" data-id="{{ client.idUser }}">
+                            <td>{{ client.numtelUser }}</td>
+                            <td>{{ client.pseudonyme }}</td>
+                            <td>{{ client.get_nb_reservations_annulees() }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table_utilisateur">
+                <thead>
+                    <th>Numéro de téléphone</th>
+                    <th>Pseudonyme</th>
+                    <th>Nombre d'oublis</th>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                        {% if client.est_banni %}
+                        <tr class="ligne-client" data-id="{{ client.idUser }}">
+                            <td>{{ client.numtelUser }}</td>
+                            <td>{{ client.pseudonyme }}</td>
+                            <td>{{ client.get_nb_reservations_annulees() }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>
+
+<script src="{{ url_for('static', filename='js/gerer-cli.js') }}"></script>
+
+{% endblock %}
