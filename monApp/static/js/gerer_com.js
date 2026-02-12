@@ -48,7 +48,6 @@ function loadCheckboxStates() {
         }
     });
     
-    // Vérifier et appliquer les couleurs de bordure après chargement
     rows.forEach(row => {
         const idR = row.dataset.id;
         const allCheckboxes = row.querySelectorAll('.plat-checkbox');
@@ -62,7 +61,6 @@ function loadCheckboxStates() {
     });
 }
 
-// Charger les états au chargement de la page
 loadCheckboxStates();
 
 document.querySelectorAll('.plat-checkbox').forEach(box => {
@@ -78,7 +76,8 @@ document.querySelectorAll('.plat-checkbox').forEach(box => {
         // Compter le nombre total de checkboxes et celles cochées pour cette commande
         const allCheckboxes = row.querySelectorAll('.plat-checkbox');
         const checkedCheckboxes = row.querySelectorAll('.plat-checkbox:checked');
-        const allChecked = allCheckboxes.length === checkedCheckboxes.length;
+        const allChecked = allCheckboxes.length === checkedCheckboxes.length && allCheckboxes.length > 0;
+        const noneChecked = checkedCheckboxes.length === 0;
         
         fetch("/admin/update_statut_preparation", {
             method: "POST",
@@ -87,18 +86,28 @@ document.querySelectorAll('.plat-checkbox').forEach(box => {
             },
             body: JSON.stringify({ 
                 idR: idR, 
-                allChecked: allChecked 
+                allChecked: allChecked,
+                noneChecked: noneChecked 
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+
+                const cells = row.querySelectorAll('td');
+                const lastCell = cells[cells.length - 1];
+                lastCell.textContent = data.statut;
+        
                 if (data.statut === "PRÊTE") {
                     console.log(`Commande ${idR} est PRÊTE`);
                     row.style.borderLeft = "5px solid green";
                 } else if (data.statut === "EN PRÉPARATION") {
                     console.log(`Commande ${idR} EN PRÉPARATION`);
                     row.style.borderLeft = "5px solid orange";
+                } else {
+
+                    console.log(`Commande ${idR} - ${data.statut}`);
+                    row.style.borderLeft = "";
                 }
             }
         })
