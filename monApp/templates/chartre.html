@@ -6,6 +6,11 @@
 
 {% block main %}
 <div class="chartre">
+
+     <section class="retour_connexion_section">
+        <a class="retour_connexion" href="{{ url_for('inscription') }}">Retour</a>
+    </section>
+
     <section>
         <h2>1. Engagement de Confidentialité</h2>
         <p>L'application <strong>Oumami</strong> s'engage à protéger la vie privée de ses utilisateurs conformément au <strong>Règlement Général sur la Protection des Données (RGPD)</strong>. Cette charte détaille comment nous collectons, utilisons et sécurisons vos informations, notamment votre numéro de téléphone.</p>
@@ -59,10 +64,6 @@
     <section>
         <h2>6. Conservation des Données</h2>
         <p>Vos données personnelles sont conservées uniquement pendant la durée de votre inscription à l'application. En cas de fermeture de compte, elles sont définitivement supprimées ou anonymisées après un délai de 12 mois, sauf obligation légale contraire.</p>
-    </section>
-
-    <section>
-        <a class="retour_connexion" href="{{ url_for('inscription') }}">Retour</a>
     </section>
 
 </div>

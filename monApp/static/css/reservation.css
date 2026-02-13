@@ -1,6 +1,7 @@
 table{
     margin-top: 4em;
 }
+
 tr{
     text-align: center;
 }
@@ -8,6 +9,37 @@ tr{
 td{
     text-align: center;
 }
-main{
-    margin:1em;
+
+.reservation {
+    text-align: center;
+    margin-top: 3em;
+}
+
+@media screen and (max-width: 768px) {
+    
+    .table-container {
+        width: 100%;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+    }
+
+    .table-container::-webkit-scrollbar {
+        height: 8px;
+        display: block;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        border-radius: 10px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 10px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+    }
 }
