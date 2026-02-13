@@ -1,6 +1,14 @@
 .chartre{
     color: var(--text-gris);
     margin-top: 6em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 2em 8em;
+}
+
+.chartre h2 {
+    color: var(--orange);
 }
 
 .retour_connexion{
@@ -13,4 +21,8 @@
     text-decoration: none;
     color: white;
     border: solid 1px var(--noir-blanc);
+}
+
+.retour_connexion_section {
+    margin-bottom: 2em;
 }

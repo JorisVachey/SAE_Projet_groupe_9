@@ -275,4 +275,8 @@ footer article img {
     .menu .boutons_base li {
         margin: 0;
     }
+
+    .reglages_tel {
+        margin-bottom: 1em;
+    }
 }

@@ -57,7 +57,7 @@
                     <li  class="btn-conn"><a class="navbar-brand btn_reservations" href="{{ url_for('mes_reservations') }}">Mes réservations</a></li>
                     <li><a href="" id="profil"><img src="{{url_for ('static', filename='img/accueil/profil.png')}}" alt="image profil"></a></li>
                 {% else %}
-                    <article>
+                    <article class="reglages_tel">
                         <li class="btn-conn"><a class="navbar-brand btn_connection" href="{{ url_for('connection') }}">Se connecter</a></li>
                         <li class="btn-conn"><a class="navbar-brand btn_inscription" href="{{ url_for('inscription') }}">S'inscrire</a></li>
                     </article>
@@ -71,7 +71,11 @@
                         {% if current_user.is_authenticated %}
                             <p>Pseudo : {{ current_user.pseudonyme }}</p>
                             <p>Téléphone : {{ current_user.numtelUser }}</p>
-                            <p>Banni : {{ current_user.est_banni }}</p>
+                            {% if current_user.est_banni %}
+                                <p>Banni : oui</p>
+                            {% else %}
+                                <p>Banni : non</p>
+                            {% endif %}
                             <li  class="btn-conn"><a class="navbar-brand btn_deconnection" href="{{ url_for('deconnection') }}">Se déconnecter</a></li>
                         {% else %}
                             <p>Utilisateur non connecté</p>

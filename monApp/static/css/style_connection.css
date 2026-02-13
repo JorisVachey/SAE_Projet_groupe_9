@@ -39,10 +39,9 @@
     justify-content: center;
 }
 
-.mb-4{
+.mb-4 a{
   color: var(--text-gris);
-  text-decoration: none;
-
+  font-style: italic;
 }
 
 .card-login,
