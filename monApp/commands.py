@@ -203,6 +203,6 @@ def exist_db():
     existing_tables = db.inspect(db.engine).get_table_names()
     for table in db.metadata.tables.keys():
         if not(table in existing_tables):
-            sys.exit(1)# il n'y a pas les tables 
+            sys.exit(1)# il n'y a pas toutes les tables 
     sys.exit(0)# il y a les tables 
 app.cli.add_command(exist_db)
