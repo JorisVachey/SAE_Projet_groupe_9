@@ -17,7 +17,7 @@ def test_user_creation(session):
 def test_reservation_total(session):
     """Vérifie le calcul du prix total."""
     tp = Type_plat(idTp=2, nomTp="Plat principal", descriptionTp="...", cheminImg="...")
-    p1 = Plat(nomP="Burger", idTp=2, prixP=15.00, stock=10, cheminImg="...", descriptionP="...")
+    p1 = Plat(nomP="Burger", idTp=2, prixP=15.00, stockInit=10, cheminImg="...", descriptionP="...")
     f1 = Formule(idF=1, nomF="Menu Midi", prixF=20.00)
     session.add_all([tp, p1, f1])
     session.commit()
@@ -48,7 +48,7 @@ def test_plat_stock_update(session):
 def test_reservation_getbesoin(session):
     """Vérifie l'agrégation des stocks via getbesoin()."""
     tp = Type_plat(idTp=3, nomTp="Test", descriptionTp="...", cheminImg="...")
-    p_sushi = Plat(nomP="Sushi Maison", idTp=3, prixP=10, stock=20, cheminImg="...", descriptionP="...")
+    p_sushi = Plat(nomP="Sushi Maison", idTp=3, prixP=10, stockInit=20, cheminImg="...", descriptionP="...")
     session.add_all([tp, p_sushi])
     session.commit()
 

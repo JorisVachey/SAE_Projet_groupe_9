@@ -172,7 +172,7 @@ app.cli.add_command(loaddb)
 def newuser(num_tel, pseudonyme, pwd, admin, banni):
     """Créer un nouvel utilisateur via CLI"""
     create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
-    lg.warning("User %s created! (Admin: %s)", num_tel, admin)
+    click.echo("User %s created! (Admin: %s)", num_tel, admin)
 
 app.cli.add_command(newuser)
 
@@ -181,12 +181,15 @@ app.cli.add_command(newuser)
 def init_db():
     """Créer toutes les tables."""
     db.create_all()
-    lg.warning("Tables creer avec succès")
-app.cli.add_command(newuser)
+    click.echo("Tables crées avec succès")
+app.cli.add_command(init_db)
+
+
+
 @app.cli.command()
 @with_appcontext
 def drop_db():
     """Supprime toutes les tables"""
     db.drop_all()
-    lg.warning("Tables supprimer")
-app.cli.add_command(newuser)
+    click.echo("Tables supprimées")
+app.cli.add_command(drop_db)
