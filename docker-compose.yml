@@ -7,23 +7,33 @@ services:
     env_file:
       - .env
     environment:
-      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD:-root}
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD}
       MARIADB_DATABASE: db
       MARIADB_USER: ${DB_USER}
       MARIADB_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
       - mariadb_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
   web:
-    build: .
-    container_name: site_sushi
+    # build: .
+    image: gboissel/site-sushi:latest
+    container_name: site-sushi
     restart: always
     ports:
       - "8080:5000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "./initdb.sh"
     env_file:
       - .env
     environment:

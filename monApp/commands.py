@@ -1,4 +1,5 @@
 from .app import app, db
+import sys
 from .models import (
     User,
     Type_plat,
@@ -193,3 +194,15 @@ def drop_db():
     db.drop_all()
     click.echo("Tables supprimées")
 app.cli.add_command(drop_db)
+
+
+@app.cli.command()
+@with_appcontext
+def exist_db():
+    """Vérifie si les tables existe déjà"""
+    existing_tables = db.inspect(db.engine).get_table_names()
+    for table in db.metadata.tables.keys():
+        if not(table in existing_tables):
+            sys.exit(1)# il n'y a pas les tables 
+    sys.exit(0)# il y a les tables 
+app.cli.add_command(exist_db)
