@@ -121,6 +121,7 @@
 .liste_plats {
     display: flex;
     flex-wrap: wrap;
+    gap: 3em;
     margin: 0 3em 2em 3em;
 }
 
@@ -177,7 +178,8 @@
     background-color: var(--text-gris);
 }
 
-.offre_titre h3 {
+.offre_titre h3,
+.plats_titre h3 {
     color: var(--text-gris);
 }
 
@@ -213,6 +215,8 @@
     box-shadow: 2px 2px 10px var(--ombre-noir-blanc);
     transition: 0.3s;
     color: black;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .liste_plats a:hover {

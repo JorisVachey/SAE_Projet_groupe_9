@@ -34,14 +34,18 @@
                     <p>{{ plat.descriptionP }}</p>
                 </article>
                 <article class="btn_prix">
-                    {% if current_user.is_authenticated %}
-                        <form action="{{ url_for('ajouter_plat', id_p=plat.idP) }}" method="post">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
-                        </form>
+                    {% if current_user.is_authenticated%}
+                        {% if current_user.est_banni %}
+                            <button id = 'ban' >Ajouter au panier</button>
+                        {% else %}
+                            <form action="{{ url_for('ajouter_plat', id_p=plat.idP) }}" method="post">
+                                <button type="submit" class="btn btn-sm">Ajouter au panier</button>
+                            </form>
+                        {%endif%}
                     {%else%}
                         <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
                             <input type="hidden" name="next" value="menu">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                            <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                         </form>
                     {%endif%}
                     <p class="prix">{{ plat.prixP }} €</p>
@@ -64,13 +68,17 @@
                 </article>
                 <article class="btn_prix">
                     {% if current_user.is_authenticated %}
-                        <form action="{{ url_for('ajouter_formule', id_f=formule.idF) }}" method="post">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
-                        </form>
+                        {% if current_user.est_banni %}
+                            <button id = 'ban' >Ajouter au panier</button>
+                        {%else%}
+                            <form action="{{ url_for('ajouter_formule', id_f=formule.idF) }}" method="post">
+                                <button type="submit" class="btn btn-sm">Ajouter au panier</button>
+                            </form>
+                        {% endif %}
                     {%else%}
                         <form action="{{ url_for('connection') }}?next=menu" method="get" style="filter: grayscale(100%) brightness(80%)">
                             <input type="hidden" name="next" value="menu">
-                            <button type="submit" class="btn btn-danger btn-sm">Ajouter au panier</button>
+                            <button type="submit" class="btn btn-sm">Ajouter au panier</button>
                         </form>
                     {%endif%}
                     <p class="prix">{{ formule.prixF }} €</p>
@@ -80,4 +88,12 @@
     </section>
 </section>
 <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script> const bans = document.querySelectorAll("#ban")
+    const btn_ban = (ban)=> ban.addEventListener("click", (event)=>{alert("vous êtes bannis. Rapprochez vous de la restauratrice");
+    });
+    const interdit =(ban)=> {ban.addEventListener("mouseover", (event)=> {ban.style.backgroundColor="red"; ban.style.opacity=0.6});
+{ban.addEventListener("mouseout", (event)=> {ban.style.backgroundColor=""; ban.style.opacity=1})}}
+
+    bans.forEach((ban)=> {btn_ban(ban);interdit(ban), ban.style.cursor = "not-allowed"});
+</script>
 {% endblock %}

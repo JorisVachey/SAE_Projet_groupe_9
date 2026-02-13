@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block styles_additionnels %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_chartre.css') }}">
+{% endblock %}
+
+{% block main %}
+<div class="chartre">
+
+     <section class="retour_connexion_section">
+        <a class="retour_connexion" href="{{ url_for('inscription') }}">Retour</a>
+    </section>
+
+    <section>
+        <h2>1. Engagement de Confidentialité</h2>
+        <p>L'application <strong>Oumami</strong> s'engage à protéger la vie privée de ses utilisateurs conformément au <strong>Règlement Général sur la Protection des Données (RGPD)</strong>. Cette charte détaille comment nous collectons, utilisons et sécurisons vos informations, notamment votre numéro de téléphone.</p>
+    </section>
+
+    <section>
+        <h2>2. Collecte des Données (Minimisation)</h2>
+        <p>Nous ne collectons que les données strictement nécessaires au bon fonctionnement du service :</p>
+        <ul>
+            <li><strong>Identifiants :</strong> Nom, prénom, pseudonyme.</li>
+            <li><strong>Contact :</strong> Adresse e-mail et <strong>Numéro de téléphone</strong>.</li>
+            <li><strong>Données de connexion :</strong> Adresses IP, logs de sécurité.</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>Focus Sécurité :</strong> Votre numéro de téléphone est exclusivement utilisé pour la sécurisation de votre compte (authentification à deux facteurs) et la prévention des fraudes. Il ne sera jamais revendu à des tiers.
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Base Légale et Finalités</h2>
+        <p>Le traitement de vos données repose sur les bases juridiques suivantes :</p>
+        <ul>
+            <li><strong>Exécution du contrat :</strong> Pour vous fournir l'accès aux services de l'application.</li>
+            <li><strong>Obligation légale :</strong> Pour répondre à nos obligations de sécurité.</li>
+            <li><strong>Consentement :</strong> Pour toute communication non essentielle au service.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>4. Sécurité des Informations</h2>
+        <p>Nous mettons en œuvre des mesures techniques et organisationnelles rigoureuses :</p>
+        <ul>
+            <li>Chiffrement des données sensibles via protocole TLS/SSL.</li>
+            <li>Stockage sécurisé sur des serveurs situés au sein de l'Union Européenne.</li>
+            <li>Contrôle strict des accès internes aux bases de données.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>5. Vos Droits Informatiques et Libertés</h2>
+        <p>Conformément au droit européen, vous disposez de droits souverains sur vos données :</p>
+        <ul>
+            <li><strong>Droit d'accès :</strong> Savoir quelles données nous détenons.</li>
+            <li><strong>Droit de rectification :</strong> Modifier vos informations erronées.</li>
+            <li><strong>Droit à l'oubli :</strong> Demander la suppression de votre compte et de vos données.</li>
+            <li><strong>Droit de portabilité :</strong> Récupérer vos données dans un format structuré.</li>
+        </ul>
+        <p>Pour exercer ces droits, contactez notre Délégué à la Protection des Données (DPO) à l'adresse : <strong>oumami.example@gmail.com</strong></p>
+    </section>
+
+    <section>
+        <h2>6. Conservation des Données</h2>
+        <p>Vos données personnelles sont conservées uniquement pendant la durée de votre inscription à l'application. En cas de fermeture de compte, elles sont définitivement supprimées ou anonymisées après un délai de 12 mois, sauf obligation légale contraire.</p>
+    </section>
+
+</div>
+{% endblock %}

@@ -141,7 +141,7 @@ main a {
   .premier img{
     position: absolute;
     left: 0;
-    top: 9em;
+    top: 7em;
     transform: translateY(-50%);
     height: 6em;
     opacity: 0.9;

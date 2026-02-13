@@ -1,64 +1,87 @@
 import pytest
+import os
 from monApp.app import app, db
-from monApp.models import User, Plat, Type_plat
+from monApp.models import User, Plat, Type_plat, Reservation
 from hashlib import sha256
 
 @pytest.fixture
 def testapp():
-    # Configuration de l'application pour les tests (SQLite en mémoire)
+    # Configuration de la BDD de test (Fichier temporaire pour stabilité)
+    db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test.db')
+    
     app.config.update({
         "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "WTF_CSRF_ENABLED": False
+        "SQLALCHEMY_DATABASE_URI": f"sqlite:///{db_path}",
+        "WTF_CSRF_ENABLED": False,
+        "SECRET_KEY": "test_secret_key"
     })
+
+    # Nettoyage initial
+    if os.path.exists(db_path):
+        os.remove(db_path)
 
     with app.app_context():
         db.create_all()
-        # 1. Création d'un type de plat de test
-        entree = Type_plat(
-            idTp=1, 
-            nomTp="Entrée", 
-            descriptionTp="Plats froids", 
-            cheminImg="entree.jpg"
-        )
+        
+        # 1. Type de Plat
+        entree = Type_plat(idTp=1, nomTp="Entrée", descriptionTp="Froid", cheminImg="e.jpg")
         db.session.add(entree)
-        # 2. Création d'un plat de test
+        
+        # 2. Plat
         plat = Plat(
             nomP="Salade César", 
             idTp=1, 
             prixP=12.50, 
-            stock=20, 
+            stockInit=20, 
             cheminImg="salade.jpg", 
-            descriptionP="Laitue, poulet, parmesan"
+            descriptionP="Laitue"
         )
+        # On force stockInit manuellement (car pas de trigger en SQLite)
+        plat.stockInit = 20 
         db.session.add(plat)
-        # 3. Création d'un utilisateur de test (admin)
+        
+        # 3. Utilisateurs
         m = sha256()
-        m.update("password123".encode())
+        m.update("password123".encode("utf-8"))
+        pwd = m.hexdigest()
+
+        # --- CORRECTION ICI : On retire idUser du constructeur ---
+        
+        # Client Standard
         user = User(
-            numtelUser="0102030405",
-            pseudonyme="testuser",
-            mdp=m.hexdigest(),
+            numtelUser="0600000001", 
+            pseudonyme="client", 
+            mdp=pwd, 
             est_admin=False
         )
-        admin = User(numtelUser="0600000000", pseudonyme="admin", mdp="hash...", est_admin=True)
-        db.session.add_all([user,admin])
+        user.idUser = 1
         
+        # Admin
+        admin = User(
+            numtelUser="0600000002", 
+            pseudonyme="admin", 
+            mdp=pwd, 
+            est_admin=True
+        )
+        admin.idUser = 2
+        
+        db.session.add_all([user, admin])
         db.session.commit()
         
         yield app
         
-        # Nettoyage après les tests
         db.session.remove()
         db.drop_all()
 
+    # Nettoyage final
+    if os.path.exists(db_path):
+        os.remove(db_path)
+
 @pytest.fixture
 def client(testapp):
-    """Fixture pour simuler des requêtes HTTP sur les routes."""
     return testapp.test_client()
 
 @pytest.fixture
 def session(testapp):
-    """Fixture pour interagir directement avec l'ORM dans les tests unitaires."""
     with testapp.app_context():
         yield db.session

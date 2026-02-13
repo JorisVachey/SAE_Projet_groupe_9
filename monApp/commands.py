@@ -1,4 +1,5 @@
 from .app import app, db
+import sys
 from .models import (
     User,
     Type_plat,
@@ -89,7 +90,7 @@ def loaddb(file):
         plat = Plat(nomP=p["nomP"],
                     idTp=p["idTp"],
                     prixP=p["prixP"],
-                    stock=p["stock"],
+                    stockInit=p["stockInit"],
                     descriptionP=p["descriptionP"],
                     cheminImg=p["cheminImg"])
         db.session.add(plat)
@@ -172,7 +173,36 @@ app.cli.add_command(loaddb)
 def newuser(num_tel, pseudonyme, pwd, admin, banni):
     """Créer un nouvel utilisateur via CLI"""
     create_user(num_tel, pseudonyme, pwd, admin, banni, 0)
-    lg.warning("User %s created! (Admin: %s)", num_tel, admin)
-
+    click.echo("User %s created! (Admin: %s)", num_tel, admin)
 
 app.cli.add_command(newuser)
+
+@app.cli.command()
+@with_appcontext
+def init_db():
+    """Créer toutes les tables."""
+    db.create_all()
+    click.echo("Tables crées avec succès")
+app.cli.add_command(init_db)
+
+
+
+@app.cli.command()
+@with_appcontext
+def drop_db():
+    """Supprime toutes les tables"""
+    db.drop_all()
+    click.echo("Tables supprimées")
+app.cli.add_command(drop_db)
+
+
+@app.cli.command()
+@with_appcontext
+def exist_db():
+    """Vérifie si les tables existe déjà"""
+    existing_tables = db.inspect(db.engine).get_table_names()
+    for table in db.metadata.tables.keys():
+        if not(table in existing_tables):
+            sys.exit(1)# il n'y a pas toutes les tables 
+    sys.exit(0)# il y a les tables 
+app.cli.add_command(exist_db)

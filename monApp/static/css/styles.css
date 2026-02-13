@@ -73,7 +73,7 @@ header nav {
 }
 
 header img {
-    width: 5em;
+    width: 3em;
     height: auto;
 }
 #toggle-theme {
@@ -107,10 +107,10 @@ header nav a {
 
 header .btn_inscription, .btn_connection, .btn_deconnection, .boutons_admin{
     background-color: var(--btn);
-    border-radius: 10px;
+    border-radius: 0.4em;
     color: #FFFFFF;
-    border: 1px solid black;
-    padding: 0.2em 0.3em;
+    border: 0.1em black solid;
+    padding: 0.1em 0.3em;
 }
 
 header article button {
@@ -191,7 +191,7 @@ footer article img {
         justify-content: space-between;
     }
 
-    header img {
+    header>article>a>img {
         margin-left: 1em;
     }
 
@@ -199,6 +199,7 @@ footer article img {
         display:block;
         margin-right: 1em;
         border: none;
+        background-color: transparent;
     }
 
     header button img {
@@ -256,5 +257,26 @@ footer article img {
     footer {
         flex-direction: column;
         gap: 2em;
+    }
+    .menu .boutons_base {
+        margin-top: 0.5em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+    }
+
+    .menu .boutons_base a {
+        margin-left: 0;
+    }
+
+    .menu .boutons_base li {
+        margin: 0;
+    }
+
+    .reglages_tel {
+        margin-bottom: 1em;
     }
 }

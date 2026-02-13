@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, PasswordField, IntegerField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Regexp,ValidationError
 from .models import User
 from hashlib import sha256
 
@@ -16,15 +16,14 @@ class RegisterForm(FlaskForm):
     """
     numtel = StringField('Numéro de téléphone',
                          validators=[DataRequired(),
-                                     Length(max=10)])
+                                     Length(max=10), Length(min=10),
+                                     Regexp(r'^\d+$', message="Le numéro ne doit contenir que des chiffres.")
+                                     ])
     pseudonyme = StringField('Pseudonyme', validators=[DataRequired()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])
 
+
     def get_registered_user(self):
-        user = User.query.get(self.numtel.data)
-        if user:
-            print('Utilisateur inexistant')
-            return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
@@ -132,7 +131,7 @@ class PlatForm(FlaskForm):
                         validators=[DataRequired(),
                                     Length(max=50)])
     prixP = FloatField('Prix du plat', validators=[DataRequired()])
-    stock = IntegerField('Stock du plat', validators=[DataRequired()])
+    stockInit = IntegerField('Stock du plat', validators=[DataRequired()])
     descriptionP = StringField('Description du plat',
                                validators=[DataRequired(),
                                            Length(max=50)])
