@@ -29,7 +29,7 @@
                     <th>Résumé de la commande</th>
                     <th>Prix total</th>
                     <th>Date de réservation</th>
-                    <th>Sur place</th>
+                    <th>Statut</th>
                 </thead>
                 <tbody>
                     {% for commande in commandes %}
@@ -50,12 +50,7 @@
                         </td>
                         <td> {{ commande.get_total() }} €</td>
                         <td>{{ commande.dateR }}</td>
-                    {% if commande.sur_place is true %}
-                        <td>Oui</td>
-                    {% else %}
-                        <td>Non</td>
-                    {% endif %}
-                    </tr>
+                        <td>{{ commande.statut }}</td>
                     {% endfor %}
                 </tbody>
             </table>
